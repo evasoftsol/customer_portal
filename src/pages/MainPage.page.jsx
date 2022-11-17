@@ -5,7 +5,7 @@ import BaseHoc from "../hoc/BaseHoc";
 
 const MainPage = () => {
     return (
-        <div>MainPage</div>
+        <div className="text-3xl">Table will be loaded here</div>
     )
 }
 

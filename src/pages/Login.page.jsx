@@ -1,14 +1,21 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from 'axios';
 // import BaseHoc from "../hoc/BaseHoc";
 // import { useParams, useLocation } from 'react-router-dom';
+//imported images 
 import bgimageblue from '../images/bg-login-mobile.jpg'
 import bgsignin from '../images/bg-login-sign-in.jpg'
 import logo from '../images/logo-white.svg';
 
+// import { Dialog } from '@headlessui/react'
+// import MyDialog from "../components/Dialog.component";
+
 // '../images/bgloginmobile.jpg';
 
+window.addEventListener("popstate", e => {  // Nope, go back to your page
+    this.props.history.go(1);
+});
 
 //http://localhost:3000/login?authToken=evaerp282915&companyId=1234567890
 const Login = () => {
@@ -20,6 +27,10 @@ const Login = () => {
     const [emailInfo, setEmailInfo] = useState("");
     const [mobileInfo, setMobileInfo] = useState("");
     const [otpInfo, setOtpInfo] = useState("");
+    const [generatedOtp, setGeneratedOtp] = useState("");
+    const [isOpen, setIsOpen] = useState(false)
+
+
     // const loadDefaultFormData = () => {
     //     console.log("onload");
     //     document.getElementById("mobile").hidden = true;
@@ -31,14 +42,14 @@ const Login = () => {
     const handleChangeEmail = event => {
         const target = event.target;
         const email = target.value;
-        console.log("inside email" + email);
+        // console.log("inside email" + email);
         setEmailInfo(email);
     }
 
     const handleChangeMobile = event => {
         const target = event.target;
         const mobile = target.value;
-        console.log("inside mobile" + mobile);
+        // console.log("inside mobile" + mobile);
         setMobileInfo(mobile);
     }
 
@@ -46,7 +57,7 @@ const Login = () => {
         const target = event.target;
         const otp = target.value;
         console.log("inside otp" + otp);
-        setOtpInfo(otp);
+        setOtpInfo(otp + "");
     }
 
 
@@ -71,21 +82,82 @@ const Login = () => {
         // document.getElementById("mobileRadio").checked = false
     }
 
-    const getCustomerDetails = () => {
+    const getOTP = (event) => {
+        event.preventDefault();
 
-        const url = "https://jsonplaceholder.typicode.com/todos/1";
-        // console.log("in getCustomerDetails2");
-        // console.log("in getCustomerDetails3" + url);
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        setGeneratedOtp(otp + "");
+        console.log("OTP is" + otp);
+        console.log("mobileinfo=" + mobileInfo);
+        console.log("emailinfo=" + emailInfo);
+        if (mobileInfo === "" && emailInfo === "") {
+            alert("Enter email or mobile number!");
+            return;
+        }
+        if (mobileInfo != "" && emailInfo != "") {
+            alert("Enter either email or mobile number");
+            return;
+        }
+        //evasoftwaresolutionsdevelop@gmail.com
+        const url = "https://my-dot-evadev0006.appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + mobileInfo + "&emailId=" + emailInfo + "&applicationName=CustomerPortal&OTP=" + otp;
+        console.log(url);
         Axios.get(url).then(
             (response) => {
-                console.log(response);
+                console.log(response.data);
+                alert(response.data);
             }
-        )
-        // .catch((exception) => {
-        //     console.log("Error is" + exception);
-        // })
-
+        ).catch((exception) => {
+            console.log("Error is" + exception);
+        })
+        // Email id not registered, contact your system administrator.
     }
+
+    const getCustomerDetails = (event) => {
+        event.preventDefault();
+
+        if (mobileInfo === "" && emailInfo === "") {
+            alert("Enter email or mobile number!!");
+            return;
+        }
+        if (mobileInfo != "" && emailInfo != "") {
+            alert("Enter either email or mobile number");
+            return;
+        }
+        if (generatedOtp === "") {
+            alert("Click on 'get OTP' button to receive OTP");
+            return;
+        }
+        if (otpInfo === "") {
+            alert("Enter OTP");
+            return;
+        }
+        console.log("generated otp=" + generatedOtp);
+        console.log("entered otp=" + otpInfo);
+        if (otpInfo === generatedOtp) {
+            console.log("OTP is valid");
+            // window.location.href = `http://localhost:3000/m`;
+        }
+        else
+            alert("Invalid OTP!");
+
+        const url = "http://my.evadev0006.appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + mobileInfo + "&customerEmail=" + emailInfo;
+
+        Axios
+            .get(url)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json);
+                alert(json.customerId + " " + json.address + " " + json.customerName);
+                localStorage.setItem("customerId", json.customerId);
+                localStorage.setItem("customerName", json.customerName);
+                window.location.href = `http://localhost:3000/m`;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+
     // let { id } = useParams();
     // const { search } = useLocation();
     // const parameters = new URLSearchParams(search);
@@ -106,43 +178,43 @@ const Login = () => {
             <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t md:h-75% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="  h-50% bg-white rounded-r-lg   w-full sm:h-full sm:w-6/12" >
                     <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[60%]">
-                        <p className="text-4xl">Welcome to our CRM.</p>
-                        <p className="text-4xl">Sign In to see latest updates.</p>
+                        <p className="text-3xl">Welcome to our CRM.</p>
+                        <p className="text-3xl">Sign In to see latest updates.</p>
                         <p className="text-xl text-[#A9A9A9]">Enter your details to proceed further</p>
-                        <form >
-                            <div className="mt-5">
-                                <div className="h-full w-full flex justify-start gap-10 align-center">
-                                    <div>
-                                        <input type="radio" value="Email" name="inputdata" id="emailRadio" defaultChecked onClick={showEmailInput} />
-                                        <label htmlFor="emailRadio">Email</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" value="Mobile" name="inputdata" id="mobileRadio" onClick={showMobilenoInput} />
-                                        <label htmlFor="mobileRadio">Mobile</label>
-                                    </div>
+                        {/* <form > */}
+                        <div className="mt-5">
+                            <div className="h-full w-full flex justify-start gap-10 align-center text-xl">
+                                <div>
+                                    <input type="radio" value="Email" name="inputdata" id="emailRadio" defaultChecked onClick={showEmailInput} />
+                                    <label className="ml-2" htmlFor="emailRadio">Email</label>
                                 </div>
-                                <div className="mt-3">
-                                    <input className="w-3/4 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
-                                    <input className="hidden" placeholder="Enter mobile no" type="number" name="mobile" id="mobile" onChange={handleChangeMobile} />
+                                <div>
+                                    <input type="radio" value="Mobile" name="inputdata" id="mobileRadio" onClick={showMobilenoInput} />
+                                    <label className="ml-2" htmlFor="mobileRadio">Mobile</label>
                                 </div>
-                                <hr className="w-3/4 mt-1"></hr>
-                                <br />
-                                <label htmlFor="otp">OTP</label><br />
-                                <div className="flex flex-row gap-2">
-                                    <input className="mt-1" placeholder="Enter otp" type="password" name="otp" id="otp" onChange={handleChangeOtp} /><br />
-                                    <button className="bg-blue-500 rounded-lg text-white p-1">Get OTP</button>
-                                </div>
-                                <hr className="w-3/4 mt-1"></hr>
-                                <button className="bg-blue-500 rounded-lg w-2/4 h-12 mt-8 text-white" onClick={getCustomerDetails}>Sign in</button>
                             </div>
-                        </form>
+                            <div className="mt-3">
+                                <input className="w-10/12 !boder-5 !focus:border-transparent !focus:ring-0 h-8 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
+                                <input className="hidden" placeholder="Enter mobile no" type="number" name="mobile" id="mobile" onChange={handleChangeMobile} />
+                            </div>
+                            <hr className="w-3/4 mt-1"></hr>
+                            <br />
+                            <label htmlFor="otp">OTP</label><br />
+                            <div className="flex flex-row gap-2">
+                                <input className="mt-1" placeholder="Enter otp" type="password" name="otp" id="otp" onChange={handleChangeOtp} /><br />
+                                <button className="bg-blue-500 rounded-lg text-white p-1" onClick={getOTP}>Get OTP</button>
+                            </div>
+                            <hr className="w-3/4 mt-1"></hr>
+                            <button className="bg-blue-500 rounded-lg w-2/4 h-12 mt-8 text-white" onClick={getCustomerDetails}>Sign in</button><br />
+
+
+                        </div>
+                        {/* </form> */}
                     </div>
                 </div>
                 <div className="hidden h-full text-white w-6/12 md:block">
                     <div style={{ background: `url(${bgsignin})` }} className="h-full  w-full !bg-cover !bg-center !bg-no-repeat " >
-                        {/* <div>email:{emailInfo}</div>
-                        <div>mobile:{mobileInfo}</div>
-                        <div>otp:{otpInfo}</div> */}
+
                     </div>
                 </div>
             </div>
