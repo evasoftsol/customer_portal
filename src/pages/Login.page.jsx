@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from 'axios';
 // import BaseHoc from "../hoc/BaseHoc";
-// import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 //imported images 
 import bgimageblue from '../images/bg-login-mobile.jpg'
 import bgsignin from '../images/bg-login-sign-in.jpg'
@@ -13,33 +13,25 @@ import logo from '../images/logo-white.svg';
 
 // '../images/bgloginmobile.jpg';
 
-window.addEventListener("popstate", e => {  // Nope, go back to your page
-    this.props.history.go(1);
-});
+// window.addEventListener("popstate", e => {  // Nope, go back to your page
+//     this.props.history.go(1);
+// });
 
-//http://localhost:3000/login?authToken=evaerp282915&companyId=1234567890
+//http://localhost:3000/login?authToken=my-dot-evaerp282915
+// ashwini.patil@evasoftwaresolutions.com
 const Login = () => {
-    // const [formData, setformData] = useState({
-    //     email: "",
-    //     mobile: "",
-    //     otp: ""
-    // });
+
     const [emailInfo, setEmailInfo] = useState("");
     const [mobileInfo, setMobileInfo] = useState("");
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
-    const [isOpen, setIsOpen] = useState(false)
+    const [choice, setChoice] = useState("Email");
+    const [appid, setAppId] = useState("my-dot-evadev0006");
 
-
-    // const loadDefaultFormData = () => {
-    //     console.log("onload");
-    //     document.getElementById("mobile").hidden = true;
-    //     document.getElementById("email").hidden = false;
-    //     // document.getElementById("emailRadio").checked = true;
-    //     // document.getElementById("mobileRadio").checked = false;
-    // };
-
+    const { search } = useLocation();
     const handleChangeEmail = event => {
+        document.getElementById("mobile").value = "";
+        setMobileInfo("");
         const target = event.target;
         const email = target.value;
         // console.log("inside email" + email);
@@ -47,43 +39,52 @@ const Login = () => {
     }
 
     const handleChangeMobile = event => {
+        document.getElementById("email").value = "";
+        setEmailInfo("");
         const target = event.target;
         const mobile = target.value;
-        // console.log("inside mobile" + mobile);
-        setMobileInfo(mobile);
+        // console.log("inside handleChangeMobile" + mobile);
+        if (isNaN(mobile)) {
+            alert("Enter numbers only")
+            target.value = "";
+
+        } else {
+            setMobileInfo(mobile);
+        }
     }
 
     const handleChangeOtp = event => {
         const target = event.target;
         const otp = target.value;
-        console.log("inside otp" + otp);
+        // console.log("inside otp" + otp);
         setOtpInfo(otp + "");
     }
 
-
-    // alert(value);
-
     const showEmailInput = event => {
-        console.log("showEmailInput");
+        console.log("showEmailInput emailinfo" + emailInfo);
         document.getElementById("mobile").hidden = true;
         document.getElementById("mobile").className = "hidden";
         document.getElementById("email").hidden = false;
-
-        // document.getElementById("emailRadio").checked = true;
-        // document.getElementById("mobileRadio").checked = false
+        setChoice("Email");
     }
     const showMobilenoInput = event => {
         console.log("showMobilenoInput");
         document.getElementById("email").hidden = true;
         document.getElementById("mobile").hidden = false;
         document.getElementById("mobile").className = "inline";
-        // document.getElementById("mobile").classList.add('inline', 'w-3/4');
-        // document.getElementById("emailRadio").checked = true;
-        // document.getElementById("mobileRadio").checked = false
+        setChoice("Mobile");
     }
 
     const getOTP = (event) => {
         event.preventDefault();
+
+        console.log("search=" + search);
+        const parameters = new URLSearchParams(search);
+        const receivedAppId = parameters.get('authToken');
+        if (receivedAppId != null) {
+            setAppId(receivedAppId);
+            console.log("receivedAppId " + receivedAppId + "is set as appid");
+        }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
         setGeneratedOtp(otp + "");
@@ -94,21 +95,37 @@ const Login = () => {
             alert("Enter email or mobile number!");
             return;
         }
-        if (mobileInfo != "" && emailInfo != "") {
-            alert("Enter either email or mobile number");
-            return;
-        }
-        //evasoftwaresolutionsdevelop@gmail.com
-        const url = "https://my-dot-evadev0006.appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + mobileInfo + "&emailId=" + emailInfo + "&applicationName=CustomerPortal&OTP=" + otp;
-        console.log(url);
-        Axios.get(url).then(
-            (response) => {
-                console.log(response.data);
-                alert(response.data);
+        if (choice === "Email") {
+            if (!validEmail.test(emailInfo)) {
+                alert("Invalid email");
+                return;
             }
-        ).catch((exception) => {
-            console.log("Error is" + exception);
-        })
+        }
+        if (choice === "Mobile") {
+            if (!validMobileNo.test(mobileInfo)) {
+                alert("Invalid mobile number");
+                return;
+            }
+        }
+        let url = "";
+        console.log("choice=" + choice);
+        if (choice === "Email") {
+            url = "https://" + appid + ".appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + "" + "&emailId=" + emailInfo + "&applicationName=CustomerPortal&OTP=" + otp;
+        }
+        if (choice === "Mobile") {
+            url = "https://" + appid + ".appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + mobileInfo + "&emailId=" + "" + "&applicationName=CustomerPortal&OTP=" + otp;
+        }
+        console.log(url);
+        if (url != "") {
+            Axios.get(url).then(
+                (response) => {
+                    console.log(response.data);
+                    alert(response.data + otp);
+                }
+            ).catch((exception) => {
+                console.log("Error is" + exception);
+            })
+        }
         // Email id not registered, contact your system administrator.
     }
 
@@ -119,53 +136,69 @@ const Login = () => {
             alert("Enter email or mobile number!!");
             return;
         }
-        if (mobileInfo != "" && emailInfo != "") {
-            alert("Enter either email or mobile number");
-            return;
+        if (choice === "Email") {
+            if (!validEmail.test(emailInfo)) {
+                alert("Invalid email");
+                return;
+            }
         }
-        if (generatedOtp === "") {
-            alert("Click on 'get OTP' button to receive OTP");
-            return;
+        if (choice === "Mobile") {
+            if (!validMobileNo.test(mobileInfo)) {
+                alert("Invalid mobile number");
+                return;
+            }
         }
-        if (otpInfo === "") {
-            alert("Enter OTP");
-            return;
-        }
-        console.log("generated otp=" + generatedOtp);
-        console.log("entered otp=" + otpInfo);
-        if (otpInfo === generatedOtp) {
-            console.log("OTP is valid");
-            // window.location.href = `http://localhost:3000/m`;
-        }
-        else
-            alert("Invalid OTP!");
+        //temporary commenting the validation
+        // if (generatedOtp === "") {
+        //     alert("Click on 'get OTP' button to receive OTP");
+        //     return;
+        // }
 
-        const url = "http://my.evadev0006.appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + mobileInfo + "&customerEmail=" + emailInfo;
+        // if (otpInfo === "") {
+        //     alert("Enter OTP");
+        //     return;
+        // }
+        // console.log("generated otp=" + generatedOtp);
+        // console.log("entered otp=" + otpInfo);
+        // if (otpInfo === generatedOtp) {
+        //     console.log("OTP is valid");
+        //     // window.location.href = `http://localhost:3000/m`;
+        // }
+        // else {
+        //     alert("Invalid OTP!");
+        //     return;
+        // }
+        console.log("choice=" + choice);
+        let url = "";
+        if (choice === "Email") {
+            url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + "" + "&customerEmail=" + emailInfo;
+        }
+        if (choice === "Mobile") {
+            url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + mobileInfo + "&customerEmail=" + "";
+        }
+        console.log(url);
+        if (url != "") {
+            Axios
+                .get(url)
+                .then((response) => response.data)
+                .then((json) => {
+                    console.log('json', json);
+                    alert(json.customerId + " " + json.address + " " + json.customerName);
+                    localStorage.setItem("customerId", json.customerId);
+                    localStorage.setItem("customerName", json.customerName);
+                    localStorage.setItem("customerAddress", json.address);
+                    localStorage.setItem("customerEmail", json.customerEmail);
+                    localStorage.setItem("customerCell", json.customerCellNo);
 
-        Axios
-            .get(url)
-            .then((response) => response.data)
-            .then((json) => {
-                console.log('json', json);
-                alert(json.customerId + " " + json.address + " " + json.customerName);
-                localStorage.setItem("customerId", json.customerId);
-                localStorage.setItem("customerName", json.customerName);
-                window.location.href = `http://localhost:3000/m`;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+
+                    localStorage.setItem("appId", appid);
+                    window.location.href = `http://localhost:3000/services`;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
-
-
-    // let { id } = useParams();
-    // const { search } = useLocation();
-    // const parameters = new URLSearchParams(search);
-    // const token = parameters.get('authToken');
-    // const name = parameters.get('companyId');
-    // <h3>token: {token}</h3>
-    // <h3>copanyID: {name}</h3>
-    //  <div className="bg-[url({'./bg-login-mobile.jpg')}]">
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >
             <div className="block md:hidden h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
@@ -195,7 +228,7 @@ const Login = () => {
                             </div>
                             <div className="mt-3">
                                 <input className="w-10/12 !boder-5 !focus:border-transparent !focus:ring-0 h-8 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
-                                <input className="hidden" placeholder="Enter mobile no" type="number" name="mobile" id="mobile" onChange={handleChangeMobile} />
+                                <input className="hidden w-10/12" placeholder="Enter mobile no" type="text" name="mobile" id="mobile" maxLength={10} onChange={handleChangeMobile} />
                             </div>
                             <hr className="w-3/4 mt-1"></hr>
                             <br />
@@ -223,6 +256,12 @@ const Login = () => {
     )
 }
 
+export const validEmail = new RegExp(
+    '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+);
 
+export const validMobileNo = new RegExp(
+    '^[0-9]{10}$'
+);
 
 export default Login;
