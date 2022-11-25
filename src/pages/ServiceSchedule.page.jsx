@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
-import Login from './Login.page';
 import { FcDownload } from 'react-icons/fc';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FiFilter } from 'react-icons/fi';
 
-let exportString = "BaseHoc(ServiceSchedule)";
 const ServiceSchedule = () => {
 
     // window.addEventListener("popstate", e => {  // Nope, go back to your page
     //     // this.props.history.go(1);
     //     console.log("pop called");
     // });
+
+    const [serviceList, setServiceList] = useState(null)
+    const [dateFilterVisible, setDateFilterVisible] = useState(false)
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
 
-    const [serviceList, setServiceList] = useState(null)
-    const [dateFilterVisible, setDateFilterVisible] = useState(false)
 
     useEffect(() => {
         console.log("in useEffect");
-        getServiceList("btnThisMonth")
-    }, [])
+        getServiceList("btnThisMonth");
+    }, []);
 
     const getServiceList = (param) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=19/12/2021&toDate=20/12/2021&apiCallfrom=CustomerPortal";
+        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/11/2021&toDate=3/11/2021&apiCallfrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + param);
 
@@ -127,8 +126,8 @@ const ServiceSchedule = () => {
     if (!serviceList) return (<div>No Record Found</div>)
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between mb-3 w-5/12 relative'>
-                <div className="font-semibold text-xl ">Service Schedule</div>
+            <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
+                <div className="font-semibold text-xl">Service Schedule</div>
                 <button id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
                 {dateFilterVisible && (
                     <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-7 right-1 z-20 shadow-lg border-slate-200 bg-white'>
@@ -139,35 +138,35 @@ const ServiceSchedule = () => {
                     </div>
                 )}
             </div>
-            <div className='flex ml-10'>
+            <div className='flex w-full h-full ml-10'>
 
-                <table className="table-auto border-collapse border-spacing-2 border  bg-slate-100" >
+                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
-                    <thead>
-                        <tr className="text-left">
-                            <th className="border-2 border-slate-400 px-1 ">Service Id</th>
-                            <th className="border-2 border-slate-400  px-1">Date</th>
-                            <th className="border-2 border-slate-400  px-1">Name</th>
-                            <th className="border-2 border-slate-400  px-1">Status</th>
-                            <th className="border-2 border-slate-400  px-1"></th>
-                            <th className="border-2 border-slate-400  px-1"></th>
+                    <thead className="bg-red">
+                        <tr className="text-left text-[#8181A5] text-sm  ">
+                            <th className="py-8 px-2">Service ID</th>
+                            <th className="py-8 px-2">Date</th>
+                            <th className="py-8 px-2">Name</th>
+                            <th className="py-8 px-2">Status</th>
+                            <th className="py-8 px-2">Action</th>
+                            <th className="py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-sm mx-4">
                         {serviceList.map(service => (
                             <tr key={service.serviceId}>
-                                <td className="border-2 border-slate-400 px-1 py-1">{service.serviceId}</td>
-                                <td className="border-2 border-slate-400 px-1">{service.serviceDate}</td>
-                                <td className="border-2 border-slate-400 px-1">{service.productName}</td>
-                                <td className="border-2 border-slate-400 px-1">{service.status}</td>
-                                <td className="border-2 border-slate-400 px-2 py-2">
+                                <td className="px-2 py-2">{service.serviceId}</td>
+                                <td className="px-2 py-2">{service.serviceDate}</td>
+                                <td className="px-2 py-2">{service.productName}</td>
+                                <td className="px-2 py-2">{service.status}</td>
+                                <td className="px-2 py-2">
                                     {
                                         service.status === "Completed" ?
                                             (<button name={service.serviceId} onClick={downloadSR}><FcDownload /></button>) :
                                             (<button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button>)
                                     }
                                 </td>
-                                <td className="border-2 border-slate-400">{
+                                <td className="px-2 py-2">{
 
                                     service.customerFeedback === "Poor" ? ("*") :
                                         (service.customerFeedback === "Average" ? ("**") :

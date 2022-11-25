@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import Login from "../pages/Login.page";
+import bgimageblue from '../images/bg-login-mobile.jpg'
+import { ImClipboard } from 'react-icons/im';
+import { BiLogOut } from 'react-icons/bi';
 
 const BaseHoc = (Component) => ({ ...props }) => {
 
@@ -13,6 +16,9 @@ const BaseHoc = (Component) => ({ ...props }) => {
         localStorage.clear();
     }
 
+    let imageurl = "";
+    if (localStorage.getItem("appId"))
+        imageurl = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/getimage?width=100&height=1024"
     if (!localStorage.getItem("customerName")) {
 
         return (
@@ -25,58 +31,100 @@ const BaseHoc = (Component) => ({ ...props }) => {
         let address = window.location.href;
         let route = address.substring(address.lastIndexOf("/"));
         console.log("route in else is=" + route);
-        // if (route == "/services") {
-        //     console.log("in if");
-        //     return (
-        //         <>
-        //             <div className="w-screen h-screen">
-        //                 <div className="w-screen h-50 m-5 text-center text-4xl border-b-2">Welcome {localStorage.getItem("customerName")}</div>
-        //                 <div className="flex flex-row">
-        //                     <div className="flex flex-col w-1/4 h-full border-r-2 gap-5">
-        //                         <div className="text-xl bg-red-400 hover:bg-stone-300" ><Link to="/services" > Service Schedule</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/complaints" >Complaints</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/payments" >Payments</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/contracts" >Contracts / Renewals</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/projects" >Project</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/" onClick={clearData}>Logout</Link></div>
-        //                         <div className="text-xl hover:bg-stone-300"><Link to="/emp" >Employee List</Link></div>
-        //                     </div>
-        //                     <div className="w-3/4 h-full">
-        //                         <Component {...props} />
-        //                     </div>
-        //                 </div >
-        //             </div >
-        //             <Outlet />
-        //         </>
-        //     )
 
-        // } else {
-        //     console.log("in else");
         return (
             <>
-                <div className="w-screen h-screen">
-                    <div className="w-screen h-50 m-5 text-center border-b-2">
-                        <p className="text-3xl"> {localStorage.getItem("customerName")} ({localStorage.getItem("customerId")})</p>
-                        <p className="text-xl"> {localStorage.getItem("customerCell")} / {localStorage.getItem("customerEmail")}</p>
-                        <p className="text-xl">{localStorage.getItem("customerAddress")}</p>
-                    </div>
-                    <div className="flex flex-row justify-center w-full">
-                        <div className="flex flex-col justify-center align-center w-1/4 h-full border-r-2 gap-5">
-                            {route === "/services" ?
-                                (<div className="text-xl hover:bg-stone-300 bg-cyan-400  w-3/4"><Link to="/services" > Service Schedule</Link></div>) :
-                                (<div className="text-xl hover:bg-stone-300  w-3/4"><Link to="/services" > Service Schedule</Link></div>)}
+                {/* <div className="w-screen h-screen"> */}
+                {/* <div className="w-screen h-50 m-5 text-center border-b-2 flex flex-col gap-2 sm:flex-row justify-center align-center m-auto text-white" style={{ background: `url(${bgimageblue})` }}>
+                        <div className="text-center flex justify-center align-center">
+                            <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
+                        </div>
+                        <div>
+                            <p className="text-2xl sm:text-3xl "> {localStorage.getItem("customerName")} ({localStorage.getItem("customerId")})</p>
+                            <p className="text-lg sm:text-xl "> {localStorage.getItem("customerCell")} / {localStorage.getItem("customerEmail")}</p>
+                            <p className="text-lg sm:text-xl ">{localStorage.getItem("customerAddress")}</p>
+                        </div>
+                    </div> */}
+                <div className="flex flex-row justify-center w-full">
+                    <div className="flex flex-col justify-center align-center w-2/12 h-full border-r-2 gap-5 hidden sm:flex text-md text-[#8181A5] ml-5">
+                        <div className="flex justify-start ml-2 mt-2 align-center">
+                            <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
+                        </div>
+                        {route === "/services" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/services" >Service Schedule</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/services" >Service Schedule</Link>
+                            </div>)}
 
-                            <div className="text-xl hover:bg-stone-300 w-3/4"><Link to="/complaints" >Complaints</Link></div>
-                            <div className="text-xl hover:bg-stone-300 w-3/4"><Link to="/payments" >Payments</Link></div>
-                            <div className="text-xl hover:bg-stone-300 w-3/4"><Link to="/contracts" >Contracts / Renewals</Link></div>
-                            <div className="text-xl hover:bg-stone-300 w-3/4"><Link to="/projects" >Project</Link></div>
-                            <div className="text-xl hover:bg-stone-300 w-3/4"><Link to="/" onClick={clearData}>Logout</Link></div>
+                        {route === "/complaints" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/complaints" >Complaints</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/complaints" >Complaints</Link>
+                            </div>)}
+
+                        {route === "/payments" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/payments" >Payments</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/payments" >Payments</Link>
+                            </div>)}
+
+                        {route === "/contracts" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/contracts" >Contracts / Renewals</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/contracts" >Contracts / Renewals</Link>
+                            </div>)}
+
+                        {route === "/projects" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/projects" >Project</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/projects" >Project</Link>
+                            </div>)}
+
+                        <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
+                            <div className="!text-2xl"><BiLogOut /></div>
+                            <Link to="/" onClick={clearData}>Logout</Link>
                         </div>
-                        <div className="w-3/4 h-full ">
-                            <Component {...props} />
-                        </div>
-                    </div >
+                    </div>
+                    <div className="absolute bottom-0 flex flex-row gap-0 w-full h-100 sm:hidden bg-white border border-slate-400 text-white" style={{ background: `url(${bgimageblue})` }}>
+                        {route === "/services" ?
+                            (<div className="text-md hover:bg-[#80b3ff] bg-[#0047b3] border-r border-slate-400 "><Link to="/services" > Service Schedule</Link></div>) :
+                            (<div className="text-md hover:bg-[#80b3ff] border-r border-slate-400 "><Link to="/services" > Service Schedule</Link></div>)}
+                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/complaints" >Complaints</Link></div>
+                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/payments" >Payments</Link></div>
+                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/contracts" >Contracts / Renewals</Link></div>
+                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/projects" >Project</Link></div>
+                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/" onClick={clearData}>Logout</Link></div>
+                    </div>
+                    <div className="w-10/12 h-full sm:w-10/12 bg-[#EFF2FE]">
+                        <Component {...props} />
+                    </div>
                 </div >
+                {/* </div > */}
                 <Outlet />
             </>
         )

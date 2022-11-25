@@ -26,7 +26,7 @@ const Login = () => {
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
     const [choice, setChoice] = useState("Email");
-    const [appid, setAppId] = useState("my-dot-evadev0006");
+    // const [appid, setAppId] = useState("my-dot-evadev0006");
 
     const { search } = useLocation();
     const handleChangeEmail = event => {
@@ -81,9 +81,16 @@ const Login = () => {
         console.log("search=" + search);
         const parameters = new URLSearchParams(search);
         const receivedAppId = parameters.get('authToken');
+        let appid = "";
         if (receivedAppId != null) {
-            setAppId(receivedAppId);
+            // setAppId(receivedAppId);
+            localStorage.setItem("appId", receivedAppId);
+            appid = receivedAppId;
             console.log("receivedAppId " + receivedAppId + "is set as appid");
+        } else {
+            localStorage.setItem("appId", "my-dot-evadev0006");
+            appid = "my-dot-evadev0006";
+            console.log("appid set to my-dot-evadev0006");
         }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
@@ -169,6 +176,7 @@ const Login = () => {
         //     return;
         // }
         console.log("choice=" + choice);
+        let appid = localStorage.getItem("appId");
         let url = "";
         if (choice === "Email") {
             url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + "" + "&customerEmail=" + emailInfo;
@@ -183,14 +191,12 @@ const Login = () => {
                 .then((response) => response.data)
                 .then((json) => {
                     console.log('json', json);
-                    alert(json.customerId + " " + json.address + " " + json.customerName);
+                    alert("Response= " + json);
                     localStorage.setItem("customerId", json.customerId);
                     localStorage.setItem("customerName", json.customerName);
                     localStorage.setItem("customerAddress", json.address);
                     localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
-
-
                     localStorage.setItem("appId", appid);
                     window.location.href = `http://localhost:3000/services`;
                 })
