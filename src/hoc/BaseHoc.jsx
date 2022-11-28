@@ -46,7 +46,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         </div>
                     </div> */}
                 <div className="flex flex-row justify-center w-full">
-                    <div className="flex flex-col justify-center align-center w-2/12 h-full border-r-2 gap-5 hidden sm:flex text-md text-[#8181A5] ml-5">
+                    <div className="flex flex-col justify-center align-center w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
                         <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
                         </div>

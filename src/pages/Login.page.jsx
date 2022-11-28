@@ -198,7 +198,7 @@ const Login = () => {
                     localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
                     localStorage.setItem("appId", appid);
-                    window.location.href = `http://localhost:3000/services`;
+                    window.location.href = `/services`;//http://localhost:3000
                 })
                 .catch((error) => {
                     console.log(error);

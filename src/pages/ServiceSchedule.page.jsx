@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
 import { FcDownload } from 'react-icons/fc';
@@ -13,7 +13,8 @@ const ServiceSchedule = () => {
     // });
 
     const [serviceList, setServiceList] = useState(null)
-    const [dateFilterVisible, setDateFilterVisible] = useState(false)
+    const [dateFilterVisible, setDateFilterVisible] = useState(false);
+    const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
@@ -22,6 +23,14 @@ const ServiceSchedule = () => {
     useEffect(() => {
         console.log("in useEffect");
         getServiceList("btnThisMonth");
+        const closeDateFilter = e => {
+            console.log("in closeDateFilter" + e.currentTarget.name);
+            // if (e.path[0] != datefilterRef.current) {
+            setDateFilterVisible(false);
+            // }
+        }
+        document.body.addEventListener('click', closeDateFilter);
+        return () => document.body.removeEventListener('click', closeDateFilter);
     }, []);
 
     const getServiceList = (param) => {
@@ -59,7 +68,13 @@ const ServiceSchedule = () => {
                 let year = current.getFullYear() + 1;
                 fromDate = "1/01/" + year;
                 toDate = "1/02/" + year;
-            } else {
+            } else if (param === "btnCustom") {
+                // if (month === 12) {
+                //     let year = current.getFullYear() + 1;
+                //     fromDate = "1/01/" + year;
+                //     toDate = "1/02/" + year;
+            }
+            else {
                 month += 1;
                 fromDate = "1/" + month + "/" + current.getFullYear();
                 if (month === 12) {
@@ -128,7 +143,7 @@ const ServiceSchedule = () => {
         <>
             <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Service Schedule</div>
-                <button id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+                <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
                 {dateFilterVisible && (
                     <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-7 right-1 z-20 shadow-lg border-slate-200 bg-white'>
                         <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
