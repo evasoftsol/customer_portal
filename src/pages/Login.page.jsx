@@ -156,25 +156,25 @@ const Login = () => {
             }
         }
         //temporary commenting the validation
-        // if (generatedOtp === "") {
-        //     alert("Click on 'get OTP' button to receive OTP");
-        //     return;
-        // }
+        if (generatedOtp === "") {
+            alert("Click on 'get OTP' button to receive OTP");
+            return;
+        }
 
-        // if (otpInfo === "") {
-        //     alert("Enter OTP");
-        //     return;
-        // }
-        // console.log("generated otp=" + generatedOtp);
-        // console.log("entered otp=" + otpInfo);
-        // if (otpInfo === generatedOtp) {
-        //     console.log("OTP is valid");
-        //     // window.location.href = `http://localhost:3000/m`;
-        // }
-        // else {
-        //     alert("Invalid OTP!");
-        //     return;
-        // }
+        if (otpInfo === "") {
+            alert("Enter OTP");
+            return;
+        }
+        console.log("generated otp=" + generatedOtp);
+        console.log("entered otp=" + otpInfo);
+        if (otpInfo === generatedOtp) {
+            console.log("OTP is valid");
+
+        }
+        else {
+            alert("Invalid OTP!");
+            return;
+        }
         console.log("choice=" + choice);
         let appid = localStorage.getItem("appId");
         let url = "";
@@ -198,7 +198,7 @@ const Login = () => {
                     localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
                     localStorage.setItem("appId", appid);
-                    window.location.href = `/services`;//http://localhost:3000
+                    window.location.href = `/services`;
                 })
                 .catch((error) => {
                     console.log(error);

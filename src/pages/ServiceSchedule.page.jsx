@@ -4,7 +4,8 @@ import Axios from 'axios';
 import { FcDownload } from 'react-icons/fc';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FiFilter } from 'react-icons/fi';
-
+import Services from '../components/Services';
+// import Pagination from '../components/Pagination';
 const ServiceSchedule = () => {
 
     // window.addEventListener("popstate", e => {  // Nope, go back to your page
@@ -12,14 +13,17 @@ const ServiceSchedule = () => {
     //     console.log("pop called");
     // });
 
-    const [serviceList, setServiceList] = useState(null)
+    const [serviceList, setServiceList] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(5);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
 
-
+    console.log("currentPage=" + currentPage)
     useEffect(() => {
         console.log("in useEffect");
         getServiceList("btnThisMonth");
@@ -35,77 +39,76 @@ const ServiceSchedule = () => {
 
     const getServiceList = (param) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/11/2021&toDate=3/11/2021&apiCallfrom=CustomerPortal";
-        let url = "";
-        console.log("selectedDateFilter " + param);
+        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/11/2021&toDate=3/11/2021&apiCallfrom=CustomerPortal";
+        // let url = "";
+        // console.log("selectedDateFilter " + param);
 
-        const current = new Date();
-        let month = current.getMonth() + 1;
-        let fromDate = "";
-        let toDate = "";
+        // const current = new Date();
+        // let month = current.getMonth() + 1;
+        // let fromDate = "";
+        // let toDate = "";
 
 
-        if (param === "btnThisMonth") {
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear()
-            }
-        } else if (param === "btnLast") {
-            toDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 1) {
-                let year = current.getFullYear() - 1;
-                fromDate = "1/12/" + year;
-            } else {
-                month = month - 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-            }
-        } else if (param === "btnNext") {
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                fromDate = "1/01/" + year;
-                toDate = "1/02/" + year;
-            } else if (param === "btnCustom") {
-                // if (month === 12) {
-                //     let year = current.getFullYear() + 1;
-                //     fromDate = "1/01/" + year;
-                //     toDate = "1/02/" + year;
-            }
-            else {
-                month += 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-                if (month === 12) {
-                    let year = current.getFullYear() + 1;
-                    toDate = "1/01/" + year;
-                } else {
-                    month += 1;
-                    toDate = "1/" + month + "/" + current.getFullYear();
-                }
-            }
+        // if (param === "btnThisMonth") {
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear()
+        //     }
+        // } else if (param === "btnLast") {
+        //     toDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 1) {
+        //         let year = current.getFullYear() - 1;
+        //         fromDate = "1/12/" + year;
+        //     } else {
+        //         month = month - 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // } else if (param === "btnNext") {
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         fromDate = "1/01/" + year;
+        //         toDate = "1/02/" + year;
+        //     }
+        //     else {
+        //         month += 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //         if (month === 12) {
+        //             let year = current.getFullYear() + 1;
+        //             toDate = "1/01/" + year;
+        //         } else {
+        //             month += 1;
+        //             toDate = "1/" + month + "/" + current.getFullYear();
+        //         }
+        //     }
 
-        } else if (param === "btnCustom") {
+        // } else if (param === "btnCustom") {
 
-        }
-        console.log("fromDate " + fromDate);
-        console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
+
+        // }
+        // console.log("fromDate " + fromDate);
+        // console.log("toDate " + toDate);
+        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
 
         console.log("url=" + url);
 
+        setLoading(true);
         Axios
             .get(url)
             .then((response) => response.data)
             .then((json) => {
                 setServiceList(json)
                 console.log("result is set to servicelist");
+                setLoading(false);
             })
             .catch((error) => {
                 setServiceList(null);
                 console.log("service list set to null");
             });
+
     }
 
     const downloadSR = event => {
@@ -138,7 +141,25 @@ const ServiceSchedule = () => {
     }
 
 
-    if (!serviceList) return (<div>No Record Found</div>)
+    if (!serviceList) return (<div>Loading......</div>)
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = serviceList.slice(indexOfFirstPost, indexOfLastPost);
+
+
+    //change page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+
+        var elements = document.getElementsByTagName('a');
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.remove('border-sky-600');
+        }
+        document.getElementById(pageNumber).classList.add('border-sky-600');
+    }
+
     return (
         <>
             <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
@@ -153,7 +174,7 @@ const ServiceSchedule = () => {
                     </div>
                 )}
             </div>
-            <div className='flex w-full h-full ml-10'>
+            <div className='flex flex-col gap-2 w-full h-full ml-10'>
 
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
@@ -167,7 +188,9 @@ const ServiceSchedule = () => {
                             <th className="py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    <tbody className="text-sm mx-4">
+                    <Services serviceList={currentPosts} loading={loading} />
+
+                    {/* <tbody className="text-sm mx-4">
                         {serviceList.map(service => (
                             <tr key={service.serviceId}>
                                 <td className="px-2 py-2">{service.serviceId}</td>
@@ -193,12 +216,47 @@ const ServiceSchedule = () => {
 
                             </tr>
                         ))}
-                    </tbody>
+                    </tbody> */}
                 </table>
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={serviceList.length}
+                    paginate={paginate}
+                />
+
             </div>
 
         </>
     )
 }
 
+
+const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+    console.log("in pagination " + postsPerPage + " " + totalPosts)
+    const pageNumbers = [];
+    const [selectedPage, setSelectedPage] = useState(1);
+    for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    return (
+        <nav>
+            <ul className="flex gap-2 ">
+                {
+                    pageNumbers.map(number => (
+                        <li key={number} className="float-left">
+                            <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-3 py-1 ">
+                                {number}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+    )
+}
+
+
+
 export default BaseHoc(ServiceSchedule);
+export { Pagination };

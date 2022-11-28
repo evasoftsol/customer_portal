@@ -45,8 +45,9 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <p className="text-lg sm:text-xl ">{localStorage.getItem("customerAddress")}</p>
                         </div>
                     </div> */}
-                <div className="flex flex-row justify-center w-full">
-                    <div className="flex flex-col justify-center align-center w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
+                <div className="flex flex-row justify-center  w-full h-screen">
+                    {/* Navbar for Medium or Larger screens */}
+                    <div className="flex flex-col justify-start   w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
                         <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
                         </div>
@@ -110,15 +111,74 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <Link to="/" onClick={clearData}>Logout</Link>
                         </div>
                     </div>
-                    <div className="absolute bottom-0 flex flex-row gap-0 w-full h-100 sm:hidden bg-white border border-slate-400 text-white" style={{ background: `url(${bgimageblue})` }}>
+
+
+                    {/* Navbar for Mobile screen */}
+                    <div className="absolute bottom-0 flex flex-row gap-0 w-full h-100 sm:hidden bg-white  " >
+                        <div className="flex justify-start ml-2 mt-2 align-center">
+                            <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
+                        </div>
                         {route === "/services" ?
-                            (<div className="text-md hover:bg-[#80b3ff] bg-[#0047b3] border-r border-slate-400 "><Link to="/services" > Service Schedule</Link></div>) :
-                            (<div className="text-md hover:bg-[#80b3ff] border-r border-slate-400 "><Link to="/services" > Service Schedule</Link></div>)}
-                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/complaints" >Complaints</Link></div>
-                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/payments" >Payments</Link></div>
-                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/contracts" >Contracts / Renewals</Link></div>
-                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/projects" >Project</Link></div>
-                        <div className="text-md hover:bg-[#80b3ff] border-r border-slate-400"><Link to="/" onClick={clearData}>Logout</Link></div>
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/services" >Service Schedule</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/services" >Service Schedule</Link>
+                            </div>)}
+
+                        {route === "/complaints" ?
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/complaints" >Complaints</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/complaints" >Complaints</Link>
+                            </div>)}
+
+                        {route === "/payments" ?
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/payments" >Payments</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/payments" >Payments</Link>
+                            </div>)}
+
+                        {route === "/contracts" ?
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/contracts" >Contracts / Renewals</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/contracts" >Contracts / Renewals</Link>
+                            </div>)}
+
+                        {route === "/projects" ?
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/projects" >Project</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/projects" >Project</Link>
+                            </div>)}
+
+                        <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
+                            <div className="!text-2xl"><BiLogOut /></div>
+                            <Link to="/" onClick={clearData}>Logout</Link>
+                        </div>
+
+
                     </div>
                     <div className="w-10/12 h-full sm:w-10/12 bg-[#EFF2FE]">
                         <Component {...props} />
