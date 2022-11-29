@@ -16,7 +16,7 @@ const ServiceSchedule = () => {
     const [serviceList, setServiceList] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(5);
+    const [postsPerPage] = useState(10);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
@@ -27,19 +27,19 @@ const ServiceSchedule = () => {
     useEffect(() => {
         console.log("in useEffect");
         getServiceList("btnThisMonth");
-        const closeDateFilter = e => {
-            console.log("in closeDateFilter" + e.currentTarget.name);
-            // if (e.path[0] != datefilterRef.current) {
-            setDateFilterVisible(false);
-            // }
-        }
-        document.body.addEventListener('click', closeDateFilter);
-        return () => document.body.removeEventListener('click', closeDateFilter);
+        // const closeDateFilter = e => {
+        //     console.log("in closeDateFilter" + e.currentTarget.name);
+        //     // if (e.path[0] != datefilterRef.current) {
+        //     setDateFilterVisible(false);
+        //     // }
+        // }
+        // document.body.addEventListener('click', closeDateFilter);
+        // return () => document.body.removeEventListener('click', closeDateFilter);
     }, []);
 
     const getServiceList = (param) => {
         console.log("in getServiceList");
-        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/11/2021&toDate=3/11/2021&apiCallfrom=CustomerPortal";
+        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/11/2021&toDate=2/11/2021&apiCallfrom=CustomerPortal";
         // let url = "";
         // console.log("selectedDateFilter " + param);
 
@@ -189,34 +189,6 @@ const ServiceSchedule = () => {
                         </tr>
                     </thead>
                     <Services serviceList={currentPosts} loading={loading} />
-
-                    {/* <tbody className="text-sm mx-4">
-                        {serviceList.map(service => (
-                            <tr key={service.serviceId}>
-                                <td className="px-2 py-2">{service.serviceId}</td>
-                                <td className="px-2 py-2">{service.serviceDate}</td>
-                                <td className="px-2 py-2">{service.productName}</td>
-                                <td className="px-2 py-2">{service.status}</td>
-                                <td className="px-2 py-2">
-                                    {
-                                        service.status === "Completed" ?
-                                            (<button name={service.serviceId} onClick={downloadSR}><FcDownload /></button>) :
-                                            (<button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button>)
-                                    }
-                                </td>
-                                <td className="px-2 py-2">{
-
-                                    service.customerFeedback === "Poor" ? ("*") :
-                                        (service.customerFeedback === "Average" ? ("**") :
-                                            (service.customerFeedback === "Good" ? ("***") :
-                                                (service.customerFeedback === "Very Good" ? ("****") :
-                                                    (service.customerFeedback === "Excellent" ? ("*****") : ("")))))
-                                }
-                                </td>
-
-                            </tr>
-                        ))}
-                    </tbody> */}
                 </table>
                 <Pagination
                     postsPerPage={postsPerPage}
@@ -234,25 +206,45 @@ const ServiceSchedule = () => {
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     console.log("in pagination " + postsPerPage + " " + totalPosts)
     const pageNumbers = [];
-    const [selectedPage, setSelectedPage] = useState(1);
+
     for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
         pageNumbers.push(i);
     }
+    const catalogNumbers = pageNumbers.length / 5;
+    const [currentCatalog, setCurrentCatalog] = useState(1);
+    let lastPage = currentCatalog * 5;
+    let firstPage = lastPage - 4;
+    const showPreviousPages = () => {
+        console.log("in showPreviousPages currentCatalog=" + currentCatalog)
+        if (currentCatalog > 1) {
+            setCurrentCatalog(currentCatalog - 1)
+        }
+    }
 
+    const showNextPages = () => {
+        console.log("in showNextPages currentCatalog=" + currentCatalog)
+        if (currentCatalog < catalogNumbers) {
+            setCurrentCatalog(currentCatalog + 1)
+            paginate(firstPage)
+        }
+    }
     return (
-        <nav>
-            <ul className="flex gap-2 ">
+        <nav className='flex flex-row gap-5 justify-between w-11/12'>
+            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+            <ul className="flex gap-2  w-200 justify-center  ">
                 {
-                    pageNumbers.map(number => (
-                        <li key={number} className="float-left">
+
+                    pageNumbers.map(number => (number >= firstPage && number <= lastPage ?
+                        (<li key={number} className=" mt-1">
                             <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-3 py-1 ">
                                 {number}
                             </a>
-                        </li>
+                        </li>) : (<></>)
                     ))
                 }
-            </ul>
-        </nav>
+            </ul >
+            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+        </nav >
     )
 }
 

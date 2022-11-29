@@ -47,7 +47,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                     </div> */}
                 <div className="flex flex-row justify-center  w-full h-screen">
                     {/* Navbar for Medium or Larger screens */}
-                    <div className="flex flex-col justify-start   w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
+                    <div className="flex flex-col justify-start  w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
                         <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
                         </div>
@@ -114,7 +114,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                     {/* Navbar for Mobile screen */}
-                    <div className="absolute bottom-0 flex flex-row gap-0 w-full h-100 sm:hidden bg-white  " >
+                    <div className="absolute bottom-0 flex flex-row gap-0 w-full h-100 sm:hidden bg-white text-[#8181A5] " >
                         <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
                         </div>
