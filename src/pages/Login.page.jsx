@@ -155,7 +155,6 @@ const Login = () => {
                 return;
             }
         }
-        //temporary commenting the validation
         if (generatedOtp === "") {
             alert("Click on 'get OTP' button to receive OTP");
             return;
