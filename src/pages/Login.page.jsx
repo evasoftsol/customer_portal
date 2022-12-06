@@ -190,19 +190,44 @@ const Login = () => {
                 .then((response) => response.data)
                 .then((json) => {
                     console.log('json', json);
-                    alert("Response= " + json);
+                    // alert("Response= " + json);
                     localStorage.setItem("customerId", json.customerId);
                     localStorage.setItem("customerName", json.customerName);
                     localStorage.setItem("customerAddress", json.address);
                     localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
                     localStorage.setItem("appId", appid);
-                    window.location.href = `/services`;
+                    loadCustomerBranches();
+                    // window.location.href = `/services`;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
+    }
+
+    const loadCustomerBranches = () => {
+        console.log("loading customer branches");
+        let custBranchUrl = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/fetchServiceLocation?authCode=5659313586569216&customerId=" + localStorage.getItem("customerId") + "&action=Fetch customer branch";
+        console.log("custBranchUrl=" + custBranchUrl);
+        Axios
+            .get(custBranchUrl)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log("branches fetched successfully")
+                const customerBranchdata = json;
+                var brancharr = ["--select--"]
+                customerBranchdata.map(branch => {
+                    brancharr.push(branch.customerBranchName);
+                })
+                console.log("lbrancharr size=" + brancharr.length);
+                localStorage.setItem("customerBranchList", brancharr);
+                console.log("customerBranchList=" + localStorage.getItem("customerBranchList"));
+                window.location.href = `/services`;
+            })
+            .catch((error) => {
+                console.log("customer branches set to null" + error);
+            });
     }
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >

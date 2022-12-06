@@ -45,7 +45,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <p className="text-lg sm:text-xl ">{localStorage.getItem("customerAddress")}</p>
                         </div>
                     </div> */}
-                <div className="flex flex-row justify-center  w-full h-screen">
+                <div className="flex flex-row justify-center  w-screen h-screen">
                     {/* Navbar for Medium or Larger screens */}
                     <div className="flex flex-col justify-start  w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] ml-5">
                         <div className="flex justify-start ml-2 mt-2 align-center">
@@ -88,11 +88,22 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             (<div className="w-full border-r-2 border-sky-600">
                                 <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                     <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/contracts" >Contracts / Renewals</Link>
+                                    <Link to="/contracts" >Contracts</Link>
                                 </div></div>) :
                             (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/contracts" >Contracts / Renewals</Link>
+                                <Link to="/contracts" >Contracts</Link>
+                            </div>)}
+
+                        {route === "/renewals" ?
+                            (<div className="w-full border-r-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/renewals" >Renewals</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/renewals" >Renewals</Link>
                             </div>)}
 
                         {route === "/projects" ?
@@ -162,6 +173,17 @@ const BaseHoc = (Component) => ({ ...props }) => {
                                 <Link to="/contracts" >Contracts / Renewals</Link>
                             </div>)}
 
+                        {route === "/renewals" ?
+                            (<div className="w-full border-t-2 border-sky-600">
+                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                    <div className="!text-xl"><ImClipboard /></div>
+                                    <Link to="/renewals" >Renewals</Link>
+                                </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/renewals" >Renewals</Link>
+                            </div>)}
+
                         {route === "/projects" ?
                             (<div className="w-full border-t-2 border-sky-600">
                                 <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
@@ -180,7 +202,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                     </div>
-                    <div className="w-10/12 h-full sm:w-10/12 bg-[#EFF2FE]">
+                    <div className="w-full h-full sm:w-10/12 bg-[#EFF2FE]">
                         <Component {...props} />
                     </div>
                 </div >

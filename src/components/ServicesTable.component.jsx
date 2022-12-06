@@ -6,7 +6,7 @@ import { FaStar } from 'react-icons/fa'
 import Axios from 'axios';
 
 
-const Services = ({ serviceList, loading }) => {
+const ServicesTable = ({ serviceList, loading }) => {
     const [showReschedulePopup, setShowReschedulePopup] = useState({ serviceId: '', visibility: false });
     const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
@@ -16,6 +16,12 @@ const Services = ({ serviceList, loading }) => {
     }
 
     let appid = localStorage.getItem("appId");
+    let customerCell = localStorage.getItem("customerCell");
+    let customerEmail = localStorage.getItem("customerEmail");
+    let customerId = localStorage.getItem("customerId");
+    let customerName = localStorage.getItem("customerName");
+
+
     const downloadSR = event => {
         event.preventDefault();
         let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Service&documentId=" + event.currentTarget.name;
@@ -156,8 +162,21 @@ const Services = ({ serviceList, loading }) => {
     }
     const submitFeedback = event => {
         event.preventDefault();
+        if (currentValue == 0) {
+            alert("Give stars");
+            return;
+        }
+
+        let remark = document.getElementById("customerFeedback").value;
+        if (currentValue < 3) {
+            if (remark == "") {
+                alert("Enter remark");
+                return;
+            }
+        }
         let rating = currentValue * 2;
-        const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5"
+        const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark;
+
         Axios.get(url).then(
             (response) => {
                 console.log("response=" + response.status + " " + response.statusText)
@@ -189,11 +208,38 @@ const Services = ({ serviceList, loading }) => {
                     // document.getElementById(showRatingPopup.serviceId).nextSibling.nextSibling.nextSibling.innerHTML = updatedStars;
                 } else
                     alert("Try to submit again!");
-                setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                if (currentValue > 2)
+                    setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
             }
         ).catch((exception) => {
             console.log("Error is" + exception);
         })
+
+        if (currentValue < 3) {
+
+            let dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 2);
+            let month = dueDate.getMonth() + 1;
+            let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
+
+            let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
+
+
+            let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
+
+            console.log(url);
+            Axios
+                .get(url)
+                .then((response) => {
+                    alert("Your complain ID is " + response.data);
+                    setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert(error);
+                    setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                });
+        }
     }
 
     return (
@@ -218,7 +264,7 @@ const Services = ({ serviceList, loading }) => {
                     <td className="px-2 py-2 text-xs">{
                         service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><FcFeedback className='text-xl' /></button>) : (
 
-                            service.customerFeedback === "Poor" ? (<FaStar />) :
+                            service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :
                                 (service.customerFeedback === "Average" ?
                                     (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
                                     (service.customerFeedback === "Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
@@ -328,12 +374,12 @@ const Services = ({ serviceList, loading }) => {
                             onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false })}
                         ></div>
                         <div className="flex items-center min-h-screen px-4 py-8">
-                            <div className="relative w-md max-w-xs p-4 mx-auto bg-white rounded-md shadow-lg">
+                            <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                                 {/* <div className="mt-3 sm:flex"> */}
                                 {/* <div className="mt-2 text-left sm:ml-4 sm:text-left"> */}
 
                                 <div className='flex flex-col align-center justify-center gap-5 m-5'>
-                                    <h2 className="font-semibold"> Rate the Service </h2>
+                                    <h2 className="font-semibold text-lg"> Rate the Service </h2>
                                     <div className='flex flex-row gap-2 w-fit'>
                                         {stars.map((_, index) => {
                                             return (
@@ -364,6 +410,10 @@ const Services = ({ serviceList, loading }) => {
                                             )
                                         })}
                                     </div>
+                                    <div className="flex flex-col w-full">
+                                        <label htmlFor='customerFeedback' className="text-md font-semibold mt-3" >Enter Remark:</label>
+                                        <textarea id="customerFeedback" className="border-2 border-gray-300 rounded w-lg mt-3" rows="5" ></textarea>
+                                    </div>
 
                                     <button className=" mt-2 p-2.5 flex-1 text-white bg-sky-600 text-lg rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-2"
                                         onClick={submitFeedback}>
@@ -383,7 +433,7 @@ const Services = ({ serviceList, loading }) => {
     )
 }
 
-export default Services;
+export default ServicesTable;
 
 
 

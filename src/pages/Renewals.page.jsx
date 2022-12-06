@@ -2,16 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
-import ServicesTable from '../components/ServicesTable.component';
-// import Pagination from '../components/Pagination';
-const ServiceSchedule = () => {
+import ContractsTable from '../components/ContractsTable.component';
 
-    // window.addEventListener("popstate", e => {  // Nope, go back to your page
-    //     // this.props.history.go(1);
-    //     console.log("pop called");
-    // });
 
-    const [serviceList, setServiceList] = useState(null);
+const Renewals = () => {
+
+    const [contractList, setContractList] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10);
@@ -21,78 +17,76 @@ const ServiceSchedule = () => {
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
-    let customerId = localStorage.getItem("customerId");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
         console.log("in useEffect");
-        getServiceList("btnThisMonth");
+        getContractList("btnThisMonth");
     }, []);
 
-    const getServiceList = (param) => {
-        console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=2/12/2022&toDate=2/12/2022&apiCallfrom=CustomerPortal";
+    const getContractList = (param) => {
+        console.log("in getContractList");
+        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=9004245917&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=1/10/2023&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
         let url = "";
-        console.log("selectedDateFilter " + param);
+        // console.log("selectedDateFilter " + param);
 
-        const current = new Date();
-        let month = current.getMonth() + 1;
-        let fromDate = "";
-        let toDate = "";
+        // const current = new Date();
+        // let month = current.getMonth() + 1;
+        // let fromDate = "";
+        // let toDate = "";
 
 
-        if (param === "btnThisMonth") {
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear()
-            }
-        } else if (param === "btnLast") {
-            toDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 1) {
-                let year = current.getFullYear() - 1;
-                fromDate = "1/12/" + year;
-            } else {
-                month = month - 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-            }
-        } else if (param === "btnNext") {
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                fromDate = "1/01/" + year;
-                toDate = "1/02/" + year;
-            }
-            else {
-                month += 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-                if (month === 12) {
-                    let year = current.getFullYear() + 1;
-                    toDate = "1/01/" + year;
-                } else {
-                    month += 1;
-                    toDate = "1/" + month + "/" + current.getFullYear();
-                }
-            }
+        // if (param === "btnThisMonth") {
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear()
+        //     }
+        // } else if (param === "btnLast") {
+        //     toDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 1) {
+        //         let year = current.getFullYear() - 1;
+        //         fromDate = "1/12/" + year;
+        //     } else {
+        //         month = month - 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // } else if (param === "btnNext") {
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         fromDate = "1/01/" + year;
+        //         toDate = "1/02/" + year;
+        //     }
+        //     else {
+        //         month += 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //         if (month === 12) {
+        //             let year = current.getFullYear() + 1;
+        //             toDate = "1/01/" + year;
+        //         } else {
+        //             month += 1;
+        //             toDate = "1/" + month + "/" + current.getFullYear();
+        //         }
+        //     }
 
-        } else if (param === "btnCustomDate") {
-
-            let selectedMonth = document.getElementById('monthSelector').value;
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            if (month === 12) {
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + selectedYear;
-            }
-        }
-        console.log("fromDate " + fromDate);
-        console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
+        // } else if (param === "btnCustomDate") {
+        //     let selectedMonth = document.getElementById('monthSelector').value;
+        //     let selectedYear = document.getElementById('yearSelector').value;
+        //     fromDate = "1/" + selectedMonth + "/" + selectedYear;
+        //     if (month === 12) {
+        //         let year = parseInt(selectedYear) + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + selectedYear;
+        //     }
+        // }
+        // console.log("fromDate " + fromDate);
+        // console.log("toDate " + toDate);
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/10/2023&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
 
 
         console.log("url=" + url);
@@ -102,14 +96,30 @@ const ServiceSchedule = () => {
             .get(url)
             .then((response) => response.data)
             .then((json) => {
-                setServiceList(json)
-                console.log("result is set to servicelist");
+                setContractList(json)
+                console.log("result is set to ContractList");
                 setLoading(false);
-
             })
             .catch((error) => {
-                setServiceList(null);
-                console.log("service list set to null");
+                setContractList(null);
+                console.log("ContractList set to null");
+            });
+
+    }
+
+    const downloadSR = event => {
+        event.preventDefault();
+        let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Service&documentId=" + event.currentTarget.name;
+
+        Axios
+            .get(srcopyurl)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json.pdfUrl);
+                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
             });
 
     }
@@ -122,20 +132,20 @@ const ServiceSchedule = () => {
         if (event.currentTarget.id === "btnCustomDate") {
             setDateFilterVisible(false);
             setCustomDateFilterVisible(false);
-            getServiceList(event.currentTarget.id);
+            getContractList(event.currentTarget.id);
         } else {
             setDateFilterVisible(false);
-            getServiceList(event.currentTarget.id);
+            getContractList(event.currentTarget.id);
         }
     }
 
 
-    if (!serviceList) return (<div>Loading......</div>)
+    if (!contractList) return (<div>Loading......</div>)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = serviceList.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = contractList.slice(indexOfFirstPost, indexOfLastPost);
 
 
     //change page
@@ -154,44 +164,26 @@ const ServiceSchedule = () => {
         setCustomDateFilterVisible(true);
     }
 
-    const createItems = () => {
-        console.log("in createItems")
-        let items = [];
-        const branchlist = localStorage.getItem("customerBranchList").split(',');
-        // console.log("items=" + branchlist[5])
-        for (let i = 0; i < branchlist.length; i++) {
-            items.push(<option value={branchlist[i]}>{branchlist[i]}</option>);
-        }
-        return items;
-    }
     return (
         <>
             <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
-                <div className="font-semibold text-xl">Service Schedule</div>
-                <div className="flex gap-3">
-                    <label htmlFor='CustomerBranchDropDown' className='hidden sm:inline-flex'>Select Branch :</label>
-                    <select id="CustomerBranchDropDown" className='rounded-lg bg-white border border-gray-300 px-2'>
-                        {
-                            createItems()
-                        }
-                    </select>
-                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+                <div className="font-semibold text-xl">Contracts / Renewals</div>
+                <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
-                    {dateFilterVisible && (
-                        <div className="fixed inset-0 z-10 overflow-y-auto">
-                            <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-25"
-                                onClick={() => setDateFilterVisible(false)}
-                            ></div>
-                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
-                                <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                                <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
-                                <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
-                                <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
-                            </div>
+                {dateFilterVisible && (
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-25"
+                            onClick={() => setDateFilterVisible(false)}
+                        ></div>
+                        <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
+                            <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
+                            <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
+                            <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
+                            <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             <div className='flex flex-col gap-2 w-full h-full ml-10'>
 
@@ -199,20 +191,20 @@ const ServiceSchedule = () => {
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">Service ID</th>
-                            <th className="py-8 px-2">Service Branch</th>
-                            <th className="py-8 px-2">Date</th>
-                            <th className="py-8 px-2">Name</th>
-                            <th className="py-8 px-2">Status</th>
-                            <th className="py-8 px-2">Action</th>
-                            <th className="py-8 px-2">Rating</th>
+                            <th className="py-8 px-2">Contract ID</th>
+                            <th className="py-8 px-2">Product</th>
+                            <th className="py-8 px-2">Start Date</th>
+                            <th className="py-8 px-2">End Date</th>
+                            <th className="py-8 px-2">Amount</th>
+                            <th className="py-8 px-2">Print</th>
+                            <th className="py-8 px-2">Renew</th>
                         </tr>
                     </thead>
-                    <ServicesTable serviceList={currentPosts} loading={loading} />
+                    <ContractsTable contractList={currentPosts} loading={loading} />
                 </table>
                 <Pagination
                     postsPerPage={postsPerPage}
-                    totalPosts={serviceList.length}
+                    totalPosts={contractList.length}
                     paginate={paginate}
                 />
                 {customDateFilterVisible ? (
@@ -344,6 +336,5 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 }
 
 
-
-export default BaseHoc(ServiceSchedule);
+export default BaseHoc(Renewals);
 export { Pagination };
