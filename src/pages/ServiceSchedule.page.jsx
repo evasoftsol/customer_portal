@@ -30,68 +30,68 @@ const ServiceSchedule = () => {
 
     const getServiceList = (param) => {
         console.log("in getServiceList");
-        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallfrom=CustomerPortal";
-        // let url = "";
-        // console.log("selectedDateFilter " + param);
+        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallfrom=CustomerPortal";
+        let url = "";
+        console.log("selectedDateFilter " + param);
 
-        // const current = new Date();
-        // let month = current.getMonth() + 1;
-        // let fromDate = "";
-        // let toDate = "";
+        const current = new Date();
+        let month = current.getMonth() + 1;
+        let fromDate = "";
+        let toDate = "";
 
 
-        // if (param === "btnThisMonth") {
-        //     fromDate = "1/" + month + "/" + current.getFullYear();
-        //     if (month === 12) {
-        //         let year = current.getFullYear() + 1;
-        //         toDate = "1/01/" + year;
-        //     } else {
-        //         month += 1;
-        //         toDate = "1/" + month + "/" + current.getFullYear()
-        //     }
-        // } else if (param === "btnLast") {
-        //     toDate = "1/" + month + "/" + current.getFullYear();
-        //     if (month === 1) {
-        //         let year = current.getFullYear() - 1;
-        //         fromDate = "1/12/" + year;
-        //     } else {
-        //         month = month - 1;
-        //         fromDate = "1/" + month + "/" + current.getFullYear();
-        //     }
-        // } else if (param === "btnNext") {
-        //     if (month === 12) {
-        //         let year = current.getFullYear() + 1;
-        //         fromDate = "1/01/" + year;
-        //         toDate = "1/02/" + year;
-        //     }
-        //     else {
-        //         month += 1;
-        //         fromDate = "1/" + month + "/" + current.getFullYear();
-        //         if (month === 12) {
-        //             let year = current.getFullYear() + 1;
-        //             toDate = "1/01/" + year;
-        //         } else {
-        //             month += 1;
-        //             toDate = "1/" + month + "/" + current.getFullYear();
-        //         }
-        //     }
+        if (param === "btnThisMonth") {
+            fromDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 12) {
+                let year = current.getFullYear() + 1;
+                toDate = "1/01/" + year;
+            } else {
+                month += 1;
+                toDate = "1/" + month + "/" + current.getFullYear()
+            }
+        } else if (param === "btnLast") {
+            toDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 1) {
+                let year = current.getFullYear() - 1;
+                fromDate = "1/12/" + year;
+            } else {
+                month = month - 1;
+                fromDate = "1/" + month + "/" + current.getFullYear();
+            }
+        } else if (param === "btnNext") {
+            if (month === 12) {
+                let year = current.getFullYear() + 1;
+                fromDate = "1/01/" + year;
+                toDate = "1/02/" + year;
+            }
+            else {
+                month += 1;
+                fromDate = "1/" + month + "/" + current.getFullYear();
+                if (month === 12) {
+                    let year = current.getFullYear() + 1;
+                    toDate = "1/01/" + year;
+                } else {
+                    month += 1;
+                    toDate = "1/" + month + "/" + current.getFullYear();
+                }
+            }
 
-        // } else if (param === "btnCustomDate") {
+        } else if (param === "btnCustomDate") {
 
-        //     let selectedMonth = document.getElementById('monthSelector').value;
-        //     let selectedYear = document.getElementById('yearSelector').value;
-        //     fromDate = "1/" + selectedMonth + "/" + selectedYear;
-        //     if (month === 12) {
-        //         let year = parseInt(selectedYear) + 1;
-        //         toDate = "1/01/" + year;
-        //     } else {
-        //         month += 1;
-        //         toDate = "1/" + month + "/" + selectedYear;
-        //     }
-        // }
-        // console.log("fromDate " + fromDate);
-        // console.log("toDate " + toDate);
-        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
+            let selectedMonth = document.getElementById('monthSelector').value;
+            let selectedYear = document.getElementById('yearSelector').value;
+            fromDate = "1/" + selectedMonth + "/" + selectedYear;
+            if (month === 12) {
+                let year = parseInt(selectedYear) + 1;
+                toDate = "1/01/" + year;
+            } else {
+                month += 1;
+                toDate = "1/" + month + "/" + selectedYear;
+            }
+        }
+        console.log("fromDate " + fromDate);
+        console.log("toDate " + toDate);
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
 
 
         console.log("url=" + url);
