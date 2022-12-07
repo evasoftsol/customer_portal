@@ -201,6 +201,31 @@ const ServicesTable = ({ serviceList, loading }) => {
                     })
                     serviceList = updatedServiceList;
 
+                    if (currentValue < 3) {
+
+                        let dueDate = new Date();
+                        dueDate.setDate(dueDate.getDate() + 2);
+                        let month = dueDate.getMonth() + 1;
+                        let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
+
+                        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
+
+
+                        let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
+
+                        console.log(url);
+                        Axios
+                            .get(url)
+                            .then((response) => {
+                                alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
+                                setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                alert(error);
+                                setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                            });
+                    }
                     // let updatedStars = "";
                     // for (let i = 0; i < currentValue; i++) {
                     //     updatedStars += "*";
@@ -215,43 +240,19 @@ const ServicesTable = ({ serviceList, loading }) => {
             console.log("Error is" + exception);
         })
 
-        if (currentValue < 3) {
 
-            let dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 2);
-            let month = dueDate.getMonth() + 1;
-            let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
-
-            let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
-
-
-            let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
-
-            console.log(url);
-            Axios
-                .get(url)
-                .then((response) => {
-                    alert("Your complain ID is " + response.data);
-                    setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert(error);
-                    setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
-                });
-        }
     }
 
     return (
         <tbody className="text-sm mx-4">
             {serviceList.map(service => (
                 <tr key={service.serviceId}>
-                    <td className="px-2 py-2">{service.serviceId}</td>
-                    <td className="px-2 py-2">{service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)} </td>
-                    <td className="px-2 py-2" id={service.serviceId}>{service.serviceDate}</td>
-                    <td className="px-2 py-2">{service.productName}</td>
-                    <td className="px-2 py-2" >{service.status}</td>
-                    <td className="px-2 py-2">
+                    <td className="px-2 py-1 sm:py-2">{service.serviceId}</td>
+                    <td className="px-2 py-1 sm:py-2">{service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)} </td>
+                    <td className="px-2 py-1 sm:py-2" id={service.serviceId}>{service.serviceDate}</td>
+                    <td className="px-2 py-1 sm:py-2">{service.productName}</td>
+                    <td className="px-2 py-1 sm:py-2" >{service.status}</td>
+                    <td className="px-2 py-1 sm:py-2">
                         {
                             service.status === "Completed" ?
                                 (<button name={service.serviceId} onClick={downloadSR}><FcDownload /></button>) :
@@ -261,7 +262,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                         }
                         {/* <button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button> */}
                     </td>
-                    <td className="px-2 py-2 text-xs">{
+                    <td className="px-2 py-1 sm:py-2 text-xs">{
                         service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><FcFeedback className='text-xl' /></button>) : (
 
                             service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :

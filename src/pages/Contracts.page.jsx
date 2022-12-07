@@ -14,9 +14,9 @@ const Contracts = () => {
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
     const datefilterRef = useRef();
-    let appid = localStorage.getItem("appId");
-    let customerCell = localStorage.getItem("customerCell");
-    let customerEmail = localStorage.getItem("customerEmail");
+    // let appid = localStorage.getItem("appId");
+    // let customerCell = localStorage.getItem("customerCell");
+    // let customerEmail = localStorage.getItem("customerEmail");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
@@ -108,22 +108,7 @@ const Contracts = () => {
 
     }
 
-    const downloadSR = event => {
-        event.preventDefault();
-        let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Service&documentId=" + event.currentTarget.name;
 
-        Axios
-            .get(srcopyurl)
-            .then((response) => response.data)
-            .then((json) => {
-                console.log('json', json.pdfUrl);
-                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-    }
 
 
     const applyDateFilter = event => {
@@ -168,7 +153,7 @@ const Contracts = () => {
     return (
         <>
             <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
-                <div className="font-semibold text-xl">Contracts / Renewals</div>
+                <div className="font-semibold text-xl">Contracts</div>
                 <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
                 {dateFilterVisible && (

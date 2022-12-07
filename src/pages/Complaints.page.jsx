@@ -132,7 +132,7 @@ const Complaints = () => {
         Axios
             .get(url)
             .then((response) => {
-                alert("Your complain ID is " + response.data);
+                alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                 setCreateComplainPopup(false);
             })
             .catch((error) => {

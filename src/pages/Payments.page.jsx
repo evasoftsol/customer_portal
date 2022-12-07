@@ -26,67 +26,67 @@ const Payments = () => {
 
     const getPaymentList = (param) => {
         console.log("in getPaymentList");
-        let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/09/2022&toDate=21/12/2022&apiCallfrom=CustomerPortal";
-        // let url = "";
-        // console.log("selectedDateFilter " + param);
+        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/09/2022&toDate=21/12/2022&apiCallfrom=CustomerPortal";
+        let url = "";
+        console.log("selectedDateFilter " + param);
 
-        // const current = new Date();
-        // let month = current.getMonth() + 1;
-        // let fromDate = "";
-        // let toDate = "";
+        const current = new Date();
+        let month = current.getMonth() + 1;
+        let fromDate = "";
+        let toDate = "";
 
 
-        // if (param === "btnThisMonth") {
-        //     fromDate = "1/" + month + "/" + current.getFullYear();
-        //     if (month === 12) {
-        //         let year = current.getFullYear() + 1;
-        //         toDate = "1/01/" + year;
-        //     } else {
-        //         month += 1;
-        //         toDate = "1/" + month + "/" + current.getFullYear()
-        //     }
-        // } else if (param === "btnLast") {
-        //     toDate = "1/" + month + "/" + current.getFullYear();
-        //     if (month === 1) {
-        //         let year = current.getFullYear() - 1;
-        //         fromDate = "1/12/" + year;
-        //     } else {
-        //         month = month - 1;
-        //         fromDate = "1/" + month + "/" + current.getFullYear();
-        //     }
-        // } else if (param === "btnNext") {
-        //     if (month === 12) {
-        //         let year = current.getFullYear() + 1;
-        //         fromDate = "1/01/" + year;
-        //         toDate = "1/02/" + year;
-        //     }
-        //     else {
-        //         month += 1;
-        //         fromDate = "1/" + month + "/" + current.getFullYear();
-        //         if (month === 12) {
-        //             let year = current.getFullYear() + 1;
-        //             toDate = "1/01/" + year;
-        //         } else {
-        //             month += 1;
-        //             toDate = "1/" + month + "/" + current.getFullYear();
-        //         }
-        //     }
+        if (param === "btnThisMonth") {
+            fromDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 12) {
+                let year = current.getFullYear() + 1;
+                toDate = "1/01/" + year;
+            } else {
+                month += 1;
+                toDate = "1/" + month + "/" + current.getFullYear()
+            }
+        } else if (param === "btnLast") {
+            toDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 1) {
+                let year = current.getFullYear() - 1;
+                fromDate = "1/12/" + year;
+            } else {
+                month = month - 1;
+                fromDate = "1/" + month + "/" + current.getFullYear();
+            }
+        } else if (param === "btnNext") {
+            if (month === 12) {
+                let year = current.getFullYear() + 1;
+                fromDate = "1/01/" + year;
+                toDate = "1/02/" + year;
+            }
+            else {
+                month += 1;
+                fromDate = "1/" + month + "/" + current.getFullYear();
+                if (month === 12) {
+                    let year = current.getFullYear() + 1;
+                    toDate = "1/01/" + year;
+                } else {
+                    month += 1;
+                    toDate = "1/" + month + "/" + current.getFullYear();
+                }
+            }
 
-        // } else if (param === "btnCustomDate") {
-        //     let selectedMonth = document.getElementById('monthSelector').value;
-        //     let selectedYear = document.getElementById('yearSelector').value;
-        //     fromDate = "1/" + selectedMonth + "/" + selectedYear;
-        //     if (month === 12) {
-        //         let year = parseInt(selectedYear) + 1;
-        //         toDate = "1/01/" + year;
-        //     } else {
-        //         month += 1;
-        //         toDate = "1/" + month + "/" + selectedYear;
-        //     }
-        // }
-        // console.log("fromDate " + fromDate);
-        // console.log("toDate " + toDate);
-        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal"
+        } else if (param === "btnCustomDate") {
+            let selectedMonth = document.getElementById('monthSelector').value;
+            let selectedYear = document.getElementById('yearSelector').value;
+            fromDate = "1/" + selectedMonth + "/" + selectedYear;
+            if (month === 12) {
+                let year = parseInt(selectedYear) + 1;
+                toDate = "1/01/" + year;
+            } else {
+                month += 1;
+                toDate = "1/" + month + "/" + selectedYear;
+            }
+        }
+        console.log("fromDate " + fromDate);
+        console.log("toDate " + toDate);
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal"
 
 
         console.log("url=" + url);
@@ -104,23 +104,6 @@ const Payments = () => {
             .catch((error) => {
                 setPaymentList(null);
                 console.log("PaymentList set to null");
-            });
-
-    }
-
-    const downloadSR = event => {
-        event.preventDefault();
-        let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Service&documentId=" + event.currentTarget.name;
-
-        Axios
-            .get(srcopyurl)
-            .then((response) => response.data)
-            .then((json) => {
-                console.log('json', json.pdfUrl);
-                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
-            })
-            .catch((error) => {
-                console.log(error);
             });
 
     }

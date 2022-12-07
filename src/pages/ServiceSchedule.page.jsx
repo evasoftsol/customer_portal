@@ -21,7 +21,6 @@ const ServiceSchedule = () => {
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
-    let customerId = localStorage.getItem("customerId");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
@@ -31,68 +30,68 @@ const ServiceSchedule = () => {
 
     const getServiceList = (param) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=2/12/2022&toDate=2/12/2022&apiCallfrom=CustomerPortal";
-        let url = "";
-        console.log("selectedDateFilter " + param);
+        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallfrom=CustomerPortal";
+        // let url = "";
+        // console.log("selectedDateFilter " + param);
 
-        const current = new Date();
-        let month = current.getMonth() + 1;
-        let fromDate = "";
-        let toDate = "";
+        // const current = new Date();
+        // let month = current.getMonth() + 1;
+        // let fromDate = "";
+        // let toDate = "";
 
 
-        if (param === "btnThisMonth") {
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear()
-            }
-        } else if (param === "btnLast") {
-            toDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 1) {
-                let year = current.getFullYear() - 1;
-                fromDate = "1/12/" + year;
-            } else {
-                month = month - 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-            }
-        } else if (param === "btnNext") {
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                fromDate = "1/01/" + year;
-                toDate = "1/02/" + year;
-            }
-            else {
-                month += 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-                if (month === 12) {
-                    let year = current.getFullYear() + 1;
-                    toDate = "1/01/" + year;
-                } else {
-                    month += 1;
-                    toDate = "1/" + month + "/" + current.getFullYear();
-                }
-            }
+        // if (param === "btnThisMonth") {
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear()
+        //     }
+        // } else if (param === "btnLast") {
+        //     toDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 1) {
+        //         let year = current.getFullYear() - 1;
+        //         fromDate = "1/12/" + year;
+        //     } else {
+        //         month = month - 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // } else if (param === "btnNext") {
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         fromDate = "1/01/" + year;
+        //         toDate = "1/02/" + year;
+        //     }
+        //     else {
+        //         month += 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //         if (month === 12) {
+        //             let year = current.getFullYear() + 1;
+        //             toDate = "1/01/" + year;
+        //         } else {
+        //             month += 1;
+        //             toDate = "1/" + month + "/" + current.getFullYear();
+        //         }
+        //     }
 
-        } else if (param === "btnCustomDate") {
+        // } else if (param === "btnCustomDate") {
 
-            let selectedMonth = document.getElementById('monthSelector').value;
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            if (month === 12) {
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + selectedYear;
-            }
-        }
-        console.log("fromDate " + fromDate);
-        console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
+        //     let selectedMonth = document.getElementById('monthSelector').value;
+        //     let selectedYear = document.getElementById('yearSelector').value;
+        //     fromDate = "1/" + selectedMonth + "/" + selectedYear;
+        //     if (month === 12) {
+        //         let year = parseInt(selectedYear) + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + selectedYear;
+        //     }
+        // }
+        // console.log("fromDate " + fromDate);
+        // console.log("toDate " + toDate);
+        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
 
 
         console.log("url=" + url);
@@ -166,7 +165,7 @@ const ServiceSchedule = () => {
     }
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
+            <div className='flex ml-5 sm:ml-10 sm:flex-row flex-col gap-2 justify-between mb-3 w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Service Schedule</div>
                 <div className="flex gap-3">
                     <label htmlFor='CustomerBranchDropDown' className='hidden sm:inline-flex'>Select Branch :</label>
@@ -193,19 +192,19 @@ const ServiceSchedule = () => {
                     )}
                 </div>
             </div>
-            <div className='flex flex-col gap-2 w-full h-full ml-10'>
+            <div className='flex flex-col gap-2 w-full h-full ml-5 sm:ml-10'>
 
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">Service ID</th>
-                            <th className="py-8 px-2">Service Branch</th>
-                            <th className="py-8 px-2">Date</th>
-                            <th className="py-8 px-2">Name</th>
-                            <th className="py-8 px-2">Status</th>
-                            <th className="py-8 px-2">Action</th>
-                            <th className="py-8 px-2">Rating</th>
+                            <th className="py-4 sm:py-8 px-2">Service ID</th>
+                            <th className="py-4 sm:py-8 px-2">Service Branch</th>
+                            <th className="py-4 sm:py-8 px-2">Date</th>
+                            <th className="py-4 sm:py-8 px-2">Name</th>
+                            <th className="py-4 sm:py-8 px-2">Status</th>
+                            <th className="py-4 sm:py-8 px-2">Action</th>
+                            <th className="py-4 sm:py-8 px-2">Rating</th>
                         </tr>
                     </thead>
                     <ServicesTable serviceList={currentPosts} loading={loading} />
@@ -324,21 +323,21 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         }
     }
     return (
-        <nav className='flex flex-row gap-5 justify-between w-11/12'>
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+        <nav className='flex flex-row gap:1 sm:gap-5 justify-between w-11/12'>
+            <button className="px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
                     pageNumbers.map(number => (number >= firstPage && number <= lastPage ?
                         (<li key={number} className=" mt-1">
-                            <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-3 py-1 ">
+                            <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-1 sm:px-3 py-1 ">
                                 {number}
                             </a>
                         </li>) : (<></>)
                     ))
                 }
             </ul >
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+            <button className="px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
         </nav >
     )
 }

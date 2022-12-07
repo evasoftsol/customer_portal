@@ -3,7 +3,6 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 
 //HOC layouts
-import MainPage from './pages/MainPage.page';
 import Login from './pages/Login.page';
 import ServiceSchedule from './pages/ServiceSchedule.page';
 import Payments from './pages/Payments.page';
