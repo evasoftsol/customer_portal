@@ -59,8 +59,7 @@ const Payments = () => {
                 let year = current.getFullYear() + 1;
                 fromDate = "1/01/" + year;
                 toDate = "1/02/" + year;
-            }
-            else {
+            } else {
                 month += 1;
                 fromDate = "1/" + month + "/" + current.getFullYear();
                 if (month === 12) {
@@ -73,15 +72,30 @@ const Payments = () => {
             }
 
         } else if (param === "btnCustomDate") {
-            let selectedMonth = document.getElementById('monthSelector').value;
+
+            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
             let selectedYear = document.getElementById('yearSelector').value;
             fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            if (month === 12) {
+            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
+            if (selectedMonth === 12) {
+                console.log("selectedMonth === 12")
                 let year = parseInt(selectedYear) + 1;
                 toDate = "1/01/" + year;
             } else {
+                selectedMonth += 1;
+                toDate = "1/" + selectedMonth + "/" + selectedYear;
+            }
+        }
+        else {
+            console.log("in else part")
+            fromDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 12) {
+                console.log("month === 12")
+                let year = current.getFullYear() + 1;
+                toDate = "1/01/" + year;
+            } else {
                 month += 1;
-                toDate = "1/" + month + "/" + selectedYear;
+                toDate = "1/" + month + "/" + current.getFullYear();
             }
         }
         console.log("fromDate " + fromDate);

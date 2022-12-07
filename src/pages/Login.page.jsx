@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from 'axios';
 // import BaseHoc from "../hoc/BaseHoc";
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 //imported images 
 import bgimageblue from '../images/bg-login-mobile.jpg'
 import bgsignin from '../images/bg-login-sign-in.jpg'
@@ -216,7 +216,7 @@ const Login = () => {
             .then((json) => {
                 console.log("branches fetched successfully")
                 const customerBranchdata = json;
-                var brancharr = ["--select--"]
+                var brancharr = ["--select--", "Main Branch"]
                 customerBranchdata.map(branch => {
                     brancharr.push(branch.customerBranchName);
                 })
@@ -232,14 +232,14 @@ const Login = () => {
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >
             <div className="block md:hidden h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
-                <div className="w-full h-full flex flex-col justify-center align-center">
-                    <div className="w-full flex justify-center"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>
-                    <div className="text-center w-full text-white text-3xl">Welcome to our CRM top</div>
+                <div className="w-full h-full flex flex-col justify-center align-center ">
+                    <div className="w-full flex justify-center mt-4"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>
+                    <div className="text-center w-full text-white text-3xl">Welcome to our CRM</div>
                     <div className="text-center w-full text-white text-xl ">Enter your details to proceed further</div>
                 </div>
             </div >
             <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t md:h-75% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
-                <div className="  h-50% bg-white rounded-r-lg   w-full sm:h-full sm:w-6/12" >
+                <div className="  h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg   w-full sm:h-full sm:w-6/12" >
                     <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[60%]">
                         <p className="text-3xl">Welcome to our CRM.</p>
                         <p className="text-3xl">Sign In to see latest updates.</p>

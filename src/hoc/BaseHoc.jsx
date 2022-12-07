@@ -52,12 +52,13 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
                         </div>
                         {route === "/services" ?
-                            (<div className="w-full border-r-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/services" >Service Schedule</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                            (
+                                <div className="w-full border-r-2 border-sky-600">{console.log("in service route 1st condition")}
+                                    <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                        <div className="!text-xl"><ImClipboard /></div>
+                                        <Link to="/services" >Service Schedule</Link>
+                                    </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">{console.log("in service route 2nd condition")}
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/services" >Service Schedule</Link>
                             </div>)}
@@ -110,11 +111,11 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             (<div className="w-full border-r-2 border-sky-600">
                                 <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                     <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/projects" >Project</Link>
+                                    <Link to="/projects" >Attendance & Payroll</Link>
                                 </div></div>) :
                             (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/projects" >Project</Link>
+                                <Link to="/projects" >Attendance & Payroll</Link>
                             </div>)}
 
                         <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">

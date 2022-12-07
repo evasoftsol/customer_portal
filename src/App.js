@@ -7,7 +7,7 @@ import Login from './pages/Login.page';
 import ServiceSchedule from './pages/ServiceSchedule.page';
 import Payments from './pages/Payments.page';
 import Complaints from './pages/Complaints.page';
-import Projects from './pages/Project.page'
+import AttendanceAndPayroll from './pages/AttendanceAndPayroll.page'
 import Contracts from './pages/Contracts.page'
 import Renewals from './pages/Renewals.page';
 // import BaseHoc from './hoc/BaseHoc';
@@ -21,7 +21,7 @@ function App() {
       <Route path="/services" element={<ServiceSchedule />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/complaints" element={<Complaints />} />
-      <Route path="/projects" element={<Projects />} />
+      <Route path="/projects" element={<AttendanceAndPayroll />} />
       <Route path="/contracts" element={<Contracts />} />
       <Route path="/renewals" element={<Renewals />} />
     </Routes>

@@ -46,22 +46,44 @@ const ContractsTable = ({ contractList, loading }) => {
             });
 
     }
+    const getProductList = (prodList) => {
+
+        let productArr = JSON.parse(prodList);
+
+        let productNameList = productArr.map(product => {
+            return product.serviceProduct.productName
+        })
+        console.log(productNameList);
+
+        // let htmltext = "";
+        // productNameList.forEach(element => {
+        //     htmltext += "<p>" + element + "</p>"
+        // });
+        return productNameList;
+    }
     return (
         <tbody className="text-sm mx-4">
             {
 
                 contractList.map(contract => (
                     <tr key={contract.contractId}>
-                        <td className="px-2 py-2">{contract.contractId}</td>
-                        <td className="px-2 py-2">{
+                        <td className="px-2 py-2 align-top ">{contract.contractId}</td>
+                        <td className="px-2 py-2 align-top">
+                            <>
+                                {
+                                    getProductList(contract.productList).map(p => {
+                                        return <p>{p}</p>;
+                                    })
 
-                            "product"
-                        }</td>
-                        <td className="px-2 py-2">{contract.contrctStartDate}</td>
-                        <td className="px-2 py-2">{contract.contractEndDate}</td>
-                        <td className="px-2 py-2">{contract.netPayable}</td>
-                        <td className="px-2 py-2"><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
-                        <td className="px-2 py-2"><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td>
+                                }
+
+                            </>
+                        </td>
+                        <td className="px-2 py-2 align-top">{contract.contrctStartDate}</td>
+                        <td className="px-2 py-2 align-top">{contract.contractEndDate}</td>
+                        <td className="px-2 py-2 align-top">{contract.netPayable}</td>
+                        <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
+                        <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td>
                     </tr>
 
                 ))}

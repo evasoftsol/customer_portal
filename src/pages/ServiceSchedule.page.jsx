@@ -17,6 +17,7 @@ const ServiceSchedule = () => {
     const [postsPerPage] = useState(10);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
+    // const [filterData, setFilterDate] = useState({ dateFilter: "btnThisMonth", branchFilter: "--Select--" });
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
@@ -25,14 +26,14 @@ const ServiceSchedule = () => {
     console.log("currentPage=" + currentPage)
     useEffect(() => {
         console.log("in useEffect");
-        getServiceList("btnThisMonth");
+        getServiceList("", "");
     }, []);
 
-    const getServiceList = (param) => {
+    const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
         // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallfrom=CustomerPortal";
         let url = "";
-        console.log("selectedDateFilter " + param);
+        console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
 
         const current = new Date();
         let month = current.getMonth() + 1;
@@ -40,7 +41,7 @@ const ServiceSchedule = () => {
         let toDate = "";
 
 
-        if (param === "btnThisMonth") {
+        if (selectedDateFilter === "btnThisMonth") {
             fromDate = "1/" + month + "/" + current.getFullYear();
             if (month === 12) {
                 let year = current.getFullYear() + 1;
@@ -49,7 +50,7 @@ const ServiceSchedule = () => {
                 month += 1;
                 toDate = "1/" + month + "/" + current.getFullYear()
             }
-        } else if (param === "btnLast") {
+        } else if (selectedDateFilter === "btnLast") {
             toDate = "1/" + month + "/" + current.getFullYear();
             if (month === 1) {
                 let year = current.getFullYear() - 1;
@@ -58,13 +59,12 @@ const ServiceSchedule = () => {
                 month = month - 1;
                 fromDate = "1/" + month + "/" + current.getFullYear();
             }
-        } else if (param === "btnNext") {
+        } else if (selectedDateFilter === "btnNext") {
             if (month === 12) {
                 let year = current.getFullYear() + 1;
                 fromDate = "1/01/" + year;
                 toDate = "1/02/" + year;
-            }
-            else {
+            } else {
                 month += 1;
                 fromDate = "1/" + month + "/" + current.getFullYear();
                 if (month === 12) {
@@ -76,17 +76,31 @@ const ServiceSchedule = () => {
                 }
             }
 
-        } else if (param === "btnCustomDate") {
+        } else if (selectedDateFilter === "btnCustomDate") {
 
-            let selectedMonth = document.getElementById('monthSelector').value;
+            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
             let selectedYear = document.getElementById('yearSelector').value;
             fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            if (month === 12) {
+            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
+            if (selectedMonth === 12) {
+                console.log("selectedMonth === 12")
                 let year = parseInt(selectedYear) + 1;
                 toDate = "1/01/" + year;
             } else {
+                selectedMonth += 1;
+                toDate = "1/" + selectedMonth + "/" + selectedYear;
+            }
+        }
+        else {
+            console.log("in else part")
+            fromDate = "1/" + month + "/" + current.getFullYear();
+            if (month === 12) {
+                console.log("month === 12")
+                let year = current.getFullYear() + 1;
+                toDate = "1/01/" + year;
+            } else {
                 month += 1;
-                toDate = "1/" + month + "/" + selectedYear;
+                toDate = "1/" + month + "/" + current.getFullYear();
             }
         }
         console.log("fromDate " + fromDate);
@@ -101,10 +115,23 @@ const ServiceSchedule = () => {
             .get(url)
             .then((response) => response.data)
             .then((json) => {
-                setServiceList(json)
-                console.log("result is set to servicelist");
-                setLoading(false);
 
+                localStorage.setItem("localServiceList", JSON.stringify(json));
+                if (selectedBranch !== "" && selectedBranch !== "--Select--") {
+                    let filteredServiceList = null;
+                    const serviceListCopy = json;
+                    filteredServiceList = serviceListCopy.filter(service => {
+                        return service.serviceBranch === selectedBranch;
+                    })
+                    console.log("filteredServiceList size=" + filteredServiceList.length);
+                    setServiceList(filteredServiceList);
+                    setLoading(false);
+                    console.log("filtered result is set to servicelist");
+                } else {
+                    setServiceList(json)
+                    setLoading(false)
+                    console.log("result is set to servicelist");
+                }
             })
             .catch((error) => {
                 setServiceList(null);
@@ -121,20 +148,53 @@ const ServiceSchedule = () => {
         if (event.currentTarget.id === "btnCustomDate") {
             setDateFilterVisible(false);
             setCustomDateFilterVisible(false);
-            getServiceList(event.currentTarget.id);
+            getServiceList("btnCustomDate", document.getElementById("CustomerBranchDropDown").value);
         } else {
             setDateFilterVisible(false);
-            getServiceList(event.currentTarget.id);
+            getServiceList(event.currentTarget.id, document.getElementById("CustomerBranchDropDown").value);
         }
     }
 
+    const applyBranchFilter = event => {
+        event.preventDefault();
+        let selectedbranch = "";
+        console.log("selected branch" + event.currentTarget.value);
+        if (event.currentTarget.value == "Main Branch") {
+            // setFilterDate({ ...filterData, branchFilter: "Service Address" });
+            selectedbranch = "Service Address";
+        } else {
+            // setFilterDate({ ...filterData, branchFilter: event.currentTarget.value });
+            selectedbranch = event.currentTarget.value;
+        }
+        // getServiceList();
 
-    if (!serviceList) return (<div>Loading......</div>)
+        let filteredServiceList = null;
+        console.log("selectedbranch=" + selectedbranch + "fetched service list size=" + serviceList.length);
+        const serviceListCopy = JSON.parse(localStorage.getItem("localServiceList"));
+        if (selectedbranch !== "--select--") {
+            console.log("in if (selectedbranch !== --Select--)");
+            filteredServiceList = serviceListCopy.filter(service => {
+                // if (service.serviceBranch === selectedbranch)
+                return service.serviceBranch === selectedbranch;
+            })
+        } else {
+            filteredServiceList = serviceListCopy;
+        }
+        console.log("filteredServiceList size=" + filteredServiceList.length);
+        setServiceList(filteredServiceList);
+    }
+
+
+
 
     // Get current posts
+
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = serviceList.slice(indexOfFirstPost, indexOfLastPost);
+    let currentPosts = null;
+    if (serviceList) {
+        currentPosts = serviceList.slice(indexOfFirstPost, indexOfLastPost);
+    }
 
 
     //change page
@@ -169,7 +229,7 @@ const ServiceSchedule = () => {
                 <div className="font-semibold text-xl">Service Schedule</div>
                 <div className="flex gap-3">
                     <label htmlFor='CustomerBranchDropDown' className='hidden sm:inline-flex'>Select Branch :</label>
-                    <select id="CustomerBranchDropDown" className='rounded-lg bg-white border border-gray-300 px-2'>
+                    <select id="CustomerBranchDropDown" onChange={applyBranchFilter} className='rounded-lg bg-white border border-gray-300 px-2'>
                         {
                             createItems()
                         }
@@ -207,13 +267,15 @@ const ServiceSchedule = () => {
                             <th className="py-4 sm:py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    <ServicesTable serviceList={currentPosts} loading={loading} />
+                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : ((<tbody><tr><div>Loading......</div></tr></tbody>))}
                 </table>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={serviceList.length}
-                    paginate={paginate}
-                />
+                {serviceList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={serviceList.length}
+                        paginate={paginate}
+                    />)
+                }
                 {customDateFilterVisible ? (
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
