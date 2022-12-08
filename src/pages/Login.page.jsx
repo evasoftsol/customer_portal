@@ -214,13 +214,16 @@ const Login = () => {
             .get(custBranchUrl)
             .then((response) => response.data)
             .then((json) => {
-                console.log("branches fetched successfully")
                 const customerBranchdata = json;
                 var brancharr = ["--select--", "Main Branch"]
-                customerBranchdata.map(branch => {
-                    brancharr.push(branch.customerBranchName);
-                })
-                console.log("lbrancharr size=" + brancharr.length);
+                if ('Failed' in customerBranchdata) {
+                    console.log(customerBranchdata.Failed);
+                } else {
+                    customerBranchdata.map(branch => {
+                        brancharr.push(branch.customerBranchName);
+                    })
+                }
+                console.log("brancharr size=" + brancharr.length);
                 localStorage.setItem("customerBranchList", brancharr);
                 console.log("customerBranchList=" + localStorage.getItem("customerBranchList"));
                 window.location.href = `/services`;
