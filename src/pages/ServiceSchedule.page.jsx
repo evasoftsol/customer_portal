@@ -31,7 +31,7 @@ const ServiceSchedule = () => {
 
     const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallfrom=CustomerPortal";
+        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
 
@@ -105,7 +105,7 @@ const ServiceSchedule = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal";
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
 
 
         console.log("url=" + url);
@@ -117,7 +117,7 @@ const ServiceSchedule = () => {
             .then((json) => {
 
                 localStorage.setItem("localServiceList", JSON.stringify(json));
-                if (selectedBranch !== "" && selectedBranch !== "--Select--") {
+                if (selectedBranch !== "" && selectedBranch !== "--select--") {
                     let filteredServiceList = null;
                     const serviceListCopy = json;
                     filteredServiceList = serviceListCopy.filter(service => {
@@ -267,7 +267,7 @@ const ServiceSchedule = () => {
                             <th className="py-4 sm:py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : ((<tbody><tr><div>Loading......</div></tr></tbody>))}
+                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
                 </table>
                 {serviceList && (
                     <Pagination
@@ -367,6 +367,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         pageNumbers.push(i);
     }
     const catalogNumbers = pageNumbers.length / 5;
+    console.log("catalogNumbers=" + catalogNumbers);
     const [currentCatalog, setCurrentCatalog] = useState(1);
     let lastPage = currentCatalog * 5;
     let firstPage = lastPage - 4;

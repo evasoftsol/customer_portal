@@ -110,9 +110,17 @@ const Contracts = () => {
             .get(url)
             .then((response) => response.data)
             .then((json) => {
-                setContractList(json)
-                console.log("result is set to ContractList");
-                setLoading(false);
+                console.log(json[0]);
+                if ('Message' in json[0]) {  //response [{"Message":"No Data found"}] 
+                    alert("message" + json[0].Message)
+                    setContractList(null);
+                    setLoading(false);
+                } else {
+                    setContractList(json)
+                    console.log("result is set to ContractList");
+                    setLoading(false);
+                }
+
 
             })
             .catch((error) => {
@@ -140,13 +148,17 @@ const Contracts = () => {
     }
 
 
-    if (!contractList) return (<div>Loading......</div>)
+
+    // if (!contractList) return (<div>No data found</div>)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = contractList.slice(indexOfFirstPost, indexOfLastPost);
 
+    let currentPosts = null;
+    if (contractList) {
+        currentPosts = contractList.slice(indexOfFirstPost, indexOfLastPost);
+    }
 
     //change page
     const paginate = (pageNumber) => {
@@ -200,13 +212,16 @@ const Contracts = () => {
                             <th className="py-8 px-2">Renew</th>
                         </tr>
                     </thead>
-                    <ContractsTable contractList={currentPosts} loading={loading} />
+                    {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
                 </table>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={contractList.length}
-                    paginate={paginate}
-                />
+                {contractList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={contractList.length}
+                        paginate={paginate}
+                    />)
+                }
+
                 {customDateFilterVisible ? (
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">

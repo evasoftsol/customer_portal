@@ -26,7 +26,7 @@ const Payments = () => {
 
     const getPaymentList = (param) => {
         console.log("in getPaymentList");
-        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/09/2022&toDate=21/12/2022&apiCallfrom=CustomerPortal";
+        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/09/2022&toDate=21/12/2022&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + param);
 
@@ -100,7 +100,7 @@ const Payments = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallfrom=CustomerPortal"
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Payment%20Details&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal"
 
 
         console.log("url=" + url);
