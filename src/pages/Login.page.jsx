@@ -184,6 +184,7 @@ const Login = () => {
             url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?authCode=5659313586569216&customerCellNo=" + mobileInfo + "&customerEmail=" + "";
         }
         console.log(url);
+
         if (url != "") {
             Axios
                 .get(url)

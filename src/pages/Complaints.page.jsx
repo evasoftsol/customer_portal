@@ -111,11 +111,18 @@ const Complaints = () => {
         setLoading(true);
         Axios
             .get(url)
-            .then((response) => response.data)
+            .then((response) => response.data)//[]
             .then((json) => {
-                setComplainList(json)
-                console.log("result is set to complainlist");
-                setLoading(false);
+                if (json.length === 0) {
+                    alert("No data found");
+                    setComplainList(null);
+                    setLoading(false);
+                } else {
+                    setComplainList(json)
+                    console.log("result is set to complainlist");
+                    setLoading(false);
+                }
+
 
             })
             .catch((error) => {
@@ -173,13 +180,15 @@ const Complaints = () => {
     }
 
 
-    if (!complainList) return (<div>Loading......</div>)
+    // if (!complainList) return (<div>Loading......</div>)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = complainList.slice(indexOfFirstPost, indexOfLastPost);
-
+    let currentPosts = null;
+    if (complainList) {
+        currentPosts = complainList.slice(indexOfFirstPost, indexOfLastPost);
+    }
 
     //change page
     const paginate = (pageNumber) => {
@@ -253,7 +262,7 @@ const Complaints = () => {
                 )}
 
             </div>
-            <div className='flex flex-col gap-2 w-full h-full ml-10'>
+            <div className='flex flex-col gap-2  ml-10'>{/* removed w-full h-full which removed vertical and horizontal scrollbars*/}
 
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
@@ -265,13 +274,14 @@ const Complaints = () => {
                             <th className="py-8 px-2">Description</th>
                         </tr>
                     </thead>
-                    <ComplainTable complainList={currentPosts} loading={loading} />
+                    {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
                 </table>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={complainList.length}
-                    paginate={paginate}
-                />
+                {complainList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={complainList.length}
+                        paginate={paginate}
+                    />)}
                 {customDateFilterVisible ? (
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -382,7 +392,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     return (
         <nav className='flex flex-row gap-5 justify-between w-11/12'>
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
@@ -395,7 +405,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
+
         </nav >
     )
 }

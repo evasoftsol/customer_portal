@@ -139,13 +139,15 @@ const Renewals = () => {
     }
 
 
-    if (!contractList) return (<div>Loading......</div>)
+    // if (!contractList) return (<div>Loading......</div>)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = contractList.slice(indexOfFirstPost, indexOfLastPost);
-
+    let currentPosts = null;
+    if (contractList) {
+        currentPosts = contractList.slice(indexOfFirstPost, indexOfLastPost);
+    }
 
     //change page
     const paginate = (pageNumber) => {
@@ -184,7 +186,7 @@ const Renewals = () => {
                     </div>
                 )}
             </div>
-            <div className='flex flex-col gap-2 w-full h-full ml-10'>
+            <div className='flex flex-col gap-2 ml-10'>
 
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
@@ -199,13 +201,15 @@ const Renewals = () => {
                             <th className="py-8 px-2">Renew</th>
                         </tr>
                     </thead>
-                    <ContractsTable contractList={currentPosts} loading={loading} />
+                    {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
                 </table>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={contractList.length}
-                    paginate={paginate}
-                />
+                {contractList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={contractList.length}
+                        paginate={paginate}
+                    />)
+                }
                 {customDateFilterVisible ? (
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -316,7 +320,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     return (
         <nav className='flex flex-row gap-5 justify-between w-11/12'>
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
@@ -329,7 +333,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
+
         </nav >
     )
 }

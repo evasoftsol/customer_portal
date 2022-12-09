@@ -45,6 +45,21 @@ const PaymentsTable = ({ paymentList, loading }) => {
             });
 
     }
+    const pay = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=5659313586569216&documentName=Invoice&documentId=" + event.currentTarget.name;
+
+        console.log("pay url=" + url);
+        Axios
+            .get(url)
+            .then((response) => {
+                window.open(response.data, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
     return (
         <tbody className="text-sm mx-4">
             {paymentList.map(payment => (
@@ -54,7 +69,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
                     <td className="px-2 py-2">{payment.paymentAmount}</td>
                     <td className="px-2 py-2">{
                         payment.status === "Created" ?
-                            (<button name={payment.paymentId} onClick={downloadPaySlip} className=" underline underline-offset-1 text-sky-600">Pay</button>) :
+                            (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) :
                             (payment.status === "Closed" ?
                                 (<button name={payment.paymentId} onClick={downloadPaySlip} className=" underline underline-offset-1 text-sky-600">Paid</button>) :
                                 (payment.status))

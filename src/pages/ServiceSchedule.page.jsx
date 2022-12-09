@@ -252,7 +252,7 @@ const ServiceSchedule = () => {
                     )}
                 </div>
             </div>
-            <div className='flex flex-col gap-2 w-full h-full ml-5 sm:ml-10'>
+            <div className='flex flex-col gap-2 ml-5 sm:ml-10'>
 
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
@@ -267,7 +267,16 @@ const ServiceSchedule = () => {
                             <th className="py-4 sm:py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
+                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></tr></tbody>) : (null))}
                 </table>
                 {serviceList && (
                     <Pagination
@@ -387,7 +396,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     return (
         <nav className='flex flex-row gap:1 sm:gap-5 justify-between w-11/12'>
-            <button className="px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
@@ -400,7 +409,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            <button className="px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+            {catalogNumbers > 1 ? (<button className="px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
+
         </nav >
     )
 }

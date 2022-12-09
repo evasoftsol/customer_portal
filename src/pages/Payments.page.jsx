@@ -108,11 +108,18 @@ const Payments = () => {
         setLoading(true);
         Axios
             .get(url)
-            .then((response) => response.data)
+            .then((response) => response.data)//[] 
             .then((json) => {
-                setPaymentList(json)
-                console.log("result is set to PaymentList");
-                setLoading(false);
+                if (json.length === 0) {
+                    alert("No data found");
+                    setPaymentList(null)
+                    setLoading(false);
+                } else {
+                    setPaymentList(json)
+                    console.log("result is set to PaymentList");
+                    setLoading(false);
+                }
+
 
             })
             .catch((error) => {
@@ -138,13 +145,16 @@ const Payments = () => {
     }
 
 
-    if (!paymentList) return (<div>Loading......</div>)
+    // if (!paymentList) return (<div>Loading......</div>)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = paymentList.slice(indexOfFirstPost, indexOfLastPost);
 
+    let currentPosts = null;
+    if (paymentList) {
+        currentPosts = paymentList.slice(indexOfFirstPost, indexOfLastPost);
+    }
 
     //change page
     const paginate = (pageNumber) => {
@@ -164,7 +174,7 @@ const Payments = () => {
 
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
+            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between mb-3 w-full sm:w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Payments</div>
                 <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
@@ -183,9 +193,9 @@ const Payments = () => {
                     </div>
                 )}
             </div>
-            <div className='flex flex-col gap-2 w-full h-full ml-10'>
+            <div className='flex flex-col gap-2  ml-10'>
 
-                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
+                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white sm:w-11/12" >
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
@@ -196,13 +206,15 @@ const Payments = () => {
                             <th className="py-8 px-2">Invoice</th>
                         </tr>
                     </thead>
-                    <PaymentsTable paymentList={currentPosts} loading={loading} />
+                    {paymentList ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
                 </table>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={paymentList.length}
-                    paginate={paginate}
-                />
+                {paymentList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={paymentList.length}
+                        paginate={paginate}
+                    />)
+                }
                 {customDateFilterVisible ? (
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -279,8 +291,6 @@ const Payments = () => {
 
                 ) : null}
             </div>
-
-
         </>
     )
 }
@@ -295,6 +305,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     const catalogNumbers = pageNumbers.length / 5;
     const [currentCatalog, setCurrentCatalog] = useState(1);
+    console.log("catalogNumbers " + catalogNumbers)
     let lastPage = currentCatalog * 5;
     let firstPage = lastPage - 4;
     const showPreviousPages = () => {
@@ -313,7 +324,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     return (
         <nav className='flex flex-row gap-5 justify-between w-11/12'>
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
+
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
@@ -326,7 +338,9 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            <button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>
+            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
+
+
         </nav >
     )
 }
