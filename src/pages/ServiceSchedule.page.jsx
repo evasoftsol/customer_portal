@@ -31,7 +31,7 @@ const ServiceSchedule = () => {
 
     const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallFrom=CustomerPortal";
+        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2017&toDate=3/12/2017&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
 
@@ -116,21 +116,28 @@ const ServiceSchedule = () => {
             .then((response) => response.data)
             .then((json) => {
 
-                localStorage.setItem("localServiceList", JSON.stringify(json));
-                if (selectedBranch !== "" && selectedBranch !== "--select--") {
-                    let filteredServiceList = null;
-                    const serviceListCopy = json;
-                    filteredServiceList = serviceListCopy.filter(service => {
-                        return service.serviceBranch === selectedBranch;
-                    })
-                    console.log("filteredServiceList size=" + filteredServiceList.length);
-                    setServiceList(filteredServiceList);
+                if (json.length === 0) {
+                    setServiceList(null);
+                    localStorage.setItem("localServiceList", null);
+                    console.log("empty response. service list set to null");
                     setLoading(false);
-                    console.log("filtered result is set to servicelist");
                 } else {
-                    setServiceList(json)
-                    setLoading(false)
-                    console.log("result is set to servicelist");
+                    localStorage.setItem("localServiceList", JSON.stringify(json));
+                    if (selectedBranch !== "" && selectedBranch !== "--select--") {
+                        let filteredServiceList = null;
+                        const serviceListCopy = json;
+                        filteredServiceList = serviceListCopy.filter(service => {
+                            return service.serviceBranch === selectedBranch;
+                        })
+                        console.log("filteredServiceList size=" + filteredServiceList.length);
+                        setServiceList(filteredServiceList);
+                        setLoading(false);
+                        console.log("filtered result is set to servicelist");
+                    } else {
+                        setServiceList(json)
+                        setLoading(false)
+                        console.log("result is set to servicelist");
+                    }
                 }
             })
             .catch((error) => {
@@ -267,7 +274,8 @@ const ServiceSchedule = () => {
                             <th className="py-4 sm:py-8 px-2">Rating</th>
                         </tr>
                     </thead>
-                    {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                    {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
+                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
                         <div
                             className="fixed inset-0 w-full h-full bg-black opacity-40"
                         ></div>
@@ -276,7 +284,7 @@ const ServiceSchedule = () => {
                                 <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                             </div>
                         </div>
-                    </div></tr></tbody>) : (null))}
+                    </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4'>No data found</td></tr></tbody>)))}
                 </table>
                 {serviceList && (
                     <Pagination

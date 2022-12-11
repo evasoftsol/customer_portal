@@ -12,7 +12,18 @@ const ServicesTable = ({ serviceList, loading }) => {
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
     if (loading) {
-        return <tr><td >Loading....</td></tr>;
+        return <tr><div className="fixed inset-0 z-10 overflow-y-auto">
+            <div
+                className="fixed inset-0 w-full h-full bg-black opacity-40"
+            ></div>
+            <div className="flex justify-center items-center min-h-screen">
+                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                </div>
+            </div>
+        </div></tr>;
+    } else {
+        console.log("serviceList in services table" + serviceList)
     }
 
     let appid = localStorage.getItem("appId");
@@ -245,41 +256,44 @@ const ServicesTable = ({ serviceList, loading }) => {
 
     return (
         <tbody className="text-sm mx-4">
-            {serviceList.map(service => (
-                <tr key={service.serviceId}>
-                    <td className="px-2 py-1 sm:py-2">{service.serviceId}</td>
-                    <td className="px-2 py-1 sm:py-2">{service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)} </td>
-                    <td className="px-2 py-1 sm:py-2" id={service.serviceId}>{service.serviceDate}</td>
-                    <td className="px-2 py-1 sm:py-2">{service.productName}</td>
-                    <td className="px-2 py-1 sm:py-2" >{service.status}</td>
-                    <td className="px-2 py-1 sm:py-2">
-                        {
-                            service.status === "Completed" ?
-                                (<button name={service.serviceId} onClick={downloadSR}><FcDownload /></button>) :
-                                (service.status === "Cancelled" || service.status === "Suspended" ? (null) : (<button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button>)
-                                )
+            {
+                serviceList !== null ? (serviceList.map(service => (
+                    <tr key={service.serviceId}>
+                        <td className="px-2 py-1 sm:py-2">{service.serviceId}</td>
+                        <td className="px-2 py-1 sm:py-2">{service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)} </td>
+                        <td className="px-2 py-1 sm:py-2" id={service.serviceId}>{service.serviceDate}</td>
+                        <td className="px-2 py-1 sm:py-2">{service.productName}</td>
+                        <td className="px-2 py-1 sm:py-2" >{service.status}</td>
+                        <td className="px-2 py-1 sm:py-2">
+                            {
+                                service.status === "Completed" ?
+                                    (<button name={service.serviceId} onClick={downloadSR}><FcDownload /></button>) :
+                                    (service.status === "Cancelled" || service.status === "Suspended" ? (null) : (<button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button>)
+                                    )
 
+                            }
+                            {/* <button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button> */}
+                        </td>
+                        <td className="px-2 py-1 sm:py-2 text-xs">{
+                            service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><FcFeedback className='text-xl' /></button>) : (
+
+                                service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :
+                                    (service.customerFeedback === "Average" ?
+                                        (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                        (service.customerFeedback === "Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                            (service.customerFeedback === "Very Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                                (service.customerFeedback === "Excellent" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) : ("")))))
+
+                            )) : (null)
                         }
-                        {/* <button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button> */}
-                    </td>
-                    <td className="px-2 py-1 sm:py-2 text-xs">{
-                        service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><FcFeedback className='text-xl' /></button>) : (
-
-                            service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :
-                                (service.customerFeedback === "Average" ?
-                                    (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
-                                    (service.customerFeedback === "Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
-                                        (service.customerFeedback === "Very Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
-                                            (service.customerFeedback === "Excellent" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) : ("")))))
-
-                        )) : (null)
-                    }
-                    </td>
+                        </td>
 
 
-                </tr>
+                    </tr>
 
-            ))}
+                ))) : (<tr>No data found</tr>)
+
+            }
             <tr><td>
                 {showReschedulePopup.visibility ? (
 
