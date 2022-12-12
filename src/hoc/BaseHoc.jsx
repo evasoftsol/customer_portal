@@ -61,7 +61,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                     {route === "/services" ?
                         (
                             <div className="w-full border-r-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                     <div className="!text-xl"><ImClipboard /></div>
                                     <Link to="/services" >Service Schedule</Link>
                                 </div></div>) :
@@ -72,7 +72,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                     {route === "/complaints" ?
                         (<div className="w-full border-r-2 border-sky-600">
-                            <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                            <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/complaints" >Complaints</Link>
                             </div></div>) :
@@ -83,7 +83,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                     {route === "/payments" ?
                         (<div className="w-full border-r-2 border-sky-600">
-                            <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                            <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/payments" >Payments</Link>
                             </div></div>) :
@@ -94,7 +94,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                     {route === "/contracts" ?
                         (<div className="w-full border-r-2 border-sky-600">
-                            <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                            <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/contracts" >Contracts</Link>
                             </div></div>) :
@@ -105,7 +105,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                     {route === "/renewals" ?
                         (<div className="w-full border-r-2 border-sky-600">
-                            <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                            <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/renewals" >Renewals</Link>
                             </div></div>) :
@@ -116,7 +116,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                     {route === "/projects" ?
                         (<div className="w-full border-r-2 border-sky-600">
-                            <div className="hover:text-black !text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                            <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
                                 <Link to="/projects" >Attendance & Payroll</Link>
                             </div></div>) :
@@ -133,7 +133,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                 {/* Navbar for Mobile screen */}
-                <div className="absolute bottom-0 flex flex-row justify-between align-center gap-2 w-full h-16 sm:hidden bg-white text-[#8181A5] " >
+                <div className="absolute bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-16 sm:hidden bg-white text-[#8181A5] " >
                     {/* <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src="https://my-dot-evadev0006.appspot.com/slick_erp/getimage?width=50&height=50" alt="company logo" className="w-40 " />
                         </div> */}
@@ -247,7 +247,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                 </div>
-                <div className=" h-full sm:w-10/12 bg-[#EFF2FE]">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
+                <div className="w-screen h-full sm:w-10/12 bg-[#EFF2FE]">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
                     <Component {...props} />
                 </div>
             </div >

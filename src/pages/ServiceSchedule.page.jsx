@@ -31,7 +31,7 @@ const ServiceSchedule = () => {
 
     const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2017&toDate=3/12/2017&apiCallFrom=CustomerPortal";
+        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
 
@@ -193,7 +193,6 @@ const ServiceSchedule = () => {
 
 
 
-
     // Get current posts
 
     const indexOfLastPost = currentPage * postsPerPage;
@@ -232,7 +231,7 @@ const ServiceSchedule = () => {
     }
     return (
         <>
-            <div className='flex ml-5 sm:ml-10 sm:flex-row flex-col gap-2 justify-between mb-3 w-11/12 relative my-5'>
+            <div className='flex ml-5 sm:ml-10 sm:flex-row flex-col gap-20 justify-start sm:justify-between mb-3 w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Service Schedule</div>
                 <div className="flex gap-3">
                     <label htmlFor='CustomerBranchDropDown' className='hidden sm:inline-flex'>Select Branch :</label>
@@ -261,17 +260,17 @@ const ServiceSchedule = () => {
             </div>
             <div className='flex flex-col gap-2 ml-5 sm:ml-10'>
 
-                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
+                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 overflow-x-auto" >
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-4 sm:py-8 px-2">Service ID</th>
-                            <th className="py-4 sm:py-8 px-2">Service Branch</th>
-                            <th className="py-4 sm:py-8 px-2">Date</th>
-                            <th className="py-4 sm:py-8 px-2">Name</th>
-                            <th className="py-4 sm:py-8 px-2">Status</th>
-                            <th className="py-4 sm:py-8 px-2">Action</th>
-                            <th className="py-4 sm:py-8 px-2">Rating</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Service ID</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Service Branch</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Date</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Name</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Status</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Action</th>
+                            <th className="py-4 sm:py-8 px-2 align-top">Rating</th>
                         </tr>
                     </thead>
                     {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
@@ -284,7 +283,8 @@ const ServiceSchedule = () => {
                                 <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                             </div>
                         </div>
-                    </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4'>No data found</td></tr></tbody>)))}
+                    </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
+                        <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                 </table>
                 {serviceList && (
                     <Pagination
@@ -388,6 +388,11 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     const [currentCatalog, setCurrentCatalog] = useState(1);
     let lastPage = currentCatalog * 5;
     let firstPage = lastPage - 4;
+    if (catalogNumbers > 1) {
+        console.log("more than one catalog")
+    } else {
+        console.log("single catalog")
+    }
     const showPreviousPages = () => {
         console.log("in showPreviousPages currentCatalog=" + currentCatalog)
         if (currentCatalog > 1) {

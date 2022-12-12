@@ -29,7 +29,7 @@ const Complaints = () => {
 
     const getComplainList = (param) => {
         console.log("in getComplainList");
-        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Complain%20Dashboard&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=01/12/2021&toDate=21/12/2022&apiCallFrom=CustomerPortal";
+        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Complain%20Dashboard&authCode=5659313586569216&customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=01/12/2024&toDate=21/12/2024&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + param);
 
@@ -114,8 +114,9 @@ const Complaints = () => {
             .then((response) => response.data)//[]
             .then((json) => {
                 if (json.length === 0) {
-                    alert("No data found");
+                    // alert("No data found");
                     setComplainList(null);
+                    console.log("No data found. complain list set to null");
                     setLoading(false);
                 } else {
                     setComplainList(json)
@@ -143,8 +144,9 @@ const Complaints = () => {
         dueDate.setDate(dueDate.getDate() + 2);
         let month = dueDate.getMonth() + 1;
         let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
+        let companyBranch = localStorage.getItem("companyBranch");
 
-        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"","customerId":"' + customerId + '","description":"' + description + '","personResponsible":"","branch":"","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
+        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"","customerId":"' + customerId + '","description":"' + description + '","personResponsible":"","branch":"' + companyBranch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
 
 
         let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
@@ -155,6 +157,7 @@ const Complaints = () => {
             .then((response) => {
                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                 setCreateComplainPopup(false);
+                getComplainList("btnThisMonth");
             })
             .catch((error) => {
                 console.log(error);
@@ -208,7 +211,7 @@ const Complaints = () => {
 
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between w-11/12 relative my-5'>
+            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Complaints</div>
                 <div className="flex gap-10">
                     <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
@@ -267,14 +270,24 @@ const Complaints = () => {
                 <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
                     <thead className="bg-red">
-                        <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">ID</th>
-                            <th className="py-8 px-2">Date</th>
-                            <th className="py-8 px-2">Status</th>
-                            <th className="py-8 px-2">Description</th>
+                        <tr className="text-left text-[#8181A5] text-sm w-full ">
+                            <th className="py-2 sm:py-8 px-2 align-top ">ID</th>
+                            <th className="py-2 sm:py-8 px-2 align-top ">Date</th>
+                            <th className="py-2 sm:py-8 px-2 align-top ">Status</th>
+                            <th className="py-2 sm:py-8 px-2 align-top ">Description</th>
                         </tr>
                     </thead>
-                    {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
+                    {/* {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
+                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></tr></tbody>) : (complainList !== null ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="4">No data found</td></tr></tbody>)))}
                 </table>
                 {complainList && (
                     <Pagination

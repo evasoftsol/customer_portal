@@ -198,6 +198,8 @@ const Login = () => {
                     localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
                     localStorage.setItem("appId", appid);
+                    localStorage.setItem("companyBranch", json.branch);
+
                     loadCustomerBranches();
                     // window.location.href = `/services`;
                 })

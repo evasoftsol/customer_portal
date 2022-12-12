@@ -100,7 +100,7 @@ const Renewals = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/10/2023&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
 
 
         console.log("url=" + url);
@@ -110,9 +110,15 @@ const Renewals = () => {
             .get(url)
             .then((response) => response.data)
             .then((json) => {
-                setContractList(json)
-                console.log("result is set to ContractList");
-                setLoading(false);
+                if ('Message' in json[0]) {  //response [{"Message":"No Data found"}] 
+                    // alert("message" + json[0].Message)
+                    setContractList(null);
+                    setLoading(false);
+                } else {
+                    setContractList(json)
+                    console.log("result is set to ContractList");
+                    setLoading(false);
+                }
             })
             .catch((error) => {
                 setContractList(null);
@@ -167,7 +173,7 @@ const Renewals = () => {
 
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
+            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between mb-3 w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Renewals</div>
                 <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
@@ -192,16 +198,26 @@ const Renewals = () => {
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">Contract ID</th>
-                            <th className="py-8 px-2">Product</th>
-                            <th className="py-8 px-2">Start Date</th>
-                            <th className="py-8 px-2">End Date</th>
-                            <th className="py-8 px-2">Amount</th>
-                            <th className="py-8 px-2">Print</th>
-                            <th className="py-8 px-2">Renew</th>
+                            <th className="py-8 px-2 align-top">Contract ID</th>
+                            <th className="py-8 px-2 align-top">Product</th>
+                            <th className="py-8 px-2 align-top">Start Date</th>
+                            <th className="py-8 px-2 align-top">End Date</th>
+                            <th className="py-8 px-2 align-top">Amount</th>
+                            <th className="py-8 px-2 align-top">Print</th>
+                            <th className="py-8 px-2 align-top">Renew</th>
                         </tr>
                     </thead>
-                    {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
+                    {/* {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
+                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                 </table>
                 {contractList && (
                     <Pagination
@@ -255,7 +271,7 @@ const Renewals = () => {
                                             <option value="2024">2024</option>
                                             <option value="2025">2025</option>
                                             <option value="2026">2026</option>
-                                            <option value="2026">2027</option>
+                                            <option value="2027">2027</option>
                                         </select>
 
                                     </div>

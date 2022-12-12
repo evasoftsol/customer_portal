@@ -14,11 +14,11 @@ const ComplainTable = ({ complainList, loading }) => {
     return (
         <tbody className="text-sm mx-4">
             {complainList.map(complain => (
-                <tr key={complain.count}>
-                    <td className="px-2 py-2">{complain.count}</td>
-                    <td className="px-2 py-2">{complain.complainDate}</td>
-                    <td className="px-2 py-2">{complain.compStatus}</td>
-                    <td className="px-2 py-2">{complain.description}</td>
+                <tr key={complain.count} >
+                    <td className="px-2 py-2 ">{complain.count}</td>
+                    <td className="px-2 py-2 ">{complain.complainDate}</td>
+                    <td className="px-2 py-2 ">{complain.compStatus}</td>
+                    <td className="px-2 py-2 ">{complain.description}</td>
                 </tr>
 
             ))}

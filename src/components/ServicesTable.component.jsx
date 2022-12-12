@@ -3,6 +3,9 @@ import { FcDownload } from 'react-icons/fc';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FcFeedback } from 'react-icons/fc';
 import { FaStar } from 'react-icons/fa'
+import { FcCancel } from 'react-icons/fc'
+import { MdSchedule } from 'react-icons/md'
+import { TiTick } from 'react-icons/ti'
 import Axios from 'axios';
 
 
@@ -187,12 +190,12 @@ const ServicesTable = ({ serviceList, loading }) => {
         }
         let rating = currentValue * 2;
         const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark;
-
+        let serviceObj = null;
         Axios.get(url).then(
             (response) => {
                 console.log("response=" + response.status + " " + response.statusText)
                 if (response.status === 200) {
-                    alert("Feedback submitted successfully!");
+                    // alert("Feedback submitted successfully!");
                     const updatedServiceList = serviceList.filter(service => {
                         if (service.serviceId == showRatingPopup.serviceId) {
                             if (currentValue === 1)
@@ -205,6 +208,8 @@ const ServicesTable = ({ serviceList, loading }) => {
                                 service.customerFeedback = "Very Good";
                             else if (currentValue === 5)
                                 service.customerFeedback = "Excellent";
+                            serviceObj = service;
+                            console.log("serviceObj=" + serviceObj);
                             return service;
                         } else {
                             return service;
@@ -219,7 +224,8 @@ const ServicesTable = ({ serviceList, loading }) => {
                         let month = dueDate.getMonth() + 1;
                         let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
 
-                        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
+
+                        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"' + serviceObj.branch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":"","productId":"' + serviceObj.productId + '","productName":"' + serviceObj.productName + '","customerBranch":"' + serviceObj.serviceBranch + '","contractId":"' + serviceObj.contractId + '"}';
 
 
                         let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
@@ -244,8 +250,10 @@ const ServicesTable = ({ serviceList, loading }) => {
                     // document.getElementById(showRatingPopup.serviceId).nextSibling.nextSibling.nextSibling.innerHTML = updatedStars;
                 } else
                     alert("Try to submit again!");
-                if (currentValue > 2)
+                if (currentValue > 2) {
+                    alert("Feedback submitted successfully!");
                     setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                }
             }
         ).catch((exception) => {
             console.log("Error is" + exception);

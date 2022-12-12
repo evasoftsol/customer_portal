@@ -112,7 +112,7 @@ const Contracts = () => {
             .then((json) => {
                 console.log(json[0]);
                 if ('Message' in json[0]) {  //response [{"Message":"No Data found"}] 
-                    alert("message" + json[0].Message)
+                    // alert("message" + json[0].Message)
                     setContractList(null);
                     setLoading(false);
                 } else {
@@ -178,7 +178,7 @@ const Contracts = () => {
 
     return (
         <>
-            <div className='flex ml-10 flex-row justify-between mb-3 w-11/12 relative my-5'>
+            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between mb-3 w-11/12 relative my-5'>
                 <div className="font-semibold text-xl">Contracts</div>
                 <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
@@ -199,20 +199,30 @@ const Contracts = () => {
             </div>
             <div className='flex flex-col gap-2 ml-10'>
 
-                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
+                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 " >
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">Contract ID</th>
-                            <th className="py-8 px-2">Product</th>
-                            <th className="py-8 px-2">Start Date</th>
-                            <th className="py-8 px-2">End Date</th>
-                            <th className="py-8 px-2">Amount</th>
-                            <th className="py-8 px-2">Print</th>
-                            <th className="py-8 px-2">Renew</th>
+                            <th className="py-8 px-2 align-top">Contract ID</th>
+                            <th className="py-8 px-2 align-top">Product</th>
+                            <th className="py-8 px-2 align-top">Start Date</th>
+                            <th className="py-8 px-2 align-top">End Date</th>
+                            <th className="py-8 px-2 align-top">Amount</th>
+                            <th className="py-8 px-2 align-top">Print</th>
+                            <th className="py-8 px-2 align-top">Renew</th>
                         </tr>
                     </thead>
-                    {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
+                    {/* {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
+                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                 </table>
                 {contractList && (
                     <Pagination

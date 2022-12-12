@@ -111,7 +111,7 @@ const Payments = () => {
             .then((response) => response.data)//[] 
             .then((json) => {
                 if (json.length === 0) {
-                    alert("No data found");
+                    // alert("No data found");
                     setPaymentList(null)
                     setLoading(false);
                 } else {
@@ -199,14 +199,24 @@ const Payments = () => {
 
                     <thead className="bg-red">
                         <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2">Invoice ID</th>
-                            <th className="py-8 px-2">Date</th>
-                            <th className="py-8 px-2">Amount</th>
-                            <th className="py-8 px-2">Status</th>
-                            <th className="py-8 px-2">Invoice</th>
+                            <th className="py-8 px-2 align-top">Invoice ID</th>
+                            <th className="py-8 px-2 align-top">Date</th>
+                            <th className="py-8 px-2 align-top">Amount</th>
+                            <th className="py-8 px-2 align-top">Status</th>
+                            <th className="py-8 px-2 align-top">Invoice</th>
                         </tr>
                     </thead>
-                    {paymentList ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))}
+                    {/* {paymentList ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
+                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></tr></tbody>) : (paymentList !== null ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="5">No data found</td></tr></tbody>)))}
                 </table>
                 {paymentList && (
                     <Pagination
