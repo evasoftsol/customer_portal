@@ -26,7 +26,6 @@ const Login = () => {
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
     const [choice, setChoice] = useState("Email");
-    const [loading, setLoading] = useState(false);
     // const [appid, setAppId] = useState("my-dot-evadev0006");
 
     const { search } = useLocation();
@@ -124,17 +123,14 @@ const Login = () => {
             url = "https://" + appid + ".appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + mobileInfo + "&emailId=" + "" + "&applicationName=CustomerPortal&OTP=" + otp;
         }
         console.log(url);
-        setLoading(true);
         if (url != "") {
             Axios.get(url).then(
                 (response) => {
                     console.log(response.data);
                     alert(response.data + otp);
-                    setLoading(false);
                 }
             ).catch((exception) => {
                 console.log("Error is" + exception);
-                setLoading(false);
             })
         }
         // Email id not registered, contact your system administrator.
@@ -188,7 +184,7 @@ const Login = () => {
             url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + mobileInfo + "&customerEmail=" + "";
         }
         console.log(url);
-        setLoading(true);
+
         if (url != "") {
             Axios
                 .get(url)
@@ -207,12 +203,24 @@ const Login = () => {
 
 
                     loadCustomerBranches();
+                    // window.location.href = `/services`;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
 
+
+
         }
+        // localStorage.setItem("customerId", "100000347");
+        // localStorage.setItem("customerName", "UNIVERSAL SOMPO");
+        // localStorage.setItem("customerAddress", "ABC, Mumbai, Maharashtra, India");
+        // localStorage.setItem("customerEmail", "evasoftwaresolutionsdevelop@gmail.com");
+        // localStorage.setItem("customerCell", "9004245917");
+        // localStorage.setItem("appId", "my-dot-evadev0006");
+        // localStorage.setItem("companyBranch", "Vikhroli");
+        // localStorage.setItem("companyId", "NTY1OTMxMzU4NjU2OTIxNg==");
+        // loadCustomerBranches();
     }
 
     const loadCustomerBranches = () => {
@@ -236,27 +244,19 @@ const Login = () => {
                 console.log("brancharr size=" + brancharr.length);
                 localStorage.setItem("customerBranchList", brancharr);
                 console.log("customerBranchList=" + localStorage.getItem("customerBranchList"));
-                setLoading(false);
                 window.location.href = `/services`;
             })
             .catch((error) => {
                 console.log("customer branches set to null" + error);
-                setLoading(false);
             });
 
+        //temp use
+        // var brancharr = ["--select--", "Main Branch"];
+        // localStorage.setItem("customerBranchList", brancharr);
+        // window.location.href = `/services`;
     }
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >
-            {loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
-                <div
-                    className="fixed inset-0 w-full h-full bg-black opacity-40"
-                ></div>
-                <div className="flex justify-center items-center min-h-screen">
-                    <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
-                        <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
-                    </div>
-                </div>
-            </div></tr></tbody>) : (null)}
             <div className="block md:hidden h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="w-full h-full flex flex-col justify-center align-center ">
                     <div className="w-full flex justify-center mt-4"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>

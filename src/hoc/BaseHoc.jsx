@@ -133,7 +133,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                 {/* Navbar for Mobile screen */}
-                <div className="absolute bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-16 sm:hidden bg-white text-[#8181A5] " >
+                <div className="fixed bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-16 sm:hidden bg-white text-[#8181A5]" >
                     {/* <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src="https://my-dot-evadev0006.appspot.com/slick_erp/getimage?width=50&height=50" alt="company logo" className="w-40 " />
                         </div> */}
@@ -247,7 +247,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
 
                 </div>
-                <div className="w-screen h-full sm:w-10/12 bg-[#EFF2FE]">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
+                <div className="w-screen h-5/6 sm:h-full sm:w-10/12 bg-[#EFF2FE] overflow-y-auto">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
                     <Component {...props} />
                 </div>
             </div >
