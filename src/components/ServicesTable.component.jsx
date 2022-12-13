@@ -14,6 +14,7 @@ const ServicesTable = ({ serviceList, loading }) => {
     const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
+    let companyId = localStorage.getItem("companyId");
     if (loading) {
         return <tr><div className="fixed inset-0 z-10 overflow-y-auto">
             <div
@@ -38,7 +39,7 @@ const ServicesTable = ({ serviceList, loading }) => {
 
     const downloadSR = event => {
         event.preventDefault();
-        let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Service&documentId=" + event.currentTarget.name;
+        let srcopyurl = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Service&documentId=" + event.currentTarget.name;
 
         Axios
             .get(srcopyurl)
@@ -118,7 +119,7 @@ const ServicesTable = ({ serviceList, loading }) => {
             if (selectedDate < currentDate)
                 alert("You cannot schedule a service for past date");
             else {
-                let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=5659313586569216&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopup.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
+                let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopup.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
                 console.log(url);
 
                 Axios
@@ -225,7 +226,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                         let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
 
 
-                        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"' + serviceObj.branch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":"","productId":"' + serviceObj.productId + '","productName":"' + serviceObj.productName + '","customerBranch":"' + serviceObj.serviceBranch + '","contractId":"' + serviceObj.contractId + '"}';
+                        let data = '{"screenName":"createComplain","authCode":"' + companyId + '","apiCallFrom":"CustomerPortal","serviceId":"' + showRatingPopup.serviceId + '","customerId":"' + customerId + '","description":"' + remark + '","personResponsible":"","branch":"' + serviceObj.branch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":"","productId":"' + serviceObj.productId + '","productName":"' + serviceObj.productName + '","customerBranch":"' + serviceObj.serviceBranch + '","contractId":"' + serviceObj.contractId + '"}';
 
 
                         let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;

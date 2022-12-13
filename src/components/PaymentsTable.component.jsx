@@ -7,7 +7,7 @@ import Axios from 'axios';
 const PaymentsTable = ({ paymentList, loading }) => {
     // const [showReschedulePopup, setShowReschedulePopup] = useState({ serviceId: '', visibility: false });
     // const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
-
+    let companyId = localStorage.getItem("companyId");
     if (loading) {
         return <tr><td >Loading....</td></tr>;
     }
@@ -15,7 +15,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
     let appid = localStorage.getItem("appId");
     const downloadInvoice = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Invoice&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Invoice&documentId=" + event.currentTarget.name;
 
         Axios
             .get(url)
@@ -31,7 +31,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
     }
     const downloadPaySlip = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Payment&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Payment&documentId=" + event.currentTarget.name;
 
         Axios
             .get(url)
@@ -47,7 +47,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
     }
     const pay = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=5659313586569216&documentName=Invoice&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=" + companyId + "&documentName=Invoice&documentId=" + event.currentTarget.name;
 
         console.log("pay url=" + url);
         Axios

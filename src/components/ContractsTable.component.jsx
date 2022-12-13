@@ -9,7 +9,7 @@ import Axios from 'axios';
 const ContractsTable = ({ contractList, loading }) => {
     // const [showReschedulePopup, setShowReschedulePopup] = useState({ serviceId: '', visibility: false });
     // const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
-
+    let companyId = localStorage.getItem("companyId");
     if (loading) {
         return <tr><td >Loading....</td></tr>;
     }
@@ -17,7 +17,7 @@ const ContractsTable = ({ contractList, loading }) => {
     let appid = localStorage.getItem("appId");
     const downloadContract = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=5659313586569216&documentName=Contract&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Contract&documentId=" + event.currentTarget.name;
 
         Axios
             .get(url)
@@ -33,7 +33,7 @@ const ContractsTable = ({ contractList, loading }) => {
     }
     const renewContract = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=5659313586569216&documentName=Contract%20Renew&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=" + companyId + "&documentName=Contract%20Renew&documentId=" + event.currentTarget.name;
 
         console.log("renewal url=" + url);
         Axios

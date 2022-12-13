@@ -17,6 +17,7 @@ const Contracts = () => {
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
+    let companyId = localStorage.getItem("companyId");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
@@ -100,7 +101,7 @@ const Contracts = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
 
 
         console.log("url=" + url);

@@ -20,6 +20,7 @@ const Complaints = () => {
     let customerEmail = localStorage.getItem("customerEmail");
     let customerId = localStorage.getItem("customerId");
     let customerName = localStorage.getItem("customerName");
+    let companyId = localStorage.getItem("companyId");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
@@ -103,7 +104,7 @@ const Complaints = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Complain%20Dashboard&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Complain%20Dashboard&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
 
 
         console.log("url=" + url);
@@ -146,7 +147,7 @@ const Complaints = () => {
         let dateString = dueDate.getDate() + "-" + month + "-" + dueDate.getFullYear();
         let companyBranch = localStorage.getItem("companyBranch");
 
-        let data = '{"screenName":"createComplain","authCode":"5659313586569216","apiCallFrom":"CustomerPortal","serviceId":"","customerId":"' + customerId + '","description":"' + description + '","personResponsible":"","branch":"' + companyBranch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
+        let data = '{"screenName":"createComplain","authCode":"' + companyId + '","apiCallFrom":"CustomerPortal","serviceId":"","customerId":"' + customerId + '","description":"' + description + '","personResponsible":"","branch":"' + companyBranch + '","assignTo":"","dueDate":"' + dateString + '","callerName":"' + customerName + '","callerNo":"' + customerCell + '","callerEmail":"' + customerEmail + '","category":""}';
 
 
         let url = "https://" + appid + ".appspot.com/slick_erp/anylaticsDataCreation?data=" + data;
