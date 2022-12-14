@@ -223,7 +223,7 @@ const Contracts = () => {
                 </div>
                 <div className='flex flex-col gap-2 ml-10'>
 
-                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 " >
+                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12 " >
 
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm  ">
