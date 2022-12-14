@@ -138,7 +138,6 @@ const BaseHoc = (Component) => ({ ...props }) => {
                 </div>
                 {/* Navbar for Mobile screen */}
                 {/* <div className="fixed bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" > */}
-
                 <div className="flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" >
                     {/* <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src="https://my-dot-evadev0006.appspot.com/slick_erp/getimage?width=50&height=50" alt="company logo" className="w-40 " />

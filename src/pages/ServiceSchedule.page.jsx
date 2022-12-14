@@ -328,7 +328,7 @@ const ServiceSchedule = () => {
                             <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                     </table>
 
-                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-10/12  " >
+                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
 
                         <div className="flex flex-col gap-1 bg-white rounded-lg">
                             <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
@@ -678,7 +678,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     }
     return (
         // className = 'fixed bottom-0 flex flex-row justify-between align-center gap-2 h-16 bg-white text-[#8181A5] ml-5 sm:ml-10'
-        <nav className=' flex flex-row gap:1 sm:gap-5 justify-between w-11/12 mb-4 ml-5 sm:ml-10'>
+        <nav className=' flex flex-row gap:1 sm:gap-5 justify-between w-11/12 my-4 ml-5 sm:ml-10'>
             {/* <nav className='absolute bottom-0 sm:bottom-0 flex flex-row gap:1 sm:gap-5 justify-between w-11/12 sm:w-9/12 h-14  sm:ml-10 '> */}
             {catalogNumbers > 1 ? (<button className=" hidden sm:inline-flex px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
             {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}><GrFormPrevious /></button>) : (<div></div>)}

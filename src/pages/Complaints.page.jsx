@@ -212,168 +212,268 @@ const Complaints = () => {
 
     return (
         <>
-            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between w-11/12 relative my-5'>
-                <div className="font-semibold text-xl">Complaints</div>
-                <div className="flex gap-10">
-                    <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
-                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
-                </div>
-
-                {dateFilterVisible && (
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-25"
-                            onClick={() => setDateFilterVisible(false)}
-                        ></div>
-                        <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
-                            <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                            <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
-                            <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
-                            <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
-                        </div>
+            <div className='h-5/6 sm:h-screen overflow-y-auto '>
+                <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between w-11/12 relative my-5'>
+                    <div className="font-semibold text-xl">Complaints</div>
+                    <div className="flex gap-10">
+                        <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
+                        <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
                     </div>
-                )}
+
+                    {dateFilterVisible && (
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-25"
+                                onClick={() => setDateFilterVisible(false)}
+                            ></div>
+                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
+                                <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
+                                <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
+                                <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
+                                <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
+                            </div>
+                        </div>
+                    )}
 
 
-                {createComplainPopup && (
+                    {createComplainPopup && (
 
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                            onClick={() => setCreateComplainPopup(false)}
-                        ></div>
-                        <div className="flex items-center min-h-screen px-4 py-8">
-                            <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
-                                {/* <div className="mt-3 sm:flex"> */}
-                                {/* <div className="mt-2 text-left sm:ml-4 sm:text-left"> */}
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                onClick={() => setCreateComplainPopup(false)}
+                            ></div>
+                            <div className="flex items-center min-h-screen px-4 py-8">
+                                <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+                                    {/* <div className="mt-3 sm:flex"> */}
+                                    {/* <div className="mt-2 text-left sm:ml-4 sm:text-left"> */}
 
-                                <div className='flex flex-col align-center justify-center gap-5 m-5'>
-                                    <h2 className="font-semibold text-lg"> Raise Problem </h2>
-                                    {/* <label htmlFor='complainDescription'>Enter complaint details :</label> */}
-                                    <textarea id="complainDescription" className="border-2 border-gray-300 rounded w-md" rows="5" ></textarea>
-                                    <button className=" mt-2 p-2.5 flex-1 text-white bg-sky-600 text-lg rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-2"
-                                        onClick={createComplain}>
-                                        Submit
-                                    </button>
+                                    <div className='flex flex-col align-center justify-center gap-5 m-5'>
+                                        <h2 className="font-semibold text-lg"> Raise Problem </h2>
+                                        {/* <label htmlFor='complainDescription'>Enter complaint details :</label> */}
+                                        <textarea id="complainDescription" className="border-2 border-gray-300 rounded w-md" rows="5" ></textarea>
+                                        <button className=" mt-2 p-2.5 flex-1 text-white bg-sky-600 text-lg rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-2"
+                                            onClick={createComplain}>
+                                            Submit
+                                        </button>
 
+                                    </div>
+                                    {/* </div> */}
+                                    {/* </div> */}
                                 </div>
-                                {/* </div> */}
-                                {/* </div> */}
                             </div>
+                        </div>
+
+                    )}
+
+                </div>
+                <div className='flex flex-col gap-2  ml-10'>{/* removed w-full h-full which removed vertical and horizontal scrollbars*/}
+
+                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
+
+                        <thead className="bg-red">
+                            <tr className="text-left text-[#8181A5] text-sm w-full ">
+                                <th className="py-2 sm:py-8 px-2 align-top ">ID</th>
+                                <th className="py-2 sm:py-8 px-2 align-top ">Date</th>
+                                <th className="py-2 sm:py-8 px-2 align-top ">Status</th>
+                                <th className="py-2 sm:py-8 px-2 align-top ">Description</th>
+                            </tr>
+                        </thead>
+                        {/* {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
+                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
+                            </div>
+                        </div></tr></tbody>) : (complainList !== null ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="4">No data found</td></tr></tbody>)))}
+                    </table>
+
+                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
+
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top">100078584</div>
+                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
+                                <div className=" px-2 align-top">Status: Created</div>
+                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            </div>
+                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
                         </div>
                     </div>
+                    {/* {complainList && (
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={complainList.length}
+                            paginate={paginate}
+                        />)} */}
+                    {customDateFilterVisible ? (
 
-                )}
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                onClick={() => setCustomDateFilterVisible(false)}
+                            ></div>
+                            <div className="flex items-center min-h-screen px-4 py-8">
+                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                    {/* <div className="mt-3 sm:flex"> */}
+                                    <div className="mt-2 flex flex-col justify-center align-center">
+                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
 
-            </div>
-            <div className='flex flex-col gap-2  ml-10'>{/* removed w-full h-full which removed vertical and horizontal scrollbars*/}
-
-                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
-
-                    <thead className="bg-red">
-                        <tr className="text-left text-[#8181A5] text-sm w-full ">
-                            <th className="py-2 sm:py-8 px-2 align-top ">ID</th>
-                            <th className="py-2 sm:py-8 px-2 align-top ">Date</th>
-                            <th className="py-2 sm:py-8 px-2 align-top ">Status</th>
-                            <th className="py-2 sm:py-8 px-2 align-top ">Description</th>
-                        </tr>
-                    </thead>
-                    {/* {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
-                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                        ></div>
-                        <div className="flex justify-center items-center min-h-screen">
-                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
-                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
-                            </div>
-                        </div>
-                    </div></tr></tbody>) : (complainList !== null ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="4">No data found</td></tr></tbody>)))}
-                </table>
-                {complainList && (
-                    <Pagination
-                        postsPerPage={postsPerPage}
-                        totalPosts={complainList.length}
-                        paginate={paginate}
-                    />)}
-                {customDateFilterVisible ? (
-
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                            onClick={() => setCustomDateFilterVisible(false)}
-                        ></div>
-                        <div className="flex items-center min-h-screen px-4 py-8">
-                            <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
-                                {/* <div className="mt-3 sm:flex"> */}
-                                <div className="mt-2 flex flex-col justify-center align-center">
-                                    <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
-
-                                    {/* <div>
+                                        {/* <div>
                                             <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
                                             <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
                                         </div> */}
-                                    <div className='flex my-2 justify-center'>
-                                        {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                        <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                            <option value="1">Jan</option>
-                                            <option value="2">Feb</option>
-                                            <option value="3">Mar</option>
-                                            <option value="4">Apr</option>
-                                            <option value="5">May</option>
-                                            <option value="6">Jun</option>
-                                            <option value="7">Jul</option>
-                                            <option value="8">Aug</option>
-                                            <option value="9">Sep</option>
-                                            <option value="10">Oct</option>
-                                            <option value="11">Nov</option>
-                                            <option value="12">Dec</option>
-                                        </select>
-                                        {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                        <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                            <option value="2017">2017</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2024">2024</option>
-                                            <option value="2025">2025</option>
-                                            <option value="2026">2026</option>
-                                            <option value="2026">2027</option>
-                                        </select>
+                                        <div className='flex my-2 justify-center'>
+                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
+                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
+                                                <option value="1">Jan</option>
+                                                <option value="2">Feb</option>
+                                                <option value="3">Mar</option>
+                                                <option value="4">Apr</option>
+                                                <option value="5">May</option>
+                                                <option value="6">Jun</option>
+                                                <option value="7">Jul</option>
+                                                <option value="8">Aug</option>
+                                                <option value="9">Sep</option>
+                                                <option value="10">Oct</option>
+                                                <option value="11">Nov</option>
+                                                <option value="12">Dec</option>
+                                            </select>
+                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
+                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2026">2027</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
+                                                onClick={applyDateFilter}
+                                            >
+                                                OK
+                                            </button>
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
+                                                onClick={() =>
+                                                    setCustomDateFilterVisible(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
 
                                     </div>
-
-                                    <div className="items-center justify-center gap-5 mt-3 flex w-full">
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
-                                            onClick={applyDateFilter}
-                                        >
-                                            OK
-                                        </button>
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
-                                            onClick={() =>
-                                                setCustomDateFilterVisible(false)
-                                            }
-                                        >
-                                            Cancel
-                                        </button>
-
-                                    </div>
-
+                                    {/* </div> */}
                                 </div>
-                                {/* </div> */}
                             </div>
                         </div>
-                    </div>
 
-                ) : null}
+                    ) : null}
+                </div>
             </div>
-
-
+            {complainList && (
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={complainList.length}
+                    paginate={paginate}
+                />)}
         </>
     )
 }
@@ -405,7 +505,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         }
     }
     return (
-        <nav className='flex flex-row gap-5 justify-between w-11/12'>
+        <nav className='flex flex-row gap:1 sm:gap-5 justify-between w-11/12 my-4 ml-5 sm:ml-10'>
             {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
