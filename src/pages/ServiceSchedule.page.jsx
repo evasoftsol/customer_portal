@@ -8,6 +8,11 @@ import { FaStar } from 'react-icons/fa'
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { MdOutlineExpandLess } from 'react-icons/md';
+import { MdSchedule } from 'react-icons/md'
+import { FcCancel } from 'react-icons/fc'
+import { TiTick } from 'react-icons/ti'
+import { BsPersonCircle } from 'react-icons/bs'
+
 
 
 
@@ -261,171 +266,274 @@ const ServiceSchedule = () => {
     }
     return (
         <>
-            <div className='flex ml-5 sm:ml-10 flex-col sm:flex-row  gap-5 sm:gap-1 sm:justify-between w-screen sm:w-11/12 relative my-5'>
-                <div className="font-semibold text-xl">Service Schedule</div>
-                <div className="flex gap-3">
-                    <label htmlFor='CustomerBranchDropDown' className=''>Select Branch :</label>
-                    {/* {hidden sm:inline-flex} */}
-                    <select id="CustomerBranchDropDown" onChange={applyBranchFilter} className='rounded-lg bg-white border border-gray-300 px-2 mr-5 '>
-                        {
-                            createItems()
-                        }
-                    </select>
-                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+            <div className='h-5/6 sm:h-screen overflow-y-auto'>
+                <div className='flex ml-5 sm:ml-10 flex-col sm:flex-row  gap-5 sm:gap-1 sm:justify-between w-screen sm:w-11/12  relative my-5'>
+                    <div className="font-semibold text-xl hidden sm:inline-flex">Service Schedule</div>
+                    <div className="sm:hidden flex justify-start gap-20">
+                        <div className="font-semibold text-xl">Service Schedule</div>
+                        <div className="flex justify-center align-baseline"><BsPersonCircle className='p-0' size="20" /></div>
+                    </div>
+                    <div className="flex gap-3">
+                        <label htmlFor='CustomerBranchDropDown' className=''>Select Branch :</label>
+                        {/* {hidden sm:inline-flex} */}
+                        <select id="CustomerBranchDropDown" onChange={applyBranchFilter} className='rounded-lg bg-white border border-gray-300 px-2 mr-5 '>
+                            {
+                                createItems()
+                            }
+                        </select>
+                        <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
-                    {dateFilterVisible && (
-                        <div className="fixed inset-0 z-10 overflow-y-auto">
-                            <div
-                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-25"
-                                onClick={() => setDateFilterVisible(false)}
-                            ></div>
-                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 right-10 sm:right-5 z-20 shadow-lg border-slate-200 bg-white'>
-                                <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                                <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
-                                <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
-                                <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
+                        {dateFilterVisible && (
+                            <div className="fixed inset-0 z-10 overflow-y-auto">
+                                <div
+                                    className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-25"
+                                    onClick={() => setDateFilterVisible(false)}
+                                ></div>
+                                <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 right-10 sm:right-5 z-20 shadow-lg border-slate-200 bg-white'>
+                                    <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
+                                    <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
+                                    <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
+                                    <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
-            </div>
-            <div className='flex flex-col gap-2 ml-5 sm:ml-10 '>
+                <div className='flex flex-col gap-2 ml-5 sm:ml-10 '>
 
-                <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 overflow-x-auto" >
+                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 overflow-x-auto" >
 
-                    <thead className="bg-red">
-                        <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-4 sm:py-8 px-2 align-top">Service ID</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Service Branch</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Date</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Name</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Status</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Action</th>
-                            <th className="py-4 sm:py-8 px-2 align-top">Rating</th>
-                        </tr>
-                    </thead>
-                    {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
-                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                        ></div>
-                        <div className="flex justify-center items-center min-h-screen">
-                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
-                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                        <thead className="bg-red">
+                            <tr className="text-left text-[#8181A5] text-sm  ">
+                                <th className="py-4 sm:py-8 px-2 align-top">Service ID</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Service Branch</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Date</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Name</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Status</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Action</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Rating</th>
+                            </tr>
+                        </thead>
+                        {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
+                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
                             </div>
-                        </div>
-                    </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
-                        <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
-                </table>
+                        </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
+                            <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
+                    </table>
 
-                <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
-                    {/* 
-                    <div className="flex flex-col gap-1 font-bold bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className="py-1 px-2 align-top ">Service ID</div>
-                            <div className="py-1 px-2 align-top ">Date</div>
-                            <div className="py-1 px-2 align-top ">Name</div>
-                        </div>
-                        <div className="flex gap-2 justify-start align-top  text-left text-[#8181A5] text-sm ">
-                            <div className="py-1 px-2 align-top ">Service Branch</div>
-                            <div className="py-1 px-2 align-top ">Status</div>
-                            <div className="py-1 px-2 align-top ">Action</div>
-                            <div className="py-1 px-2 align-top ">Rating</div>
-                        </div>
-                    </div> */}
-                    <div className="flex flex-col gap-1 bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className=" px-2 align-top" id="100078584">08/12/2022 <br />
+                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
+
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078584">08/12/2022<br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
                                 <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
                                 <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className=" px-2 align-top">Cockroach management treatment </div>
-                        </div>
-                        <div id={"section" + "100078584"} className='hidden'>
-                            <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                <div className=" px-2 align-top">Service Id : 100078584</div>
-                                <div className=" px-2 align-top">Service Branch : Main Branch</div>
-                                <div className=" px-2 align-top">Service Status : Scheduled</div>
-                                <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
-                                <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                            <div id={"section" + "100078584"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078584</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-1 bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className=" px-2 align-top" id="100078588">08/12/2022 <br />
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078588">08/12/2022<br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
                                 <button onClick={expandMore} id="ExpandMore100078588" ><MdOutlineExpandMore /></button>
                                 <button onClick={expandLess} id="ExpandLess100078588" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className=" px-2 align-top">Cockroach management treatment </div>
-                        </div>
-                        <div id={"section" + "100078588"} className='hidden'>
-                            <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                <div className=" px-2 align-top">Service Id : 100078588</div>
-                                <div className=" px-2 align-top">Service Branch : Main Branch</div>
-                                <div className=" px-2 align-top">Service Status : Scheduled</div>
-                                <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
-                                <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                            <div id={"section" + "100078588"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078588</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-1 bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className=" px-2 align-top" id="100078585">08/12/2022 <br />
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078585">08/12/2022 <br />
+                                    <div className='flex'><TiTick className='mr-3 text-green-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment Cockroach management treatment</div>
                                 <button onClick={expandMore} id="ExpandMore100078585" ><MdOutlineExpandMore /></button>
                                 <button onClick={expandLess} id="ExpandLess100078585" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className=" px-2 align-top">Cockroach management treatment </div>
-                        </div>
-                        <div id={"section" + "100078585"} className='hidden'>
-                            <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                <div className=" px-2 align-top">Service Id : 100078585</div>
-                                <div className=" px-2 align-top">Service Branch : Main Branch</div>
-                                <div className=" px-2 align-top">Service Status : Scheduled</div>
-                                <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
-                                <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                            <div id={"section" + "100078585"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078585</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Completed</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-1 bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className=" px-2 align-top" id="100078586">08/12/2022 <br />
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078586">08/12/2022 <br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
                                 <button onClick={expandMore} id="ExpandMore100078586" ><MdOutlineExpandMore /></button>
                                 <button onClick={expandLess} id="ExpandLess100078586" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className=" px-2 align-top">Cockroach management treatment </div>
-                        </div>
-                        <div id={"section" + "100078586"} className='hidden'>
-                            <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                <div className=" px-2 align-top">Service Id : 100078586</div>
-                                <div className=" px-2 align-top">Service Branch : Main Branch</div>
-                                <div className=" px-2 align-top">Service Status : Scheduled</div>
-                                <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
-                                <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                            <div id={"section" + "100078586"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078586</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-1 bg-white rounded-lg">
-                        <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                            <div className=" px-2 align-top" id="100078587">08/12/2022 <br />
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078587">08/12/2022 <br />
+                                    <div className='flex'><FcCancel className='mr-3 text-red-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
                                 <button onClick={expandMore} id="ExpandMore100078587" ><MdOutlineExpandMore /></button>
                                 <button onClick={expandLess} id="ExpandLess100078587" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className=" px-2 align-top">Cockroach management treatment </div>
-                        </div>
-                        <div id={"section" + "100078587"} className='hidden'>
-                            <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                <div className=" px-2 align-top">Service Id : 100078587</div>
-                                <div className=" px-2 align-top">Service Branch : Main Branch</div>
-                                <div className=" px-2 align-top">Service Status : Scheduled</div>
-                                <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
-                                <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                            <div id={"section" + "100078587"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078587</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Cancelled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078589">08/12/2022 <br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
+                                <button onClick={expandMore} id="ExpandMore100078589" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078589" className='hidden' ><MdOutlineExpandLess /></button>
+                            </div>
+                            <div id={"section" + "100078589"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078589</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078590">08/12/2022 <br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
+                                <button onClick={expandMore} id="ExpandMore100078590" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078590" className='hidden' ><MdOutlineExpandLess /></button>
+                            </div>
+                            <div id={"section" + "100078590"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078590</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078591">08/12/2022 <br />
+                                    <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
+                                <button onClick={expandMore} id="ExpandMore100078591" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078591" className='hidden' ><MdOutlineExpandLess /></button>
+                            </div>
+                            <div id={"section" + "100078591"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078591</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Scheduled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078592">08/12/2022 <br />
+                                    <div className='flex'><FcCancel className='mr-3 text-red-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
+                                <button onClick={expandMore} id="ExpandMore100078592" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078592" className='hidden' ><MdOutlineExpandLess /></button>
+                            </div>
+                            <div id={"section" + "100078592"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078592</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Cancelled</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                <div className=" px-2 align-top" id="100078593">08/12/2022 <br />
+                                    <div className='flex'><TiTick className='mr-3 text-green-400' />
+                                        <FaStar className='text-[#FFBA5A]' size="10" /><FaStar className=' text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>
+                                </div>
+                                <div className=" px-2 align-top">Cockroach management treatment </div>
+                                <button onClick={expandMore} id="ExpandMore100078593" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078593" className='hidden' ><MdOutlineExpandLess /></button>
+                            </div>
+                            <div id={"section" + "100078593"} className='hidden'>
+                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className=" px-2 align-top">Service Id : 100078593</div>
+                                    <div className=" px-2 align-top">Service Branch : Main Branch</div>
+                                    <div className=" px-2 align-top">Service Status : Completed</div>
+                                    <div className=" px-2 align-bottom">Action : <AiOutlineCalendar className='inline' /></div>
+                                    <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
+                                </div>
+                            </div>
+                        </div>
 
-                    {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
-                    {/* {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
+                        {/* {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
                         <div
                             className="fixed inset-0 w-full h-full bg-black opacity-40"
                         ></div>
@@ -436,90 +544,100 @@ const ServiceSchedule = () => {
                         </div>
                     </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
                         <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))} */}
-                </div>
-                {serviceList && (
-                    <Pagination
-                        postsPerPage={postsPerPage}
-                        totalPosts={serviceList.length}
-                        paginate={paginate}
-                    />)
-                }
-                {customDateFilterVisible ? (
+                    </div>
+                    {/* {serviceList && (
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={serviceList.length}
+                            paginate={paginate}
+                        />)
+                    } */}
+                    {customDateFilterVisible ? (
 
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                            onClick={() => setCustomDateFilterVisible(false)}
-                        ></div>
-                        <div className="flex items-center min-h-screen px-4 py-8">
-                            <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
-                                {/* <div className="mt-3 sm:flex"> */}
-                                <div className="mt-2 flex flex-col justify-center align-center">
-                                    <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                onClick={() => setCustomDateFilterVisible(false)}
+                            ></div>
+                            <div className="flex items-center min-h-screen px-4 py-8">
+                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                    {/* <div className="mt-3 sm:flex"> */}
+                                    <div className="mt-2 flex flex-col justify-center align-center">
+                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
 
-                                    {/* <div>
+                                        {/* <div>
                                             <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
                                             <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
                                         </div> */}
-                                    <div className='flex my-2 justify-center'>
-                                        {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                        <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                            <option value="1">Jan</option>
-                                            <option value="2">Feb</option>
-                                            <option value="3">Mar</option>
-                                            <option value="4">Apr</option>
-                                            <option value="5">May</option>
-                                            <option value="6">Jun</option>
-                                            <option value="7">Jul</option>
-                                            <option value="8">Aug</option>
-                                            <option value="9">Sep</option>
-                                            <option value="10">Oct</option>
-                                            <option value="11">Nov</option>
-                                            <option value="12">Dec</option>
-                                        </select>
-                                        {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                        <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                            <option value="2017">2017</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2024">2024</option>
-                                            <option value="2025">2025</option>
-                                            <option value="2026">2026</option>
-                                            <option value="2026">2027</option>
-                                        </select>
+                                        <div className='flex my-2 justify-center'>
+                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
+                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
+                                                <option value="1">Jan</option>
+                                                <option value="2">Feb</option>
+                                                <option value="3">Mar</option>
+                                                <option value="4">Apr</option>
+                                                <option value="5">May</option>
+                                                <option value="6">Jun</option>
+                                                <option value="7">Jul</option>
+                                                <option value="8">Aug</option>
+                                                <option value="9">Sep</option>
+                                                <option value="10">Oct</option>
+                                                <option value="11">Nov</option>
+                                                <option value="12">Dec</option>
+                                            </select>
+                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
+                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2026">2027</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
+                                                onClick={applyDateFilter}
+                                            >
+                                                OK
+                                            </button>
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
+                                                onClick={() =>
+                                                    setCustomDateFilterVisible(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
 
                                     </div>
-
-                                    <div className="items-center justify-center gap-5 mt-3 flex w-full">
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
-                                            onClick={applyDateFilter}
-                                        >
-                                            OK
-                                        </button>
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
-                                            onClick={() =>
-                                                setCustomDateFilterVisible(false)
-                                            }
-                                        >
-                                            Cancel
-                                        </button>
-
-                                    </div>
-
+                                    {/* </div> */}
                                 </div>
-                                {/* </div> */}
                             </div>
                         </div>
-                    </div>
 
-                ) : null}
+                    ) : null}
+                </div>
             </div>
+            {/* <div className='fixed bottom-0 flex flex-row justify-between align-center gap-2 h-16 bg-white text-[#8181A5] ml-5 sm:ml-10'> */}
+            {serviceList && (
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={serviceList.length}
+                    paginate={paginate}
+                />)
+            }
+            {/* </div> */}
 
 
         </>
@@ -559,9 +677,11 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         }
     }
     return (
-        <nav className='flex flex-row gap:1 sm:gap-5 justify-between w-11/12 mb-4'>
-            {catalogNumbers > 1 ? (<button className=" hidden sm:inline-flex px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
-            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}><GrFormPrevious /></button>) : (<div></div>)}
+        // className = 'fixed bottom-0 flex flex-row justify-between align-center gap-2 h-16 bg-white text-[#8181A5] ml-5 sm:ml-10'
+        // <nav className=' flex flex-row gap:1 sm:gap-5 justify-between w-11/12 mb-4 '>//old code
+        <nav className='absolute bottom-24 sm:bottom-0 flex flex-row gap:1 sm:gap-5 justify-between w-11/12 sm:w-9/12 mb-4 h-16 ml-5 sm:ml-10 '>
+            {catalogNumbers > 1 ? (<button className=" hidden sm:inline-flex px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}><GrFormPrevious /></button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
@@ -574,8 +694,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
-            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}><GrFormNext /></button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}>Next</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}><GrFormNext /></button>) : (<div></div>)}
         </nav >
     )
 }

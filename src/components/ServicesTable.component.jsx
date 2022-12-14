@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FcDownload } from 'react-icons/fc';
 import { AiOutlineCalendar } from 'react-icons/ai';
-import { FcFeedback } from 'react-icons/fc';
+import { VscFeedback } from 'react-icons/vsc'
 import { FaStar } from 'react-icons/fa'
 import { FcCancel } from 'react-icons/fc'
 import { MdSchedule } from 'react-icons/md'
@@ -284,7 +284,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                             {/* <button name={service.serviceId} onClick={scheduleService}><AiOutlineCalendar /></button> */}
                         </td>
                         <td className="px-2 py-1 sm:py-2 text-xs">{
-                            service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><FcFeedback className='text-xl' /></button>) : (
+                            service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} onClick={() => setShowRatingPopup({ ...showRatingPopup, serviceId: service.serviceId, visibility: true })}><VscFeedback className='text-xl' /></button>) : (
 
                                 service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :
                                     (service.customerFeedback === "Average" ?
