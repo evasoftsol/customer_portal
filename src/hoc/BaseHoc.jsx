@@ -52,7 +52,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <p className="text-lg sm:text-xl ">{localStorage.getItem("customerAddress")}</p>
                         </div>
                     </div> */}
-            <div className="flex flex-row justify-center w-screen h-screen">
+            <div className="flex flex-col sm:flex-row justify-center w-screen h-screen">
                 {/* Navbar for Medium or Larger screens */}
                 <div className="flex flex-col justify-start  sm:w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] pl-5">
                     <div className="flex justify-start ml-2 mt-2 align-center">
@@ -132,8 +132,14 @@ const BaseHoc = (Component) => ({ ...props }) => {
                 </div>
 
 
+
+                <div className="w-screen h-5/6 sm:h-full sm:w-10/12 bg-[#EFF2FE] overflow-y-auto">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
+                    <Component {...props} />
+                </div>
                 {/* Navbar for Mobile screen */}
-                <div className="fixed bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" >
+                {/* <div className="fixed bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" > */}
+
+                <div className="flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" >
                     {/* <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src="https://my-dot-evadev0006.appspot.com/slick_erp/getimage?width=50&height=50" alt="company logo" className="w-40 " />
                         </div> */}
@@ -246,9 +252,6 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         </div> */}
 
 
-                </div>
-                <div className="w-screen h-5/6 sm:h-full sm:w-10/12 bg-[#EFF2FE] overflow-y-auto">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
-                    <Component {...props} />
                 </div>
             </div >
             {/* </div > */}

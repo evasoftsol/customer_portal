@@ -17,7 +17,7 @@ import logo from '../images/logo-white.svg';
 //     this.props.history.go(1);
 // });
 
-//http://localhost:3000/login?authToken=my-dot-evaerp282915
+//http://localhost:3000/login?authToken=my-dot-evaerp282915&companyName=Pecopp Pest Control
 // ashwini.patil@evasoftwaresolutions.com
 const Login = () => {
 
@@ -27,7 +27,6 @@ const Login = () => {
     const [generatedOtp, setGeneratedOtp] = useState("");
     const [choice, setChoice] = useState("Email");
     // const [appid, setAppId] = useState("my-dot-evadev0006");
-
     const { search } = useLocation();
     const handleChangeEmail = event => {
         document.getElementById("mobile").value = "";
