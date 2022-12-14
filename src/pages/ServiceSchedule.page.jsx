@@ -267,7 +267,7 @@ const ServiceSchedule = () => {
     return (
         <>
             <div className='h-5/6 sm:h-screen overflow-y-auto '>
-                <div className='flex ml-5 sm:ml-10 flex-col sm:flex-row  gap-5 sm:gap-1 sm:justify-between w-screen sm:w-11/12  relative my-5'>
+                <div className='flex ml-5 sm:ml-10 flex-col sm:flex-row  gap-5 sm:gap-1 sm:justify-between w-11/12 sm:w-11/12  relative my-5'>
                     <div className="font-semibold text-xl hidden sm:inline-flex">Service Schedule</div>
                     <div className="sm:hidden flex justify-start gap-20">
                         <div className="font-semibold text-xl">Service Schedule</div>
@@ -328,7 +328,7 @@ const ServiceSchedule = () => {
                             <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                     </table>
 
-                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
+                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-10/12  " >
 
                         <div className="flex flex-col gap-1 bg-white rounded-lg">
                             <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
