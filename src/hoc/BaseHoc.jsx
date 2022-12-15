@@ -142,113 +142,35 @@ const BaseHoc = (Component) => ({ ...props }) => {
                     {/* <div className="flex justify-start ml-2 mt-2 align-center">
                             <img src="https://my-dot-evadev0006.appspot.com/slick_erp/getimage?width=50&height=50" alt="company logo" className="w-40 " />
                         </div> */}
-                    <Link to="/services" className="shrink-0"><img src={serviceimg} alt="company logo" className="w-10 h-auto my-2 ml-2 hover:border-[#c3c3c3] hover:border-2 hover:w-12 shrink-0 p-1" /></Link>
 
-                    <Link to="/complaints" className="shrink-0"><img src={complaint} alt="company logo" className="w-10 h-auto my-2 shrink-0 hover:w-12 p-1" /></Link>
 
-                    <Link to="/payments" className="shrink-0"><img src={invoicereceipt} alt="company logo" className="w-10 h-auto my-2 shrink-0 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
+                    {route === "/services" ?
+                        (<Link to="/services" className="shrink-0"><img src={serviceimg} alt="company logo" className="w-10 h-auto my-2 ml-2 border-[#c3c3c3] border-2 w-12 shrink-0 p-1" /></Link>) :
+                        (<Link to="/services" className="shrink-0"><img src={serviceimg} alt="company logo" className="w-10 h-auto my-2 ml-2  shrink-0 p-1" /></Link>)}
 
-                    <Link to="/contracts" className="shrink-0"><img src={contract} alt="company logo" className="w-10 h-auto my-2 shrink-0 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
+                    {route === "/complaints" ?
+                        (<Link to="/complaints" className="shrink-0"><img src={complaint} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                        (<Link to="/complaints" className="shrink-0"><img src={complaint} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
 
-                    <Link to="/renewals" className="shrink-0" ><img src={renewal} alt="company logo" className="w-10 h-auto my-2 shrink-0 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
+                    {route === "/payments" ?
+                        (<Link to="/payments" className="shrink-0"><img src={invoicereceipt} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                        (<Link to="/payments" className="shrink-0"><img src={invoicereceipt} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
 
-                    <Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
+                    {route === "/contracts" ?
+                        (<Link to="/contracts" className="shrink-0"><img src={contract} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                        (<Link to="/contracts" className="shrink-0"><img src={contract} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
+
+                    {route === "/renewals" ?
+                        (<Link to="/renewals" className="shrink-0" ><img src={renewal} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                        (<Link to="/renewals" className="shrink-0" ><img src={renewal} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
+
+                    {route === "/projects" ?
+                        (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                        (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
 
                     <Link to="/" onClick={clearData} className="shrink-0"><img src={logoutimg} alt="company logo" className="w-10 h-auto shrink-0  my-2 mr-2 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
 
-                    {/* <div className=" ml-2 mt-2 shrink-0 w-30 h-auto">
-                            <img src={serviceimg} alt="company logo" className="w-30 h-auto" />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={complaint} alt="company logo" className="w-40 " />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={invoicereceipt} alt="company logo" className="w-40 " />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={contract} alt="company logo" className="w-40 " />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={renewal} alt="company logo" className="w-40 " />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={timechart} alt="company logo" className="w-40 " />
-                        </div>
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <Link to="/" onClick={clearData}><img src={logoutimg} alt="company logo" className="w-40 " /></Link>
-                        </div> */}
 
-
-                    {/* {route === "/services" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/services" >Service Schedule</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/services" >Service Schedule</Link>
-                            </div>)}
-
-                        {route === "/complaints" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/complaints" >Complaints</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/complaints" >Complaints</Link>
-                            </div>)}
-
-                        {route === "/payments" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/payments" >Payments</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/payments" >Payments</Link>
-                            </div>)}
-
-                        {route === "/contracts" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/contracts" >Contracts / Renewals</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/contracts" >Contracts / Renewals</Link>
-                            </div>)}
-
-                        {route === "/renewals" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/renewals" >Renewals</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/renewals" >Renewals</Link>
-                            </div>)}
-
-                        {route === "/projects" ?
-                            (<div className="w-full border-t-2 border-sky-600">
-                                <div className="hover:text-black !text-black w-full h-full flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
-                                    <div className="!text-xl"><ImClipboard /></div>
-                                    <Link to="/projects" >Project</Link>
-                                </div></div>) :
-                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
-                                <div className="!text-xl"><ImClipboard /></div>
-                                <Link to="/projects" >Project</Link>
-                            </div>)}
-
-                        <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
-                            <div className="!text-2xl"><BiLogOut /></div>
-                            <Link to="/" onClick={clearData}>Logout</Link>
-                        </div> */}
 
 
                 </div>

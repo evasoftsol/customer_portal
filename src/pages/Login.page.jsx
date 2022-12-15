@@ -211,15 +211,6 @@ const Login = () => {
 
 
         }
-        // localStorage.setItem("customerId", "100000347");
-        // localStorage.setItem("customerName", "UNIVERSAL SOMPO");
-        // localStorage.setItem("customerAddress", "ABC, Mumbai, Maharashtra, India");
-        // localStorage.setItem("customerEmail", "evasoftwaresolutionsdevelop@gmail.com");
-        // localStorage.setItem("customerCell", "9004245917");
-        // localStorage.setItem("appId", "my-dot-evadev0006");
-        // localStorage.setItem("companyBranch", "Vikhroli");
-        // localStorage.setItem("companyId", "NTY1OTMxMzU4NjU2OTIxNg==");
-        // loadCustomerBranches();
     }
 
     const loadCustomerBranches = () => {
@@ -249,29 +240,24 @@ const Login = () => {
                 console.log("customer branches set to null" + error);
             });
 
-        //temp use
-        // var brancharr = ["--select--", "Main Branch"];
-        // localStorage.setItem("customerBranchList", brancharr);
-        // window.location.href = `/services`;
+
     }
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >
-            <div className="block md:hidden h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
+            <div className="block h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="w-full h-full flex flex-col justify-center align-center ">
-                    <div className="w-full flex justify-center mt-4"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>
-                    <div className="text-center w-full text-white text-3xl">Welcome to our CRM</div>
-                    <div className="text-center w-full text-white text-xl ">Enter your details to proceed further</div>
+                    <div className="w-full flex justify-center my-4"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>
                 </div>
             </div >
             <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t md:h-75% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="  h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg   w-full sm:h-full sm:w-6/12" >
-                    <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[60%]">
-                        <p className="text-3xl">Welcome to our CRM.</p>
-                        <p className="text-3xl">Sign In to see latest updates.</p>
-                        <p className="text-xl text-[#A9A9A9]">Enter your details to proceed further</p>
+                    <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[70%]">
+                        <p className="text-xl sm:text-3xl">Welcome to our Customer Portal.</p>
+                        <p className="text-xl sm:text-3xl">Sign In to see latest updates.</p>
+                        <p className="text-sm sm:text-xl text-[#A9A9A9]">Enter your details to proceed further</p>
                         {/* <form > */}
                         <div className="mt-5">
-                            <div className="h-full w-full flex justify-start gap-10 align-center text-xl">
+                            <div className="h-full w-full flex justify-start gap-10 align-center text-lg sm:text-xl">
                                 <div>
                                     <input type="radio" value="Email" name="inputdata" id="emailRadio" defaultChecked onClick={showEmailInput} />
                                     <label className="ml-2" htmlFor="emailRadio">Email</label>

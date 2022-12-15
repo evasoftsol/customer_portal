@@ -336,22 +336,24 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         }
     }
     return (
-        <nav className='flex flex-row gap-5 justify-between w-11/12'>
-            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
+        <nav className=' flex flex-row gap:1 sm:gap-5 justify-between w-11/12 my-4 ml-5 sm:ml-10 sm:h-1/6'>
+            {/* <nav className='absolute bottom-0 sm:bottom-0 flex flex-row gap:1 sm:gap-5 justify-between w-11/12 sm:w-9/12 h-14  sm:ml-10 '> */}
+            {catalogNumbers > 1 ? (<button className=" hidden sm:inline-flex px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}>Prev</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showPreviousPages}>&lt;</button>) : (<div></div>)}
             <ul className="flex gap-2  w-200 justify-center  ">
                 {
 
                     pageNumbers.map(number => (number >= firstPage && number <= lastPage ?
                         (<li key={number} className=" mt-1">
-                            <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-3 py-1 ">
+                            <a onClick={() => paginate(number)} href="#" id={number} className="hover:border-sky-600 border-2 px-1 sm:px-3 py-1 ">
                                 {number}
                             </a>
                         </li>) : (<></>)
                     ))
                 }
             </ul >
-            {catalogNumbers > 1 ? (<button className="px-3 py-2 bg-sky-600 text-white rounded-lg" onClick={showNextPages}>Next</button>) : (<div></div>)}
-
+            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}>Next</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}> &gt;</button>) : (<div></div>)}
         </nav >
     )
 }
