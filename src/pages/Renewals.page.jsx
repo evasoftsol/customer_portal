@@ -3,7 +3,10 @@ import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
 import ContractsTable from '../components/ContractsTable.component';
-
+import { FcDownload } from 'react-icons/fc';
+import { MdAutorenew } from 'react-icons/md'
+import { MdOutlineExpandMore } from 'react-icons/md';
+import { MdOutlineExpandLess } from 'react-icons/md';
 
 const Renewals = () => {
 
@@ -27,7 +30,7 @@ const Renewals = () => {
 
     const getContractList = (param) => {
         console.log("in getContractList");
-        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=9004245917&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=1/10/2023&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
+        // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=9004245917&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=1/10/2022&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
         let url = "";
         console.log("selectedDateFilter " + param);
 
@@ -172,137 +175,250 @@ const Renewals = () => {
         setCustomDateFilterVisible(true);
     }
 
+    const expandMore = event => {
+        console.log("expandMore clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandMore" + elementid).classList.add('hidden');
+    }
+    const expandLess = event => {
+        console.log("expandLess clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.add('hidden');
+
+        document.getElementById("ExpandMore" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.add('hidden');
+    }
+
+    const getProductList = (prodList) => {
+
+        let productArr = JSON.parse(prodList);
+
+        let productNameList = productArr.map(product => {
+            return product.serviceProduct.productName
+        })
+        console.log(productNameList);
+
+        // let htmltext = "";
+        // productNameList.forEach(element => {
+        //     htmltext += "<p>" + element + "</p>"
+        // });
+        return productNameList;
+    }
+
+    const downloadContract = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Contract&documentId=" + event.currentTarget.name;
+
+        Axios
+            .get(url)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json.pdfUrl);
+                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+    const renewContract = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=" + companyId + "&documentName=Contract%20Renew&documentId=" + event.currentTarget.name;
+
+        console.log("renewal url=" + url);
+        Axios
+            .get(url)
+            .then((response) => {
+                window.open(response.data, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
     return (
         <>
-            <div className='flex ml-10 flex-row gap-20 justify-start sm:justify-between mb-3 w-11/12 relative my-5'>
-                <div className="font-semibold text-xl">Renewals</div>
-                <button ref={datefilterRef} name="dateFilter" id="dateFilter" onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+            <div className='h-5/6 sm:h-screen overflow-y-auto '>
+                <div className='flex ml-10 flex-row gap-20 justify-between mb-3 w-11/12 relative my-5'>
+                    <div className="font-semibold text-xl">Renewals</div>
+                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" className='pr-10' onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
-                {dateFilterVisible && (
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-25"
-                            onClick={() => setDateFilterVisible(false)}
-                        ></div>
-                        <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
-                            <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                            <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
-                            <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
-                            <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-            <div className='flex flex-col gap-2 ml-10'>
-
-                <table className="table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
-
-                    <thead className="bg-red">
-                        <tr className="text-left text-[#8181A5] text-sm  ">
-                            <th className="py-8 px-2 align-top">Contract ID</th>
-                            <th className="py-8 px-2 align-top">Product</th>
-                            <th className="py-8 px-2 align-top">Start Date</th>
-                            <th className="py-8 px-2 align-top">End Date</th>
-                            <th className="py-8 px-2 align-top">Amount</th>
-                            <th className="py-8 px-2 align-top">Print</th>
-                            <th className="py-8 px-2 align-top">Renew</th>
-                        </tr>
-                    </thead>
-                    {/* {contractList ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
-                    {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                        ></div>
-                        <div className="flex justify-center items-center min-h-screen">
-                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
-                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                    {dateFilterVisible && (
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-25"
+                                onClick={() => setDateFilterVisible(false)}
+                            ></div>
+                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
+                                <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
+                                <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
+                                <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
+                                <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
                             </div>
                         </div>
-                    </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
-                </table>
-                {contractList && (
-                    <Pagination
-                        postsPerPage={postsPerPage}
-                        totalPosts={contractList.length}
-                        paginate={paginate}
-                    />)
-                }
-                {customDateFilterVisible ? (
+                    )}
+                </div>
+                <div className='flex flex-col gap-2 ml-10'>
 
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                            onClick={() => setCustomDateFilterVisible(false)}
-                        ></div>
-                        <div className="flex items-center min-h-screen px-4 py-8">
-                            <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
-                                {/* <div className="mt-3 sm:flex"> */}
-                                <div className="mt-2 flex flex-col justify-center align-center">
-                                    <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
+                    {/* =======For tablet or laptop view======== */}
+                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12 " >
 
-                                    {/* <div>
+                        <thead className="bg-red">
+                            <tr className="text-left text-[#8181A5] text-sm  ">
+                                <th className="py-8 px-2 align-top">Contract ID</th>
+                                <th className="py-8 px-2 align-top">Product</th>
+                                <th className="py-8 px-2 align-top">Start Date</th>
+                                <th className="py-8 px-2 align-top">End Date</th>
+                                <th className="py-8 px-2 align-top">Amount</th>
+                                <th className="py-8 px-2 align-top">Print</th>
+                                <th className="py-8 px-2 align-top">Renew</th>
+                            </tr>
+                        </thead>
+                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
+                            </div>
+                        </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
+                    </table>
+
+                    {/* =======For mobile view======== */}
+                    <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
+
+                        {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
+                            </div>
+                        </div>) : (currentPosts !== null ? (currentPosts.map(contract => (
+                            <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
+                                <div className="flex gap-2 justify-between align-top text-left text-[#8181A5] text-sm pr-1 ">
+                                    <div className=" px-2 align-top">{contract.contractId} </div>
+                                    <div className=" px-2 align-top">{contract.contrctStartDate + " to " + contract.contractEndDate}</div>
+                                    <button onClick={expandMore} id={"ExpandMore" + contract.contractId} ><MdOutlineExpandMore /></button>
+                                    <button onClick={expandLess} id={"ExpandLess" + contract.contractId} className='hidden' ><MdOutlineExpandLess /></button>
+                                </div>
+                                <div id={"section" + contract.contractId} className='hidden'>
+                                    <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                        <div className=" px-2 align-top">
+                                            <p className='font-semibold'>Product List:</p>
+                                            {
+                                                getProductList(contract.productList).map(p => {
+                                                    return <p>{p}</p>;
+                                                })
+
+                                            }
+                                        </div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Amount : </span> {contract.netPayable}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
+                                        <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-full' >No data found</div>)
+
+
+                        ))}
+
+                    </div>
+
+                    {customDateFilterVisible ? (
+
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                onClick={() => setCustomDateFilterVisible(false)}
+                            ></div>
+                            <div className="flex items-center min-h-screen px-4 py-8">
+                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                    {/* <div className="mt-3 sm:flex"> */}
+                                    <div className="mt-2 flex flex-col justify-center align-center">
+                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
+
+                                        {/* <div>
                                             <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
                                             <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
                                         </div> */}
-                                    <div className='flex my-2 justify-center'>
-                                        {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                        <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                            <option value="1">Jan</option>
-                                            <option value="2">Feb</option>
-                                            <option value="3">Mar</option>
-                                            <option value="4">Apr</option>
-                                            <option value="5">May</option>
-                                            <option value="6">Jun</option>
-                                            <option value="7">Jul</option>
-                                            <option value="8">Aug</option>
-                                            <option value="9">Sep</option>
-                                            <option value="10">Oct</option>
-                                            <option value="11">Nov</option>
-                                            <option value="12">Dec</option>
-                                        </select>
-                                        {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                        <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                            <option value="2017">2017</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2024">2024</option>
-                                            <option value="2025">2025</option>
-                                            <option value="2026">2026</option>
-                                            <option value="2027">2027</option>
-                                        </select>
+                                        <div className='flex my-2 justify-center'>
+                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
+                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
+                                                <option value="1">Jan</option>
+                                                <option value="2">Feb</option>
+                                                <option value="3">Mar</option>
+                                                <option value="4">Apr</option>
+                                                <option value="5">May</option>
+                                                <option value="6">Jun</option>
+                                                <option value="7">Jul</option>
+                                                <option value="8">Aug</option>
+                                                <option value="9">Sep</option>
+                                                <option value="10">Oct</option>
+                                                <option value="11">Nov</option>
+                                                <option value="12">Dec</option>
+                                            </select>
+                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
+                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2026">2027</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
+                                                onClick={applyDateFilter}
+                                            >
+                                                OK
+                                            </button>
+                                            <button
+                                                className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
+                                                onClick={() =>
+                                                    setCustomDateFilterVisible(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
 
                                     </div>
-
-                                    <div className="items-center justify-center gap-5 mt-3 flex w-full">
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
-                                            onClick={applyDateFilter}
-                                        >
-                                            OK
-                                        </button>
-                                        <button
-                                            className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
-                                            onClick={() =>
-                                                setCustomDateFilterVisible(false)
-                                            }
-                                        >
-                                            Cancel
-                                        </button>
-
-                                    </div>
-
+                                    {/* </div> */}
                                 </div>
-                                {/* </div> */}
                             </div>
                         </div>
-                    </div>
 
-                ) : null}
+                    ) : null}
+                </div>
             </div>
+            {contractList && (
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={contractList.length}
+                    paginate={paginate}
+                />)
+            }
 
 
         </>

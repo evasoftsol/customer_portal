@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
 import PaymentsTable from '../components/PaymentsTable.component'
 import { FcDownload } from 'react-icons/fc';
+import { MdOutlineExpandMore } from 'react-icons/md';
+import { MdOutlineExpandLess } from 'react-icons/md';
 
 
 const Payments = () => {
@@ -174,6 +176,72 @@ const Payments = () => {
         setCustomDateFilterVisible(true);
     }
 
+    const expandMore = event => {
+        console.log("expandMore clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandMore" + elementid).classList.add('hidden');
+    }
+    const expandLess = event => {
+        console.log("expandLess clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.add('hidden');
+
+        document.getElementById("ExpandMore" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.add('hidden');
+    }
+    const downloadInvoice = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Invoice&documentId=" + event.currentTarget.name;
+
+        Axios
+            .get(url)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json.pdfUrl);
+                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+    const downloadPaySlip = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Payment&documentId=" + event.currentTarget.name;
+
+        Axios
+            .get(url)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json.pdfUrl);
+                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+    const pay = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=" + companyId + "&documentName=Invoice&documentId=" + event.currentTarget.name;
+
+        console.log("pay url=" + url);
+        Axios
+            .get(url)
+            .then((response) => {
+                window.open(response.data, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
     return (
         <>
             <div className='h-5/6 sm:h-screen overflow-y-auto '>
@@ -198,6 +266,7 @@ const Payments = () => {
                 </div>
                 <div className='flex flex-col gap-2  ml-10'>
 
+                    {/* =======For tablet or laptop view======== */}
                     <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white sm:w-11/12" >
 
                         <thead className="bg-red">
@@ -210,7 +279,7 @@ const Payments = () => {
                             </tr>
                         </thead>
                         {/* {paymentList ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
-                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        {(loading ? (<tbody><tr><td><div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
                                 className="fixed inset-0 w-full h-full bg-black opacity-40"
                             ></div>
@@ -219,149 +288,57 @@ const Payments = () => {
                                     <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                                 </div>
                             </div>
-                        </div></tr></tbody>) : (paymentList !== null ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="5">No data found</td></tr></tbody>)))}
+                        </div></td></tr></tbody>) : (paymentList !== null ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="5">No data found</td></tr></tbody>)))}
                     </table>
+
+                    {/* =======For mobile view======== */}
                     <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
 
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                        {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
                             </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
+                        </div>) : (currentPosts !== null ? (currentPosts.map(payment => (
+                            <div className="flex flex-col gap-1 bg-white rounded-lg">
+                                <div className="flex gap-1 justify-between align-top text-left text-[#8181A5] text-sm px-1 py-1 ">
+                                    <div className=" px-1 align-top">{payment.invoiceId}</div>
+                                    <div className=" px-1 align-top" >{payment.paymentDate}</div>
+                                    <div className=" px-1 align-top">{"Total: " + payment.paymentAmount}</div>
+                                    <button onClick={expandMore} id={"ExpandMore" + payment.invoiceId} ><MdOutlineExpandMore /></button>
+                                    <button onClick={expandLess} id={"ExpandLess" + payment.invoiceId} className='hidden' ><MdOutlineExpandLess /></button>
+                                </div>
+                                <div id={"section" + payment.invoiceId} className='hidden'>
+                                    <div className="flex flex-col gap-1 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                        <div className="mt-2 px-2 align-top"><span className='font-semibold'>Invoice ID : </span> {payment.invoiceId}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Date : </span>{payment.paymentDate}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Total : </span>{payment.paymentAmount}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Status : </span>
+                                            {
+                                                payment.status === "Created" ?
+                                                    (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) :
+                                                    (payment.status === "Closed" ?
+                                                        (<button name={payment.paymentId} onClick={downloadPaySlip} className=" underline underline-offset-1 text-sky-600">Paid</button>) :
+                                                        (payment.status))
+
+                                            }
+                                        </div>
+                                        <div className=" px-2 align-top pb-1"><span className='font-semibold'>Download Invoice :</span> <button name={payment.invoiceId} onClick={downloadInvoice}><FcDownload /></button></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Paid</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Paid</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-1 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-1 align-top">100078584</div>
-                                <div className=" px-1 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-1 align-top">Amt: 54434</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 flex gap-10'>
-                                <button className=" underline underline-offset-1 text-sky-600">Pay</button>
-                                <div className='flex align-bottom pt-1'><FcDownload className='align-bottom' /></div>
-                            </div>
-                        </div>
+
+                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-full' >No data found</div>)
+
+
+                        ))}
 
                     </div>
-                    {/* {paymentList && (
-                    <Pagination
-                        postsPerPage={postsPerPage}
-                        totalPosts={paymentList.length}
-                        paginate={paginate}
-                    />)
-                } */}
+
                     {customDateFilterVisible ? (
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">

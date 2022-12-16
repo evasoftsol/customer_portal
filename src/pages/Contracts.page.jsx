@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
-import { MdOutlineExpandMore } from 'react-icons/md';
-import { MdOutlineExpandLess } from 'react-icons/md';
 import { FcDownload } from 'react-icons/fc';
 import { MdAutorenew } from 'react-icons/md'
+import { MdOutlineExpandMore } from 'react-icons/md';
+import { MdOutlineExpandLess } from 'react-icons/md';
 import ContractsTable from '../components/ContractsTable.component';
 
 
@@ -199,6 +199,53 @@ const Contracts = () => {
         document.getElementById("ExpandLess" + elementid).classList.add('hidden');
     }
 
+    const getProductList = (prodList) => {
+
+        let productArr = JSON.parse(prodList);
+
+        let productNameList = productArr.map(product => {
+            return product.serviceProduct.productName
+        })
+        console.log(productNameList);
+
+        // let htmltext = "";
+        // productNameList.forEach(element => {
+        //     htmltext += "<p>" + element + "</p>"
+        // });
+        return productNameList;
+    }
+
+    const downloadContract = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Contract&documentId=" + event.currentTarget.name;
+
+        Axios
+            .get(url)
+            .then((response) => response.data)
+            .then((json) => {
+                console.log('json', json.pdfUrl);
+                window.open(json.pdfUrl, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+    const renewContract = event => {
+        event.preventDefault();
+        let url = "https://" + appid + ".appspot.com/slick_erp/digitalPayment?authCode=" + companyId + "&documentName=Contract%20Renew&documentId=" + event.currentTarget.name;
+
+        console.log("renewal url=" + url);
+        Axios
+            .get(url)
+            .then((response) => {
+                window.open(response.data, '_blank', 'noopener,noreferrer');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
     return (
         <>
             <div className='h-5/6 sm:h-screen overflow-y-auto '>
@@ -223,6 +270,7 @@ const Contracts = () => {
                 </div>
                 <div className='flex flex-col gap-2 ml-10'>
 
+                    {/* =======For tablet or laptop view======== */}
                     <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12 " >
 
                         <thead className="bg-red">
@@ -248,218 +296,50 @@ const Contracts = () => {
                             </div>
                         </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                     </table>
+
+                    {/* =======For mobile view======== */}
                     <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
 
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078584">100078584 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078584"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
+                        {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078585">100078585 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078585" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078585" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078585"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
+                        </div>) : (currentPosts !== null ? (currentPosts.map(contract => (
+                            <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
+                                <div className="flex gap-2 justify-between align-top text-left text-[#8181A5] text-sm pr-1 ">
+                                    <div className=" px-2 align-top">{contract.contractId} </div>
+                                    <div className=" px-2 align-top">{contract.contrctStartDate + " to " + contract.contractEndDate}</div>
+                                    <button onClick={expandMore} id={"ExpandMore" + contract.contractId} ><MdOutlineExpandMore /></button>
+                                    <button onClick={expandLess} id={"ExpandLess" + contract.contractId} className='hidden' ><MdOutlineExpandLess /></button>
+                                </div>
+                                <div id={"section" + contract.contractId} className='hidden'>
+                                    <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                        <div className=" px-2 align-top">
+                                            <p className='font-semibold'>Product List:</p>
+                                            {
+                                                getProductList(contract.productList).map(p => {
+                                                    return <p>{p}</p>;
+                                                })
+
+                                            }
+                                        </div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Amount : </span> {contract.netPayable}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
+                                        <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div>
                                     </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078586">100078586 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078586" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078586" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078586"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078587">100078587 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078587" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078587" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078587"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078588">100078588 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078588" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078588" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078588"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078589">100078589 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078589" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078589" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078589"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078590">100078590 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078590" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078590" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078590"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078591">100078591 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078591" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078591" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078591"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078592">100078592 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078592" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078592" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078592"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top" id="100078593">100078593 </div>
-                                <div className=" px-2 align-top">02/12/2022 to 01/12/2023</div>
-                                <button onClick={expandMore} id="ExpandMore100078593" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078593" className='hidden' ><MdOutlineExpandLess /></button>
-                            </div>
-                            <div id={"section" + "100078593"} className='hidden'>
-                                <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
-                                    <div className=" px-2 align-top">
-                                        <p className='font-semibold'>Product List:</p>
-                                        <p>Cockroach management treatment</p>
-                                        <p>GENERAL DISINFESTATION</p>
-                                        <p>Bed Bugs Treatment</p>
-                                    </div>
-                                    <div className=" px-2 align-top">Amount : 54434.0</div>
-                                    <div className=" px-2 align-top">Print : <FcDownload className='inline' /></div>
-                                    <div className=" px-2 align-bottom">Renew : <MdAutorenew className='inline text-blue-400' /></div>
-                                </div>
-                            </div>
-                        </div>
+
+                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-full' >No data found</div>)
+
+
+                        ))}
+
                     </div>
                     {/* {contractList && (
                     <Pagination

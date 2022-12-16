@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
 import ComplainTable from '../components/ComplainTable.component';
 import { BsPlusLg } from 'react-icons/bs'
+import { MdOutlineExpandMore } from 'react-icons/md';
+import { MdOutlineExpandLess } from 'react-icons/md';
 
 const Complaints = () => {
 
@@ -209,6 +211,27 @@ const Complaints = () => {
         setDateFilterVisible(false);
         setCustomDateFilterVisible(true);
     }
+    const expandMore = event => {
+        console.log("expandMore clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandMore" + elementid).classList.add('hidden');
+    }
+    const expandLess = event => {
+        console.log("expandLess clicked with id" + event.currentTarget.id.slice(10));
+        let elementid = event.currentTarget.id.slice(10);
+        let element = document.getElementById("section" + elementid);
+        element.classList.add('hidden');
+
+        document.getElementById("ExpandMore" + elementid).classList.remove('hidden');
+        document.getElementById("ExpandLess" + elementid).classList.add('hidden');
+    }
+
+    const get15chars = data => {
+        return data.slice(0, 35) + "...";
+    }
 
     return (
         <>
@@ -270,6 +293,7 @@ const Complaints = () => {
                 </div>
                 <div className='flex flex-col gap-2  ml-10'>{/* removed w-full h-full which removed vertical and horizontal scrollbars*/}
 
+                    {/* =======For tablet or laptop view======== */}
                     <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
 
                         <thead className="bg-red">
@@ -281,7 +305,7 @@ const Complaints = () => {
                             </tr>
                         </thead>
                         {/* {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
-                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        {(loading ? (<tbody><tr><td><div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
                                 className="fixed inset-0 w-full h-full bg-black opacity-40"
                             ></div>
@@ -290,101 +314,67 @@ const Complaints = () => {
                                     <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                                 </div>
                             </div>
-                        </div></tr></tbody>) : (complainList !== null ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="4">No data found</td></tr></tbody>)))}
+                        </div></td></tr></tbody>) : (complainList !== null ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="4">No data found</td></tr></tbody>)))}
                     </table>
 
+                    {/* =======For mobile view======== */}
                     <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
 
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                        {/* <div className="flex flex-col gap-1 bg-white rounded-lg">
+                            <div className="flex gap-2 justify-between align-top text-left text-[#8181A5] text-sm pr-1 ">
                                 <div className=" px-2 align-top">100078584</div>
                                 <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                                <div className=" px-2 align-top">Created</div>
+                                <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
+                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button>
                             </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                            <div className='px-2 align-top text-[#8181A5] text-sm'>{get15chars("Lorem ipsum dolor sit amet consectetur")}</div>
+                            <div id={"section" + "100078584"} className='hidden'>
+                                <div className="flex flex-col gap-1 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                    <div className="mt-2 px-2 align-top font-semibold">Description : </div>
+                                    <div className=" px-2 align-top">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate facere eius est deserunt. Consectetur officia odit doloribus modi distinctio culpa suscipit! Placeat, voluptate excepturi fugiat rerum quasi alias quis quae?</div>
+                                    <div className=" px-2 align-top"><span className='font-semibold'>Complain Id :</span> 100078584</div>
+                                    <div className=" px-2 align-top"><span className='font-semibold'>Complain Date :</span> 08/12/2022</div>
+                                    <div className=" px-2 align-top"><span className='font-semibold'>Status :</span> Created</div>
+                                </div>
                             </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                        </div> */}
+
+
+                        {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
                             </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
+                        </div>) : (currentPosts !== null ? (currentPosts.map(complain => (
+                            <div className="flex flex-col gap-1 bg-white rounded-lg">
+                                <div className="flex gap-2 justify-between align-top text-left text-[#8181A5] text-sm pr-1 ">
+                                    <div className=" px-2 align-top">{complain.count}</div>
+                                    <div className=" px-2 align-top">{complain.complainDate}</div>
+                                    <div className=" px-2 align-top">{complain.compStatus}</div>
+                                    <button onClick={expandMore} id={"ExpandMore" + complain.count} ><MdOutlineExpandMore /></button>
+                                    <button onClick={expandLess} id={"ExpandLess" + complain.count} className='hidden' ><MdOutlineExpandLess /></button>
+                                </div>
+                                <div className='px-2 align-top text-[#8181A5] text-sm'>{get15chars(complain.description)}</div>
+                                <div id={"section" + complain.count} className='hidden'>
+                                    <div className="flex flex-col gap-1 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                        <div className="mt-2 px-2 align-top font-semibold">Description : </div>
+                                        <div className=" px-2 align-top">{complain.description}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Complain Id :</span> {complain.count}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Complain Date :</span> {complain.complainDate}</div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Status :</span> {complain.compStatus}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
-                            <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
-                                <div className=" px-2 align-top">100078584</div>
-                                <div className=" px-2 align-top" id="100078584">08/12/2022</div>
-                                <div className=" px-2 align-top">Status: Created</div>
-                                {/* <button onClick={expandMore} id="ExpandMore100078584" ><MdOutlineExpandMore /></button>
-                                <button onClick={expandLess} id="ExpandLess100078584" className='hidden' ><MdOutlineExpandLess /></button> */}
-                            </div>
-                            <div className='px-2 text-[#8181A5]'>To test if 2 complaints with same id gets created</div>
-                        </div>
+
+                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-full' >No data found</div>)
+
+
+                        ))}
                     </div>
                     {/* {complainList && (
                         <Pagination
