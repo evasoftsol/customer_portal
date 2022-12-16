@@ -26,8 +26,32 @@ const Login = () => {
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
     const [choice, setChoice] = useState("Email");
-    // const [appid, setAppId] = useState("my-dot-evadev0006");
+    const [appid, setAppId] = useState("my-dot-evadev0006");
     const { search } = useLocation();
+
+
+    useEffect(() => {
+        console.log("in useEffect");
+        setCompanyDetails();
+    }, []);
+
+    const setCompanyDetails = () => {
+        console.log("in setCompanyDetails");
+        const parameters = new URLSearchParams(search);
+        const receivedAppId = parameters.get('authToken');
+        if (receivedAppId != null) {
+            // setAppId(receivedAppId);
+            localStorage.setItem("appId", receivedAppId);
+            setAppId(receivedAppId);
+            console.log("receivedAppId " + receivedAppId + "is set as appid");
+        } else {
+            localStorage.setItem("appId", "my-dot-evadev0006");
+            console.log("appid set to my-dot-evadev0006");
+        }
+
+    }
+
+
     const handleChangeEmail = event => {
         document.getElementById("mobile").value = "";
         setMobileInfo("");
@@ -246,12 +270,18 @@ const Login = () => {
         <div className="flex sm:flex-row flex-col relative h-screen" >
             <div className="block h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="w-full h-full flex flex-col justify-center align-center ">
-                    <div className="w-full flex justify-center my-4"><img className="" align="center" src={logo} width="48" alt="Logo" /></div>
+                    <div className="w-full flex justify-center my-4">
+                        {/* <img className="" align="center" src={logo} width="48" alt="Logo" /> */}
+                        <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className="w-50 sm:w-100" />
+                    </div>
                 </div>
             </div >
             <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t md:h-75% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="  h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg   w-full sm:h-full sm:w-6/12" >
                     <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[70%]">
+                        <p className="hidden sm:flex">
+                            <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className="w-50 sm:w-100" />
+                        </p>
                         <p className="text-xl sm:text-3xl">Welcome to our Customer Portal.</p>
                         <p className="text-xl sm:text-3xl">Sign In to see latest updates.</p>
                         <p className="text-sm sm:text-xl text-[#A9A9A9]">Enter your details to proceed further</p>
@@ -283,8 +313,10 @@ const Login = () => {
 
 
                         </div>
+
                         {/* </form> */}
                     </div>
+
                 </div>
                 <div className="hidden h-full text-white w-6/12 md:block">
                     <div style={{ background: `url(${bgsignin})` }} className="h-full  w-full !bg-cover !bg-center !bg-no-repeat " >
