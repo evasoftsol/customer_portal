@@ -13,6 +13,9 @@ import { FcCancel } from 'react-icons/fc'
 import { TiTick } from 'react-icons/ti'
 import { BsPersonCircle } from 'react-icons/bs'
 
+import { FcDownload } from 'react-icons/fc';
+import { VscFeedback } from 'react-icons/vsc'
+
 
 
 
@@ -47,81 +50,81 @@ const ServiceSchedule = () => {
 
     const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
-        // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=5659313586569216&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=3/12/2022&apiCallFrom=CustomerPortal";
-        let url = "";
-        console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
+        let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=6/12/2022&apiCallFrom=CustomerPortal";
+        // let url = "";
+        // console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
 
-        const current = new Date();
-        let month = current.getMonth() + 1;
-        let fromDate = "";
-        let toDate = "";
+        // const current = new Date();
+        // let month = current.getMonth() + 1;
+        // let fromDate = "";
+        // let toDate = "";
 
 
-        if (selectedDateFilter === "btnThisMonth") {
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear()
-            }
-        } else if (selectedDateFilter === "btnLast") {
-            toDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 1) {
-                let year = current.getFullYear() - 1;
-                fromDate = "1/12/" + year;
-            } else {
-                month = month - 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-            }
-        } else if (selectedDateFilter === "btnNext") {
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                fromDate = "1/01/" + year;
-                toDate = "1/02/" + year;
-            } else {
-                month += 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-                if (month === 12) {
-                    let year = current.getFullYear() + 1;
-                    toDate = "1/01/" + year;
-                } else {
-                    month += 1;
-                    toDate = "1/" + month + "/" + current.getFullYear();
-                }
-            }
+        // if (selectedDateFilter === "btnThisMonth") {
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear()
+        //     }
+        // } else if (selectedDateFilter === "btnLast") {
+        //     toDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 1) {
+        //         let year = current.getFullYear() - 1;
+        //         fromDate = "1/12/" + year;
+        //     } else {
+        //         month = month - 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // } else if (selectedDateFilter === "btnNext") {
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         fromDate = "1/01/" + year;
+        //         toDate = "1/02/" + year;
+        //     } else {
+        //         month += 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //         if (month === 12) {
+        //             let year = current.getFullYear() + 1;
+        //             toDate = "1/01/" + year;
+        //         } else {
+        //             month += 1;
+        //             toDate = "1/" + month + "/" + current.getFullYear();
+        //         }
+        //     }
 
-        } else if (selectedDateFilter === "btnCustomDate") {
+        // } else if (selectedDateFilter === "btnCustomDate") {
 
-            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
-            if (selectedMonth === 12) {
-                console.log("selectedMonth === 12")
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                selectedMonth += 1;
-                toDate = "1/" + selectedMonth + "/" + selectedYear;
-            }
-        }
-        else {
-            console.log("in else part")
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                console.log("month === 12")
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear();
-            }
-        }
-        console.log("fromDate " + fromDate);
-        console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
+        //     let selectedMonth = parseInt(document.getElementById('monthSelector').value);
+        //     let selectedYear = document.getElementById('yearSelector').value;
+        //     fromDate = "1/" + selectedMonth + "/" + selectedYear;
+        //     console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
+        //     if (selectedMonth === 12) {
+        //         console.log("selectedMonth === 12")
+        //         let year = parseInt(selectedYear) + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         selectedMonth += 1;
+        //         toDate = "1/" + selectedMonth + "/" + selectedYear;
+        //     }
+        // }
+        // else {
+        //     console.log("in else part")
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         console.log("month === 12")
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // }
+        // console.log("fromDate " + fromDate);
+        // console.log("toDate " + toDate);
+        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
 
 
         console.log("url=" + url);
@@ -132,12 +135,15 @@ const ServiceSchedule = () => {
             .then((response) => response.data)
             .then((json) => {
 
+
                 if (json.length === 0) {
+                    console.log("in if");
                     setServiceList(null);
                     localStorage.setItem("localServiceList", null);
                     console.log("empty response. service list set to null");
                     setLoading(false);
-                } else {
+                }
+                else {
                     localStorage.setItem("localServiceList", JSON.stringify(json));
                     if (selectedBranch !== "" && selectedBranch !== "--select--") {
                         let filteredServiceList = null;
@@ -329,7 +335,7 @@ const ServiceSchedule = () => {
                             </tr>
                         </thead>
                         {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
-                        {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
+                        {(loading ? (<tbody><tr><td><div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
                                 className="fixed inset-0 w-full h-full bg-black opacity-40"
                             ></div>
@@ -338,13 +344,13 @@ const ServiceSchedule = () => {
                                     <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                                 </div>
                             </div>
-                        </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
+                        </div></td></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
                             <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                     </table>
 
                     <div className="flex flex-col gap-2 sm:hidden rounded-lg  w-11/12  " >
 
-                        <div className="flex flex-col gap-1 bg-white rounded-lg">
+                        {/* <div className="flex flex-col gap-1 bg-white rounded-lg">
                             <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
                                 <div className=" px-2 align-top" id="100078584">08/12/2022<br />
                                     <div className='flex'><MdSchedule className='mr-3 text-blue-400' />
@@ -544,28 +550,77 @@ const ServiceSchedule = () => {
                                     <div className="flex  px-2 align-bottom">Rating: <FaStar className='text-[#FFBA5A]' /><FaStar className=' text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* {serviceList ? (<ServicesTable serviceList={currentPosts} loading={loading} />) :  */}
-                        {/* {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div
-                            className="fixed inset-0 w-full h-full bg-black opacity-40"
-                        ></div>
-                        <div className="flex justify-center items-center min-h-screen">
-                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
-                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                        {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                            ></div>
+                            <div className="flex justify-center items-center min-h-screen">
+                                <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                    <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                                </div>
                             </div>
-                        </div>
-                    </div></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
-                        <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))} */}
+                        </div>) : (currentPosts !== null ? (currentPosts.map(service => (
+                            <div className="flex flex-col gap-1 bg-white rounded-lg">
+                                <div className='flex gap-2 justify-between'>
+                                    <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                        <div className=" pl-2 align-top" id={service.serviceId}>08/12/2022<br />
+                                            <div className='flex'>
+                                                {service.status === "Completed" ? (<TiTick className='mr-3 text-green-400' />) : (service.status === "Cancelled" ? (<FcCancel className='mr-3 text-red-400' />) : (<MdSchedule className='mr-3 text-blue-400' />))}
+
+                                                {service.customerFeedback === null ? (null) : (
+                                                    service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' size="10" />) :
+                                                        (service.customerFeedback === "Average" ?
+                                                            (<div className='flex flex-row'><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>) :
+                                                            (service.customerFeedback === "Good" ? (<div className='flex flex-row'><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>) :
+                                                                (service.customerFeedback === "Very Good" ? (<div className='flex flex-row '><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>) :
+                                                                    (service.customerFeedback === "Excellent" ? (<div className='flex flex-row '><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /><FaStar className='text-[#FFBA5A]' size="10" /></div>) : ("")))))
+
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="text-left  align-top">{service.productName}</div>
+                                    </div>
+                                    <div>
+                                        <button onClick={expandMore} id={"ExpandMore" + service.serviceId} ><MdOutlineExpandMore /></button>
+                                        <button onClick={expandLess} id={"ExpandLess" + service.serviceId} className='hidden' ><MdOutlineExpandLess /></button>
+                                    </div>
+                                </div>
+                                <div id={"section" + service.serviceId} className='hidden'>
+                                    <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
+                                        <div className=" px-2 align-top">Service Id : {service.serviceId}</div>
+                                        <div className=" px-2 align-top">Service Branch : {service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)}</div>
+                                        <div className=" px-2 align-top">Service Status : {service.status}</div>
+                                        <div className=" px-2 align-bottom">Action : {
+                                            service.status === "Completed" ?
+                                                (<button name={service.serviceId} ><FcDownload /></button>) :
+                                                (service.status === "Cancelled" || service.status === "Suspended" ? (null) : (<button name={service.serviceId} ><AiOutlineCalendar /></button>)
+                                                )
+                                        }</div>
+                                        <div className="flex  px-2 align-bottom">Rating:
+                                            {
+                                                service.status === "Completed" ? (service.customerFeedback === null ? (<button name={service.serviceId} ><VscFeedback className='text-xl' /></button>) : (
+
+                                                    service.customerFeedback === "Poor" ? (<FaStar className='text-[#FFBA5A]' />) :
+                                                        (service.customerFeedback === "Average" ?
+                                                            (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                                            (service.customerFeedback === "Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                                                (service.customerFeedback === "Very Good" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) :
+                                                                    (service.customerFeedback === "Excellent" ? (<div className='flex flex-row gap-1'><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /><FaStar className='text-[#FFBA5A]' /></div>) : ("")))))
+
+                                                )) : (null)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))) : (<div className='text-sm mx-4 text-center text-[#8181A5] font-semibold bg-white p-1' >No data found</div>)
+
+
+                        ))}
                     </div>
-                    {/* {serviceList && (
-                        <Pagination
-                            postsPerPage={postsPerPage}
-                            totalPosts={serviceList.length}
-                            paginate={paginate}
-                        />)
-                    } */}
                     {customDateFilterVisible ? (
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">
