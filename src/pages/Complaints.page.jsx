@@ -236,7 +236,7 @@ const Complaints = () => {
     return (
         <>
             <div className='h-5/6 sm:h-5/6 overflow-y-auto '>
-                <div className='flex ml-10 flex-row gap-20 justify-between w-11/12 relative my-5'>
+                <div className='flex ml-10 flex-row gap-20 justify-between w-11/12 sm:w-11/12 relative my-5'>
                     <div className="flex gap-5">
                         <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
                         <div className="font-semibold text-xl">Complaints</div>
@@ -294,7 +294,7 @@ const Complaints = () => {
                 <div className='flex flex-col gap-2  ml-10'>{/* removed w-full h-full which removed vertical and horizontal scrollbars*/}
 
                     {/* =======For tablet or laptop view======== */}
-                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 " >
+                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12 " >
 
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm w-full ">

@@ -278,8 +278,8 @@ const Login = () => {
                 </div>
             </div >
             <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
-                <div className="h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg w-full sm:h-full sm:w-6/12 relative" >
-                    <div className="w-full h-full ml-auto mr-0 px-10 py-10 sm:py-48 sm:px-100 sm:max-w-[70%]">
+                <div className="h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg w-full sm:h-full sm:w-6/12 " >
+                    <div className="w-full h-full ml-auto mr-0 px-10 py-10 sm:py-48 sm:px-100 sm:max-w-[70%] relative ">
                         <p className="hidden sm:flex">
                             <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className="w-50 sm:w-100" />
                         </p>
@@ -313,7 +313,7 @@ const Login = () => {
 
 
                         </div>
-                        <div className="absolute b-0 text-xs pt-16"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
+                        <div className="absolute  bottom-0 text-xs pb-5"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
 
                     </div>
                 </div>
