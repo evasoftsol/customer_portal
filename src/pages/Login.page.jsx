@@ -277,7 +277,7 @@ const Login = () => {
                     </div>
                 </div>
             </div >
-            <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
+            <div className="flex flex-row justify-evenly align-center w-full h-screen bg-gradient-to-t sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg w-full sm:h-full sm:w-6/12 " >
                     <div className="w-full h-full ml-auto mr-0 px-10 py-10 sm:py-48 sm:px-100 sm:max-w-[70%] relative ">
                         <p className="hidden sm:flex">
@@ -313,11 +313,11 @@ const Login = () => {
 
 
                         </div>
-                        <div className="absolute  bottom-0 text-xs pb-5"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
+                        <div className="absolute  bottom-5 sm:bottom-0 text-xs pb-5"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
 
                     </div>
                 </div>
-                <div className="hidden h-full text-white w-6/12 md:block">
+                <div className="hidden sm:h-full text-white w-6/12 md:block">
                     <div style={{ background: `url(${bgsignin})` }} className="h-full  w-full !bg-cover !bg-center !bg-no-repeat " >
 
                     </div>
