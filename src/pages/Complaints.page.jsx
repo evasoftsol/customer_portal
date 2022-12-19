@@ -235,7 +235,7 @@ const Complaints = () => {
 
     return (
         <>
-            <div className='h-5/6 sm:h-screen overflow-y-auto '>
+            <div className='h-5/6 sm:h-5/6 overflow-y-auto '>
                 <div className='flex ml-10 flex-row gap-20 justify-between w-11/12 relative my-5'>
                     <div className="flex gap-5">
                         <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
@@ -512,7 +512,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}>Next</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit mr-10" onClick={showNextPages}>Next</button>) : (<div></div>)}
             {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}> &gt;</button>) : (<div></div>)}
         </nav >
     )

@@ -114,7 +114,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <Link to="/renewals" >Renewals</Link>
                         </div>)}
 
-                    {route === "/projects" ?
+                    {/* {route === "/projects" ?
                         (<div className="w-full border-r-2 border-sky-600">
                             <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
                                 <div className="!text-xl"><ImClipboard /></div>
@@ -123,7 +123,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
                             <div className="!text-xl"><ImClipboard /></div>
                             <Link to="/projects" >Attendance & Payroll</Link>
-                        </div>)}
+                        </div>)} */}
 
                     <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
                         <div className="!text-2xl"><BiLogOut /></div>
@@ -164,9 +164,9 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         (<Link to="/renewals" className="shrink-0" ><img src={renewal} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
                         (<Link to="/renewals" className="shrink-0" ><img src={renewal} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
 
-                    {route === "/projects" ?
+                    {/* {route === "/projects" ?
                         (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
-                        (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
+                        (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)} */}
 
                     <Link to="/" onClick={clearData} className="shrink-0"><img src={logoutimg} alt="company logo" className="w-10 h-auto shrink-0  my-2 mr-2 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
 

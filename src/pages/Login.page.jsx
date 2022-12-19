@@ -285,7 +285,6 @@ const Login = () => {
                         <p className="text-xl sm:text-3xl">Welcome to our Customer Portal.</p>
                         <p className="text-xl sm:text-3xl">Sign In to see latest updates.</p>
                         <p className="text-sm sm:text-xl text-[#A9A9A9]">Enter your details to proceed further</p>
-                        {/* <form > */}
                         <div className="mt-5">
                             <div className="h-full w-full flex justify-start gap-10 align-center text-lg sm:text-xl">
                                 <div>
@@ -313,8 +312,6 @@ const Login = () => {
 
 
                         </div>
-
-                        {/* </form> */}
                     </div>
 
                 </div>

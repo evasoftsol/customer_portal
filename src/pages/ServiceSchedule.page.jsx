@@ -559,7 +559,7 @@ const ServiceSchedule = () => {
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm  ">
                                 <th className="py-4 sm:py-8 px-2 align-top">Service ID</th>
-                                <th className="py-4 sm:py-8 px-2 align-top">Service Branch</th>
+                                <th className="py-4 sm:py-8 px-2 align-top">Branch</th>
                                 <th className="py-4 sm:py-8 px-2 align-top">Date</th>
                                 <th className="py-4 sm:py-8 px-2 align-top">Name</th>
                                 <th className="py-4 sm:py-8 px-2 align-top">Status</th>
@@ -621,7 +621,7 @@ const ServiceSchedule = () => {
                                 <div id={"section" + service.serviceId} className='hidden'>
                                     <div className="flex flex-col gap-2 justify-start align-top text-left text-[#8181A5] text-sm " >
                                         <div className=" px-2 align-top">Service Id : {service.serviceId}</div>
-                                        <div className=" px-2 align-top">Service Branch : {service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)}</div>
+                                        <div className=" px-2 align-top">Branch : {service.serviceBranch === "Service Address" ? ("Main Branch") : (service.serviceBranch)}</div>
                                         <div className=" px-2 align-top">Service Status : {service.status}</div>
                                         <div className=" px-2 align-bottom">Action : {
                                             service.status === "Completed" ?
@@ -940,7 +940,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                     ))
                 }
             </ul >
-            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}>Next</button>) : (<div></div>)}
+            {catalogNumbers > 1 ? (<button className="hidden sm:inline-flex px-1 sm:px-3 py-2 bg-sky-600 text-white rounded-lg h-fit mr-10" onClick={showNextPages}>Next</button>) : (<div></div>)}
             {catalogNumbers > 1 ? (<button className="sm:hidden px-3 py-2 bg-sky-600 text-white rounded-lg h-fit" onClick={showNextPages}> &gt;</button>) : (<div></div>)}
         </nav >
     )
