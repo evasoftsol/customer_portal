@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import bgimageblue from '../images/bg-login-mobile.jpg'
 import bgsignin from '../images/bg-login-sign-in.jpg'
 import logo from '../images/logo-white.svg';
+import evalogo from '../images/evalogo.png';
 
 // import { Dialog } from '@headlessui/react'
 // import MyDialog from "../components/Dialog.component";
@@ -268,7 +269,7 @@ const Login = () => {
     }
     return (
         <div className="flex sm:flex-row flex-col relative h-screen" >
-            <div className="block h-50% sm:hidden md:h-25% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
+            <div className="block h-50% sm:hidden" style={{ background: `url(${bgimageblue})` }}>
                 <div className="w-full h-full flex flex-col justify-center align-center ">
                     <div className="w-full flex justify-center my-4">
                         {/* <img className="" align="center" src={logo} width="48" alt="Logo" /> */}
@@ -276,9 +277,9 @@ const Login = () => {
                     </div>
                 </div>
             </div >
-            <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t md:h-75% sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
-                <div className="  h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg   w-full sm:h-full sm:w-6/12" >
-                    <div className="w-full ml-auto mr-0 mt-auto mb-auto px-10 py-10 sm:py-60 sm:px-100 sm:max-w-[70%]">
+            <div className="flex flex-row justify-evenly align-center w-full h-full bg-gradient-to-t sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
+                <div className="h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg w-full sm:h-full sm:w-6/12 relative" >
+                    <div className="w-full h-full ml-auto mr-0 px-10 py-10 sm:py-48 sm:px-100 sm:max-w-[70%]">
                         <p className="hidden sm:flex">
                             <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className="w-50 sm:w-100" />
                         </p>
@@ -312,8 +313,9 @@ const Login = () => {
 
 
                         </div>
-                    </div>
+                        <div className="absolute b-0 text-xs pt-16"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
 
+                    </div>
                 </div>
                 <div className="hidden h-full text-white w-6/12 md:block">
                     <div style={{ background: `url(${bgsignin})` }} className="h-full  w-full !bg-cover !bg-center !bg-no-repeat " >
