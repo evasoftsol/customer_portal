@@ -180,10 +180,10 @@ const BaseHoc = (Component) => ({ ...props }) => {
             </>
         )
         // }
-        // }
-    };
+    }
+};
 
 
 
 
-    export default BaseHoc;
+export default BaseHoc;
