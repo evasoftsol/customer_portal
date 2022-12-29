@@ -89,11 +89,13 @@ const Login = () => {
         document.getElementById("mobile").hidden = true;
         document.getElementById("mobile").className = "hidden";
         document.getElementById("email").hidden = false;
+        document.getElementById("email").className = "inline";
         setChoice("Email");
     }
     const showMobilenoInput = event => {
         console.log("showMobilenoInput");
         document.getElementById("email").hidden = true;
+        document.getElementById("email").className = "hidden";
         document.getElementById("mobile").hidden = false;
         document.getElementById("mobile").className = "inline";
         setChoice("Mobile");
@@ -219,7 +221,10 @@ const Login = () => {
                     localStorage.setItem("customerId", json.customerId);
                     localStorage.setItem("customerName", json.customerName);
                     localStorage.setItem("customerAddress", json.address);
-                    localStorage.setItem("customerEmail", json.customerEmail);
+                    if (json.customerEmail === "")
+                        localStorage.setItem("customerEmail", "\"\"");
+                    else
+                        localStorage.setItem("customerEmail", json.customerEmail);
                     localStorage.setItem("customerCell", json.customerCellNo);
                     localStorage.setItem("appId", appid);
                     localStorage.setItem("companyBranch", json.branch);
@@ -289,17 +294,19 @@ const Login = () => {
                         <div className="mt-5">
                             <div className="h-full w-full flex justify-start gap-10 align-center text-lg sm:text-xl">
                                 <div>
-                                    <input type="radio" value="Email" name="inputdata" id="emailRadio" defaultChecked onClick={showEmailInput} />
-                                    <label className="ml-2" htmlFor="emailRadio">Email</label>
-                                </div>
-                                <div>
-                                    <input type="radio" value="Mobile" name="inputdata" id="mobileRadio" onClick={showMobilenoInput} />
+                                    <input type="radio" value="Mobile" name="inputdata" id="mobileRadio" defaultChecked onClick={showMobilenoInput} />
                                     <label className="ml-2" htmlFor="mobileRadio">Mobile</label>
                                 </div>
+                                <div>
+                                    <input type="radio" value="Email" name="inputdata" id="emailRadio" onClick={showEmailInput} />
+                                    <label className="ml-2" htmlFor="emailRadio">Email</label>
+                                </div>
+
                             </div>
                             <div className="mt-3">
-                                <input className="w-10/12 !boder-5 !focus:border-transparent !focus:ring-0 h-8 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
-                                <input className="hidden w-10/12" placeholder="Enter mobile no" type="text" name="mobile" id="mobile" maxLength={10} onChange={handleChangeMobile} />
+
+                                <input className=" w-10/12" placeholder="Enter mobile no" type="text" name="mobile" id="mobile" maxLength={10} onChange={handleChangeMobile} />
+                                <input className="hidden w-10/12 !boder-5 !focus:border-transparent !focus:ring-0 h-8 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
                             </div>
                             <hr className="w-3/4 mt-1"></hr>
                             <br />
@@ -313,7 +320,8 @@ const Login = () => {
 
 
                         </div>
-                        <div className="absolute  bottom-5 sm:bottom-0 text-xs pb-5"><img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
+                        <div className=" bottom-5 sm:bottom-0 text-xs pb-5 pt-20">
+                            <img className="inline" align="center" src={evalogo} width="24" alt="Logo" /> Copyright © All copyright reserved to EVA Software Solutions</div>
 
                     </div>
                 </div>
