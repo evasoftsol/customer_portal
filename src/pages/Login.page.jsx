@@ -218,6 +218,8 @@ const Login = () => {
                 .then((json) => {
                     console.log('json', json);
                     // alert("Response= " + json);
+
+
                     localStorage.setItem("customerId", json.customerId);
                     localStorage.setItem("customerName", json.customerName);
                     localStorage.setItem("customerAddress", json.address);
@@ -285,8 +287,8 @@ const Login = () => {
             <div className="flex flex-row justify-evenly align-center w-full h-screen bg-gradient-to-t sm:h-50%" style={{ background: `url(${bgimageblue})` }}>
                 <div className="h-50% bg-white rounded-t-lg sm:rounded-none sm:rounded-r-lg w-full sm:h-full sm:w-6/12 " >
                     <div className="w-full h-full ml-auto mr-0 px-10 py-10 sm:py-48 sm:px-100 sm:max-w-[70%] relative ">
-                        <p className="hidden sm:flex">
-                            <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className="w-50 sm:w-100" />
+                        <p className="hidden sm:flex sm:justify-center">
+                            <img src={"https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024"} alt="company logo" className=" w-50 sm:w-100 " />
                         </p>
                         <p className="text-xl sm:text-3xl">Welcome to our Customer Portal.</p>
                         <p className="text-xl sm:text-3xl">Sign In to see latest updates.</p>

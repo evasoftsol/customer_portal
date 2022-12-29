@@ -25,7 +25,7 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
     let imageurl = "";
     if (localStorage.getItem("appId"))
-        imageurl = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/getimage?width=100&height=1024"
+        imageurl = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/getimage?width=70&height=1024"
     if (!localStorage.getItem("customerName")) {
 
         return (
@@ -55,8 +55,8 @@ const BaseHoc = (Component) => ({ ...props }) => {
                 <div className="flex flex-col sm:flex-row justify-center w-screen h-screen">
                     {/* Navbar for Medium or Larger screens */}
                     <div className="flex flex-col justify-start  sm:w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] pl-5">
-                        <div className="flex justify-start ml-2 mt-2 align-center">
-                            <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
+                        <div className="flex justify-center ml-2 mt-2 align-center">
+                            <img src={imageurl} alt="company logo" className="w-50 sm:w-50" />
                         </div>
                         {route === "/services" ?
                             (
