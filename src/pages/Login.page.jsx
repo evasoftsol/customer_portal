@@ -26,7 +26,7 @@ const Login = () => {
     const [mobileInfo, setMobileInfo] = useState("");
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
-    const [choice, setChoice] = useState("Email");
+    const [choice, setChoice] = useState("Mobile");
     const [appid, setAppId] = useState("my-dot-evadev0006");
     const { search } = useLocation();
 
