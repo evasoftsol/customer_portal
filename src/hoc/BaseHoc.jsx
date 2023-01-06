@@ -127,7 +127,9 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
                         <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
                             <div className="!text-2xl"><BiLogOut /></div>
-                            <Link to="/" onClick={clearData}>Logout</Link>
+                            {/* <Link to="/" onClick={clearData}>Logout</Link> */}
+                            <Link to={{ pathname: "/login", search: "?authToken=" + localStorage.getItem("appId") }} onClick={clearData}>Logout</Link>
+
                         </div>
                     </div>
 
@@ -136,6 +138,8 @@ const BaseHoc = (Component) => ({ ...props }) => {
                     <div className="w-screen h-5/6 sm:h-full sm:w-10/12 bg-[#EFF2FE] overflow-y-auto">{/*removed w-full which removed white spacing rigfht to the table in mobile view */}
                         <Component {...props} />
                     </div>
+
+
                     {/* Navbar for Mobile screen */}
                     {/* <div className="fixed bottom-0 flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" > */}
                     <div className="flex flex-row justify-between align-center gap-2 w-screen h-1/6 sm:hidden bg-white text-[#8181A5]" >
@@ -168,7 +172,10 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
                         (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)} */}
 
-                        <Link to="/" onClick={clearData} className="shrink-0"><img src={logoutimg} alt="company logo" className="w-10 h-auto shrink-0  my-2 mr-2 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
+
+
+                        {/* <Link to="/" onClick={clearData} className="shrink-0"> */}
+                        <Link to={{ pathname: "/login", search: "?authToken=" + localStorage.getItem("appId") }} onClick={clearData} className="shrink-0"><img src={logoutimg} alt="company logo" className="w-10 h-auto shrink-0  my-2 mr-2 hover:border-[#c3c3c3] hover:border-2 p-1" /></Link>
 
 
 

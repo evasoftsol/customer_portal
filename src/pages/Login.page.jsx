@@ -43,6 +43,7 @@ const Login = () => {
         if (receivedAppId != null) {
             // setAppId(receivedAppId);
             localStorage.setItem("appId", receivedAppId);
+
             setAppId(receivedAppId);
             console.log("receivedAppId " + receivedAppId + "is set as appid");
         } else {
