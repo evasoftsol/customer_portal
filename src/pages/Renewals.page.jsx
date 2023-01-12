@@ -437,18 +437,22 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     const [currentCatalog, setCurrentCatalog] = useState(1);
     let lastPage = currentCatalog * 5;
     let firstPage = lastPage - 4;
+
     const showPreviousPages = () => {
         console.log("in showPreviousPages currentCatalog=" + currentCatalog)
         if (currentCatalog > 1) {
             setCurrentCatalog(currentCatalog - 1)
+            let pageNumber = (currentCatalog * 5) - 9;
+            paginate(pageNumber);
         }
     }
 
     const showNextPages = () => {
-        console.log("in showNextPages currentCatalog=" + currentCatalog)
+        console.log("in showNextPages currentCatalog=" + currentCatalog + "firstpage=" + firstPage)
         if (currentCatalog < catalogNumbers) {
             setCurrentCatalog(currentCatalog + 1)
-            paginate(firstPage)
+            let pageNumber = (currentCatalog * 5) + 1;
+            paginate(pageNumber);
         }
     }
     return (

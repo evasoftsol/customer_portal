@@ -41,9 +41,22 @@ const Login = () => {
         const parameters = new URLSearchParams(search);
         const receivedAppId = parameters.get('authToken');
         if (receivedAppId != null) {
+            console.log("in receivedAppId");
             // setAppId(receivedAppId);
             localStorage.setItem("appId", receivedAppId);
-
+            // let url = "https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024";
+            // Axios.get(url).then(
+            //     (response) => {
+            //         console.log("status=" + response.status)
+            //         console.log("status=" + response.statusText)
+            //         if (response.status === 404)
+            //             alert("Invalid appid!");
+            //     }
+            // ).catch((exception) => {
+            //     console.log("Error is" + exception);
+            //     alert("Invalid appid!");
+            //     return;
+            // })
             setAppId(receivedAppId);
             console.log("receivedAppId " + receivedAppId + "is set as appid");
         } else {
@@ -87,6 +100,7 @@ const Login = () => {
 
     const showEmailInput = event => {
         console.log("showEmailInput emailinfo" + emailInfo);
+        document.getElementById("mobile").value = "";
         document.getElementById("mobile").hidden = true;
         document.getElementById("mobile").className = "hidden";
         document.getElementById("email").hidden = false;
@@ -95,6 +109,7 @@ const Login = () => {
     }
     const showMobilenoInput = event => {
         console.log("showMobilenoInput");
+        document.getElementById("email").value = "";
         document.getElementById("email").hidden = true;
         document.getElementById("email").className = "hidden";
         document.getElementById("mobile").hidden = false;
@@ -344,7 +359,7 @@ export const validEmail = new RegExp(
 );
 
 export const validMobileNo = new RegExp(
-    '^[0-9]{10}$'
+    '^[0-9]*$'
 );
 
 export default Login;

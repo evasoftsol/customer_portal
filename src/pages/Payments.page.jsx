@@ -114,7 +114,7 @@ const Payments = () => {
             .get(url)
             .then((response) => response.data)//[] 
             .then((json) => {
-                if (json.length === 0) {
+                if ('Message' in json[0]) {//if (json.length === 0) {
                     // alert("No data found");
                     setPaymentList(null)
                     setLoading(false);
@@ -444,14 +444,17 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
         console.log("in showPreviousPages currentCatalog=" + currentCatalog)
         if (currentCatalog > 1) {
             setCurrentCatalog(currentCatalog - 1)
+            let pageNumber = (currentCatalog * 5) - 9;
+            paginate(pageNumber);
         }
     }
 
     const showNextPages = () => {
-        console.log("in showNextPages currentCatalog=" + currentCatalog)
+        console.log("in showNextPages currentCatalog=" + currentCatalog + "firstpage=" + firstPage)
         if (currentCatalog < catalogNumbers) {
             setCurrentCatalog(currentCatalog + 1)
-            paginate(firstPage)
+            let pageNumber = (currentCatalog * 5) + 1;
+            paginate(pageNumber);
         }
     }
     return (
