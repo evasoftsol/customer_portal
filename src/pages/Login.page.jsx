@@ -9,10 +9,6 @@ import bgsignin from '../images/bg-login-sign-in.jpg'
 import logo from '../images/logo-white.svg';
 import evalogo from '../images/evalogo.png';
 
-// import { Dialog } from '@headlessui/react'
-// import MyDialog from "../components/Dialog.component";
-
-// '../images/bgloginmobile.jpg';
 
 // window.addEventListener("popstate", e => {  // Nope, go back to your page
 //     this.props.history.go(1);
@@ -27,7 +23,7 @@ const Login = () => {
     const [otpInfo, setOtpInfo] = useState("");
     const [generatedOtp, setGeneratedOtp] = useState("");
     const [choice, setChoice] = useState("Mobile");
-    const [appid, setAppId] = useState("my-dot-evadev0006");
+    const [appid, setAppId] = useState("");//my-dot-evadev0006
     const { search } = useLocation();
 
 
@@ -43,25 +39,31 @@ const Login = () => {
         if (receivedAppId != null) {
             console.log("in receivedAppId");
             // setAppId(receivedAppId);
-            localStorage.setItem("appId", receivedAppId);
-            // let url = "https://" + appid + ".appspot.com/slick_erp/getimage?width=100&height=1024";
-            // Axios.get(url).then(
-            //     (response) => {
-            //         console.log("status=" + response.status)
-            //         console.log("status=" + response.statusText)
-            //         if (response.status === 404)
-            //             alert("Invalid appid!");
-            //     }
-            // ).catch((exception) => {
-            //     console.log("Error is" + exception);
-            //     alert("Invalid appid!");
-            //     return;
-            // })
-            setAppId(receivedAppId);
-            console.log("receivedAppId " + receivedAppId + "is set as appid");
+
+            let url = "https://" + receivedAppId + ".appspot.com/slick_erp/getimage?width=100&height=1024";
+            Axios.get(url).then(
+                (response) => {
+                    console.log("status=" + response.status)
+                    console.log("status=" + response.statusText)
+                    if (response.status === 404) {
+                        alert("Invalid link!");
+                    } else {
+                        setAppId(receivedAppId);
+                        localStorage.setItem("appId", receivedAppId);
+                        console.log("receivedAppId " + receivedAppId + "is set as appid");
+                    }
+                }
+            ).catch((exception) => {
+                console.log("Error is" + exception);
+                alert("Invalid link!");
+                return;
+            })
+
         } else {
-            localStorage.setItem("appId", "my-dot-evadev0006");
-            console.log("appid set to my-dot-evadev0006");
+            alert("Invalid link!");
+            return;
+            // localStorage.setItem("appId", "my-dot-evadev0006");
+            // console.log("appid set to my-dot-evadev0006");
         }
 
     }
@@ -123,16 +125,23 @@ const Login = () => {
         console.log("search=" + search);
         const parameters = new URLSearchParams(search);
         const receivedAppId = parameters.get('authToken');
-        let appid = "";
+        // let appid = "";
         if (receivedAppId != null) {
             // setAppId(receivedAppId);
-            localStorage.setItem("appId", receivedAppId);
-            appid = receivedAppId;
-            console.log("receivedAppId " + receivedAppId + "is set as appid");
+            if (appid != null && appid !== "") {
+                // localStorage.setItem("appId", receivedAppId);
+                // appid = receivedAppId;
+                console.log("receivedAppId " + receivedAppId + "is set as appid");
+            } else {
+                alert("Invalid link");
+                return;
+            }
         } else {
-            localStorage.setItem("appId", "my-dot-evadev0006");
-            appid = "my-dot-evadev0006";
-            console.log("appid set to my-dot-evadev0006");
+            alert("Invalid link");
+            return;
+            // localStorage.setItem("appId", "my-dot-evadev0006");
+            // appid = "my-dot-evadev0006";
+            // console.log("appid set to my-dot-evadev0006");
         }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
@@ -181,83 +190,88 @@ const Login = () => {
     const getCustomerDetails = (event) => {
         event.preventDefault();
 
-        if (mobileInfo === "" && emailInfo === "") {
-            alert("Enter email or mobile number!!");
-            return;
-        }
-        if (choice === "Email") {
-            if (!validEmail.test(emailInfo)) {
-                alert("Invalid email");
+        if (appid != null && appid !== "") {
+            if (mobileInfo === "" && emailInfo === "") {
+                alert("Enter email or mobile number!!");
                 return;
             }
-        }
-        if (choice === "Mobile") {
-            if (!validMobileNo.test(mobileInfo)) {
-                alert("Invalid mobile number");
+            if (choice === "Email") {
+                if (!validEmail.test(emailInfo)) {
+                    alert("Invalid email");
+                    return;
+                }
+            }
+            if (choice === "Mobile") {
+                if (!validMobileNo.test(mobileInfo)) {
+                    alert("Invalid mobile number");
+                    return;
+                }
+            }
+            if (generatedOtp === "") {
+                alert("Click on 'get OTP' button to receive OTP");
                 return;
             }
-        }
-        if (generatedOtp === "") {
-            alert("Click on 'get OTP' button to receive OTP");
+
+            if (otpInfo === "") {
+                alert("Enter OTP");
+                return;
+            }
+            console.log("generated otp=" + generatedOtp);
+            console.log("entered otp=" + otpInfo);
+            if (otpInfo === generatedOtp) {
+                console.log("OTP is valid");
+
+            }
+            else {
+                alert("Invalid OTP!");
+                return;
+            }
+            console.log("choice=" + choice);
+            let appid = localStorage.getItem("appId");
+            let url = "";
+            if (choice === "Email") {
+                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + "" + "&customerEmail=" + emailInfo;
+            }
+            if (choice === "Mobile") {
+                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + mobileInfo + "&customerEmail=" + "";
+            }
+            console.log(url);
+
+            if (url != "") {
+                Axios
+                    .get(url)
+                    .then((response) => response.data)
+                    .then((json) => {
+                        console.log('json', json);
+                        // alert("Response= " + json);
+
+
+                        localStorage.setItem("customerId", json.customerId);
+                        localStorage.setItem("customerName", json.customerName);
+                        localStorage.setItem("customerAddress", json.address);
+                        if (json.customerEmail === "")
+                            localStorage.setItem("customerEmail", "\"\"");
+                        else
+                            localStorage.setItem("customerEmail", json.customerEmail);
+                        localStorage.setItem("customerCell", json.customerCellNo);
+                        localStorage.setItem("appId", appid);
+                        localStorage.setItem("companyBranch", json.branch);
+                        localStorage.setItem("companyId", json.companyId);
+
+
+                        loadCustomerBranches();
+                        // window.location.href = `/services`;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+
+
+            }
+        } else {
+            alert("Invalid link");
             return;
-        }
-
-        if (otpInfo === "") {
-            alert("Enter OTP");
-            return;
-        }
-        console.log("generated otp=" + generatedOtp);
-        console.log("entered otp=" + otpInfo);
-        if (otpInfo === generatedOtp) {
-            console.log("OTP is valid");
-
-        }
-        else {
-            alert("Invalid OTP!");
-            return;
-        }
-        console.log("choice=" + choice);
-        let appid = localStorage.getItem("appId");
-        let url = "";
-        if (choice === "Email") {
-            url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + "" + "&customerEmail=" + emailInfo;
-        }
-        if (choice === "Mobile") {
-            url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + mobileInfo + "&customerEmail=" + "";
-        }
-        console.log(url);
-
-        if (url != "") {
-            Axios
-                .get(url)
-                .then((response) => response.data)
-                .then((json) => {
-                    console.log('json', json);
-                    // alert("Response= " + json);
-
-
-                    localStorage.setItem("customerId", json.customerId);
-                    localStorage.setItem("customerName", json.customerName);
-                    localStorage.setItem("customerAddress", json.address);
-                    if (json.customerEmail === "")
-                        localStorage.setItem("customerEmail", "\"\"");
-                    else
-                        localStorage.setItem("customerEmail", json.customerEmail);
-                    localStorage.setItem("customerCell", json.customerCellNo);
-                    localStorage.setItem("appId", appid);
-                    localStorage.setItem("companyBranch", json.branch);
-                    localStorage.setItem("companyId", json.companyId);
-
-
-                    loadCustomerBranches();
-                    // window.location.href = `/services`;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-
-
-
         }
     }
 
