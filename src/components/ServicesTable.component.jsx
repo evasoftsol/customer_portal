@@ -124,26 +124,32 @@ const ServicesTable = ({ serviceList, loading }) => {
 
                 Axios
                     .get(url)
-                    .then((response) => {
+                    .then((response) => response.data)
+                    .then((json) => {
+                        console.log('response.data', json);
+                        if ('message' in json) {//if (response.data == "Success\n") {
+                            console.log("message=" + json.message);
+                            if (json.message === "Success") {
+                                alert("Service has been rescheduled successfully!")
 
-                        console.log('response.data', response);
-                        if (response.data == "Success\n") {
-                            alert("Service has been rescheduled successfully!")
-
-                            const updatedServiceList = serviceList.filter(service => {
-                                if (service.serviceId == showReschedulePopup.serviceId) {
-                                    service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                                    service.status = "Rescheduled"
-                                    return service;
-                                } else {
-                                    return service;
-                                }
-                            })
-                            serviceList = updatedServiceList;
-                            const element = document.getElementById(showReschedulePopup.serviceId);
-                            element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                            element.nextSibling.nextSibling.innerHTML = "Rescheduled";
-                            setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                                const updatedServiceList = serviceList.filter(service => {
+                                    if (service.serviceId == showReschedulePopup.serviceId) {
+                                        service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                        service.status = "Rescheduled"
+                                        return service;
+                                    } else {
+                                        return service;
+                                    }
+                                })
+                                serviceList = updatedServiceList;
+                                const element = document.getElementById(showReschedulePopup.serviceId);
+                                element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                            } else {
+                                alert(json.message)
+                                setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                            }
                         } else
                             alert("Failed to reschedule service!")
                         setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
@@ -190,7 +196,7 @@ const ServicesTable = ({ serviceList, loading }) => {
             }
         }
         let rating = currentValue * 2;
-        const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark;
+        const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark + "&apiCallFrom=CustomerPortal";
         let serviceObj = null;
         Axios.get(url).then(
             (response) => {
