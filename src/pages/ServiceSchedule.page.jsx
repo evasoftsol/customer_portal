@@ -482,11 +482,13 @@ const ServiceSchedule = () => {
                             .then((response) => {
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
+                                setCurrentValue(0);
                             })
                             .catch((error) => {
                                 console.log(error);
                                 alert(error);
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
+                                setCurrentValue(0);
                             });
                     }
                     // let updatedStars = "";
@@ -499,6 +501,7 @@ const ServiceSchedule = () => {
                 if (currentValue > 2) {
                     alert("Feedback submitted successfully!");
                     setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
+                    setCurrentValue(0);
                 }
             }
         ).catch((exception) => {
