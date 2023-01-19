@@ -379,7 +379,8 @@ const ServiceSchedule = () => {
                                         return service;
                                     }
                                 })
-                                serviceList = updatedServiceList;
+                                setServiceList(updatedServiceList);
+                                // serviceList = updatedServiceList;
                                 const element = document.getElementById(showReschedulePopupMobileView.serviceId);
                                 element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
                                 element.nextSibling.nextSibling.innerHTML = "Rescheduled";
