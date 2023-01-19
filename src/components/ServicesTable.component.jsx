@@ -243,11 +243,13 @@ const ServicesTable = ({ serviceList, loading }) => {
                             .then((response) => {
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                                setCurrentValue(0);
                             })
                             .catch((error) => {
                                 console.log(error);
                                 alert(error);
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                                setCurrentValue(0);
                             });
                     }
                     // let updatedStars = "";
@@ -260,6 +262,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                 if (currentValue > 2) {
                     alert("Feedback submitted successfully!");
                     setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
+                    setCurrentValue(0);
                 }
             }
         ).catch((exception) => {
