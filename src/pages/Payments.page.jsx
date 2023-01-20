@@ -6,6 +6,7 @@ import PaymentsTable from '../components/PaymentsTable.component'
 import { FcDownload } from 'react-icons/fc';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { MdOutlineExpandLess } from 'react-icons/md';
+import { BsPersonCircle } from 'react-icons/bs'
 
 
 const Payments = () => {
@@ -16,6 +17,7 @@ const Payments = () => {
     const [postsPerPage] = useState(10);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
+    const [custInfoPopupVisible, setCustInfoPopupVisible] = useState(false);
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
@@ -247,7 +249,25 @@ const Payments = () => {
             <div className='h-5/6 sm:h-5/6 overflow-y-auto '>
                 <div className='flex ml-10 flex-row gap-20 justify-between mb-3 w-11/12 sm:w-11/12 relative my-5'>
                     <div className="font-semibold text-xl">Payments</div>
-                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" className='pr-10' onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+                    <div className="flex gap-5">
+                        <button ref={datefilterRef} name="dateFilter" id="dateFilter" className='sm:pr-10' onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+                        <div className="sm:hidden flex pt-1 align-bottom pr-10"><button onClick={() => setCustInfoPopupVisible((prev) => !prev)}><BsPersonCircle className='align-bottom text-gray-600' size="20" /></button></div>
+                    </div>
+
+                    {custInfoPopupVisible && (
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-25"
+                                onClick={() => setCustInfoPopupVisible(false)}
+                            ></div>
+                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 left-2 right-5 z-20 shadow-lg border-slate-200 bg-white text-sm text-[#404042]'>
+                                <div><span className='font-semibold'>Name: </span>{localStorage.getItem("customerName")}</div>
+                                <div><span className='font-semibold'>Email: </span> {localStorage.getItem("customerEmail")}</div>
+                                <div><span className='font-semibold'>Cell No </span>: {localStorage.getItem("customerCell")}</div>
+                                <div><span className='font-semibold'>Address: </span> {localStorage.getItem("customerAddress")}</div>
+                            </div>
+                        </div>
+                    )}
 
                     {dateFilterVisible && (
                         <div className="fixed inset-0 z-10 overflow-y-auto">

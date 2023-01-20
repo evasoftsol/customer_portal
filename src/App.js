@@ -10,6 +10,7 @@ import Complaints from './pages/Complaints.page';
 import AttendanceAndPayroll from './pages/AttendanceAndPayroll.page'
 import Contracts from './pages/Contracts.page'
 import Renewals from './pages/Renewals.page';
+import Profile from './pages/Profile.page';
 // import BaseHoc from './hoc/BaseHoc';
 
 
@@ -18,6 +19,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/services" element={<ServiceSchedule />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/complaints" element={<Complaints />} />

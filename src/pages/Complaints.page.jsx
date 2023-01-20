@@ -6,6 +6,7 @@ import ComplainTable from '../components/ComplainTable.component';
 import { BsPlusLg } from 'react-icons/bs'
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { MdOutlineExpandLess } from 'react-icons/md';
+import { BsPersonCircle } from 'react-icons/bs'
 
 const Complaints = () => {
 
@@ -16,6 +17,7 @@ const Complaints = () => {
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
     const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
     const [createComplainPopup, setCreateComplainPopup] = useState(false);
+    const [custInfoPopupVisible, setCustInfoPopupVisible] = useState(false);
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
@@ -241,13 +243,30 @@ const Complaints = () => {
                         <button onClick={() => setCreateComplainPopup(true)}><BsPlusLg /></button>
                         <div className="font-semibold text-xl">Complaints</div>
                     </div>
+                    <div className="flex gap-5">
+                        <button ref={datefilterRef} name="dateFilter" id="dateFilter" className='sm:pr-10' onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
 
-                    <button ref={datefilterRef} name="dateFilter" id="dateFilter" className='pr-10' onClick={() => setDateFilterVisible((prev) => !prev)}><FiFilter /></button>
+                        <div className="sm:hidden flex pt-1 align-bottom pr-10"><button onClick={() => setCustInfoPopupVisible((prev) => !prev)}><BsPersonCircle className='align-bottom text-gray-600 ' size="20" /></button></div>
+                    </div>
+                    {custInfoPopupVisible && (
+                        <div className="fixed inset-0 z-10 overflow-y-auto">
+                            <div
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-25"
+                                onClick={() => setCustInfoPopupVisible(false)}
+                            ></div>
+                            <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 left-2 right-5 z-20 shadow-lg border-slate-200 bg-white text-sm text-[#404042]'>
+                                <div><span className='font-semibold'>Name: </span>{localStorage.getItem("customerName")}</div>
+                                <div><span className='font-semibold'>Email: </span> {localStorage.getItem("customerEmail")}</div>
+                                <div><span className='font-semibold'>Cell No </span>: {localStorage.getItem("customerCell")}</div>
+                                <div><span className='font-semibold'>Address: </span> {localStorage.getItem("customerAddress")}</div>
+                            </div>
+                        </div>
+                    )}
 
                     {dateFilterVisible && (
                         <div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-25"
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-25"
                                 onClick={() => setDateFilterVisible(false)}
                             ></div>
                             <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
@@ -297,7 +316,7 @@ const Complaints = () => {
                     <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-screen sm:w-11/12 " >
 
                         <thead className="bg-red">
-                            <tr className="text-left text-[#8181A5] text-sm w-full ">
+                            <tr className="text-left text-[#8181A5] text-sm ">
                                 <th className="py-2 sm:py-8 px-2 align-top ">ID</th>
                                 <th className="py-2 sm:py-8 px-2 align-top ">Date</th>
                                 <th className="py-2 sm:py-8 px-2 align-top ">Status</th>
@@ -459,12 +478,14 @@ const Complaints = () => {
                     ) : null}
                 </div>
             </div>
-            {complainList && (
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={complainList.length}
-                    paginate={paginate}
-                />)}
+            {
+                complainList && (
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={complainList.length}
+                        paginate={paginate}
+                    />)
+            }
         </>
     )
 }

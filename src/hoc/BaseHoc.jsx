@@ -41,23 +41,24 @@ const BaseHoc = (Component) => ({ ...props }) => {
 
         return (
             <>
-                {/* <div className="w-screen h-screen"> */}
-                {/* <div className="w-screen h-50 m-5 text-center border-b-2 flex flex-col gap-2 sm:flex-row justify-center align-center m-auto text-white" style={{ background: `url(${bgimageblue})` }}>
-                        <div className="text-center flex justify-center align-center">
-                            <img src={imageurl} alt="company logo" className="w-50 sm:w-100" />
-                        </div>
-                        <div>
-                            <p className="text-2xl sm:text-3xl "> {localStorage.getItem("customerName")} ({localStorage.getItem("customerId")})</p>
-                            <p className="text-lg sm:text-xl "> {localStorage.getItem("customerCell")} / {localStorage.getItem("customerEmail")}</p>
-                            <p className="text-lg sm:text-xl ">{localStorage.getItem("customerAddress")}</p>
-                        </div>
-                    </div> */}
                 <div className="flex flex-col sm:flex-row justify-center w-screen h-screen">
                     {/* Navbar for Medium or Larger screens */}
                     <div className="flex flex-col justify-start  sm:w-2/12 h-full border-r-2 gap-2 hidden sm:flex text-md text-[#8181A5] pl-5">
                         <div className="flex justify-center ml-2 mt-2 align-center">
                             <img src={imageurl} alt="company logo" className="w-50 sm:w-50" />
                         </div>
+                        {route === "/profile" ?
+                            (
+                                <div className="w-full border-r-2 border-sky-600">
+                                    <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                        <div className="!text-xl"><ImClipboard /></div>
+                                        <Link to="/profile" >My Profile</Link>
+                                    </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/profile" >My Profile</Link>
+                            </div>)}
+
                         {route === "/services" ?
                             (
                                 <div className="w-full border-r-2 border-sky-600">
