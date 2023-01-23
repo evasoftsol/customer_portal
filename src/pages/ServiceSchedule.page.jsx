@@ -159,6 +159,7 @@ const ServiceSchedule = () => {
                         })
                         console.log("filteredServiceList size=" + filteredServiceList.length);
                         setServiceList(filteredServiceList);
+                        // setCurrentPage(1);
                         setLoading(false);
                         console.log("filtered result is set to servicelist");
                     } else {
@@ -216,6 +217,7 @@ const ServiceSchedule = () => {
         }
         console.log("filteredServiceList size=" + filteredServiceList.length);
         setServiceList(filteredServiceList);
+        setCurrentPage(1);
     }
 
 
