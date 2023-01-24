@@ -230,10 +230,10 @@ const Login = () => {
             let appid = localStorage.getItem("appId");
             let url = "";
             if (choice === "Email") {
-                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + "" + "&customerEmail=" + emailInfo;
+                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + "" + "&customerEmail=" + emailInfo + "&applicationName=CustomerPortal";
             }
             if (choice === "Mobile") {
-                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + mobileInfo + "&customerEmail=" + "";
+                url = "https://" + appid + ".appspot.com/slick_erp/customerDetails?customerCellNo=" + mobileInfo + "&customerEmail=" + "" + "&applicationName=CustomerPortal";
             }
             console.log(url);
 
