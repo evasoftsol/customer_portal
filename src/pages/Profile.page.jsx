@@ -21,6 +21,7 @@ const Profile = () => {
 
                     {/* =======For tablet or laptop view======== */}
                     <div className=" sm:flex sm:flex-col rounded-lg bg-white w-11/12 sm:w-11/12" >
+                        <div className='pt-10 pb-5 flex'><span className='font-semibold px-5 w-1/12'>ID: </span>{localStorage.getItem("customerId")}</div>
                         <div className='pt-10 pb-5 flex'><span className='font-semibold px-5 w-1/12'>Name: </span>{localStorage.getItem("customerName")}</div>
                         <div className='pb-5 flex' ><span className='font-semibold px-5 w-1/12'>Email: </span> {localStorage.getItem("customerEmail")}</div>
                         <div className='pb-5 flex'><span className='font-semibold px-5 w-1/12'>Cell No: </span> {localStorage.getItem("customerCell")}</div>

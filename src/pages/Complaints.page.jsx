@@ -255,6 +255,8 @@ const Complaints = () => {
                                 onClick={() => setCustInfoPopupVisible(false)}
                             ></div>
                             <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 left-2 right-5 z-20 shadow-lg border-slate-200 bg-white text-sm text-[#404042]'>
+
+                                <div><span className='font-semibold'>ID: </span>{localStorage.getItem("customerId")}</div>
                                 <div><span className='font-semibold'>Name: </span>{localStorage.getItem("customerName")}</div>
                                 <div><span className='font-semibold'>Email: </span> {localStorage.getItem("customerEmail")}</div>
                                 <div><span className='font-semibold'>Cell No </span>: {localStorage.getItem("customerCell")}</div>
