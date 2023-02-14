@@ -177,8 +177,8 @@ const Login = () => {
         if (url != "") {
             Axios.get(url).then(
                 (response) => {
-                    console.log(response.data);
-                    alert(response.data + otp);
+                    // console.log(response.data);
+                    alert(response.data); //+otp
                 }
             ).catch((exception) => {
                 console.log("Error is" + exception);

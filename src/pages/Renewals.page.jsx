@@ -294,7 +294,7 @@ const Renewals = () => {
                                 <th className="py-8 px-2 align-top">End Date</th>
                                 <th className="py-8 px-2 align-top">Amount</th>
                                 <th className="py-8 px-2 align-top">Print</th>
-                                <th className="py-8 px-2 align-top">Renew</th>
+                                {/* <th className="py-8 px-2 align-top">Renew</th> */}
                             </tr>
                         </thead>
                         {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
@@ -342,7 +342,7 @@ const Renewals = () => {
                                         </div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Amount : </span> {contract.netPayable}</div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
-                                        <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div>
+                                        {/* <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div> */}
                                     </div>
                                 </div>
                             </div>

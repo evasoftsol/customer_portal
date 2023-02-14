@@ -285,11 +285,11 @@ const Complaints = () => {
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-40"
                                 onClick={() => setCreateComplainPopup(false)}
                             ></div>
                             <div className="flex items-center min-h-screen px-4 py-8">
-                                <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+                                <div className="relative w-screen sm:w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                                     {/* <div className="mt-3 sm:flex"> */}
                                     {/* <div className="mt-2 text-left sm:ml-4 sm:text-left"> */}
 
@@ -328,7 +328,7 @@ const Complaints = () => {
                         {/* {complainList ? (<ComplainTable complainList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
                         {(loading ? (<tbody><tr><td><div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-40"
                             ></div>
                             <div className="flex justify-center items-center min-h-screen">
                                 <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
@@ -364,7 +364,7 @@ const Complaints = () => {
 
                         {(loading ? (<div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-40"
                             ></div>
                             <div className="flex justify-center items-center min-h-screen">
                                 <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
@@ -392,7 +392,7 @@ const Complaints = () => {
                                 </div>
                             </div>
 
-                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-full' >No data found</div>)
+                        ))) : (<div className='text-sm text-center text-[#8181A5] font-semibold bg-white p-1 rounded-lg w-screen sm:w-full' >No data found</div>)
 
 
                         ))}
@@ -407,11 +407,11 @@ const Complaints = () => {
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
-                                className="fixed inset-0 w-full h-full bg-black opacity-40"
+                                className="fixed inset-0 w-screen sm:w-full h-full bg-black opacity-40"
                                 onClick={() => setCustomDateFilterVisible(false)}
                             ></div>
                             <div className="flex items-center min-h-screen px-4 py-8">
-                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                <div className="relative w-screen sm:w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
                                     {/* <div className="mt-3 sm:flex"> */}
                                     <div className="mt-2 flex flex-col justify-center align-center">
                                         <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>

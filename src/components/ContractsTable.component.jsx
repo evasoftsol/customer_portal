@@ -83,7 +83,7 @@ const ContractsTable = ({ contractList, loading }) => {
                         <td className="px-2 py-2 align-top">{contract.contractEndDate}</td>
                         <td className="px-2 py-2 align-top">{contract.netPayable}</td>
                         <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
-                        <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td>
+                        {/* <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td> */}
                     </tr>
 
                 ))}
