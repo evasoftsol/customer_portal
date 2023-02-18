@@ -14,8 +14,10 @@ const ServicesTable = ({ serviceList, loading }) => {
     const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
+
     let companyId = localStorage.getItem("companyId");
     if (loading) {
+
         return <tr><div className="fixed inset-0 z-10 overflow-y-auto">
             <div
                 className="fixed inset-0 w-full h-full bg-black opacity-40"
@@ -60,6 +62,7 @@ const ServicesTable = ({ serviceList, loading }) => {
         selectedServiceId = event.currentTarget.name;
         setShowReschedulePopup({ ...showReschedulePopup, serviceId: selectedServiceId, visibility: true });
     }
+
     const reschedule = (event) => {
         event.preventDefault();
         let rDate = document.getElementById("rescheduleDate").value;
@@ -328,7 +331,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                                         <h2 id="rescheduleError" className='text-red'></h2>
                                         <div>
                                             <label htmlFor='rescheduleDate' className='m-2 p-2 font-semibold'>Select date :</label><br />
-                                            <input type="date" id="rescheduleDate" className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            <input type="date" id="rescheduleDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
                                         </div>
                                         <div>
                                             <label className='m-2 p-2 font-semibold'>Select time :</label><br />

@@ -66,7 +66,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
                 <tr key={payment.invoiceId}>
                     <td className="px-2 py-2">{payment.invoiceId}</td>
                     <td className="px-2 py-2">{payment.paymentDate}</td>
-                    <td className="px-2 py-2">{payment.paymentAmount}</td>
+                    <td className="px-2 py-2 text-right">{payment.paymentAmount}</td>
                     <td className="px-2 py-2">{
                         payment.status === "Created" ?
                             (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) :

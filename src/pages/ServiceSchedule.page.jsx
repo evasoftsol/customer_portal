@@ -39,6 +39,7 @@ const ServiceSchedule = () => {
     const [showRatingPopupMobileView, setShowRatingPopupMobileView] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
+
     // const [filterData, setFilterDate] = useState({ dateFilter: "btnThisMonth", branchFilter: "--Select--" });
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
@@ -408,6 +409,11 @@ const ServiceSchedule = () => {
 
     }
 
+    const getcurrentdate = (event) => {
+        console.log("getcurrentdate called");
+        return "2022-02-20";
+    }
+
     //Feedback related methods
     const stars = Array(5).fill(0)
 
@@ -681,7 +687,7 @@ const ServiceSchedule = () => {
                                             <h2 id="rescheduleError" className='text-red'></h2>
                                             <div>
                                                 <label htmlFor='rescheduleDate' className='m-2 p-2 font-semibold'>Select date :</label><br />
-                                                <input type="date" id="rescheduleDate" className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                                <input type="date" id="rescheduleDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
                                             </div>
                                             <div>
                                                 <label className='m-2 p-2 font-semibold'>Select time :</label><br />
