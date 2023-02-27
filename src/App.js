@@ -11,6 +11,7 @@ import AttendanceAndPayroll from './pages/AttendanceAndPayroll.page'
 import Contracts from './pages/Contracts.page'
 import Renewals from './pages/Renewals.page';
 import Profile from './pages/Profile.page';
+import Audits from './pages/Audits.page';
 // import BaseHoc from './hoc/BaseHoc';
 
 
@@ -26,6 +27,7 @@ function App() {
       <Route path="/projects" element={<AttendanceAndPayroll />} />
       <Route path="/contracts" element={<Contracts />} />
       <Route path="/renewals" element={<Renewals />} />
+      <Route path="/audits" element={<Audits />} />
     </Routes>
 
   );

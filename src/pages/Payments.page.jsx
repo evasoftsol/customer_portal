@@ -326,7 +326,7 @@ const Payments = () => {
                             </div>
                         </div>) : (currentPosts !== null ? (currentPosts.map(payment => (
                             <div className="flex flex-col gap-1 bg-white rounded-lg">
-                                <div className="flex gap-1 justify-between align-top text-left text-[#8181A5] text-sm px-1 py-1 ">
+                                <div className="flex gap-1 justify-between align-top text-left text-[#63636e] text-sm px-1 py-1 font-semibold">
                                     <div className=" px-1 align-top">{payment.invoiceId}</div>
                                     <div className=" px-1 align-top" >{payment.paymentDate}</div>
                                     <div className=" px-1 align-top">{"Total: " + payment.paymentAmount}</div>
@@ -401,7 +401,7 @@ const Payments = () => {
                                                 <option value="2020">2020</option>
                                                 <option value="2021">2021</option>
                                                 <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
+                                                <option value="2023" selected>2023</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2025">2025</option>
                                                 <option value="2026">2026</option>

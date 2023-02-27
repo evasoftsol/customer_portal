@@ -126,6 +126,19 @@ const BaseHoc = (Component) => ({ ...props }) => {
                             <Link to="/projects" >Attendance & Payroll</Link>
                         </div>)} */}
 
+
+                        {route === "/audits" ?
+                            (
+                                <div className="w-full border-r-2 border-sky-600">
+                                    <div className="hover:text-black !text-black min-w-min w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg bg-[#EFF2FE] p-3 ">
+                                        <div className="!text-xl"><ImClipboard /></div>
+                                        <Link to="/audits" >Audits</Link>
+                                    </div></div>) :
+                            (<div className="hover:text-black w-3/4 flex flex-row justify-start gap-4 align-center rounded-lg p-3 ">
+                                <div className="!text-xl"><ImClipboard /></div>
+                                <Link to="/audits" >Audits</Link>
+                            </div>)}
+
                         <div className="flex flex-row justify-start gap-4 hover:text-black w-3/4 p-3">
                             <div className="!text-2xl"><BiLogOut /></div>
                             {/* <Link to="/" onClick={clearData}>Logout</Link> */}

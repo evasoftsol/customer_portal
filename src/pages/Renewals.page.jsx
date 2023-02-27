@@ -323,7 +323,7 @@ const Renewals = () => {
                             </div>
                         </div>) : (currentPosts !== null ? (currentPosts.map(contract => (
                             <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
-                                <div className="flex gap-2 justify-between align-top text-left text-[#8181A5] text-sm pr-1 ">
+                                <div className="flex gap-2 justify-between align-top text-left text-[#63636e] text-sm pr-1 font-semibold">
                                     <div className=" px-2 align-top">{contract.contractId} </div>
                                     <div className=" px-2 align-top">{contract.contrctStartDate + " to " + contract.contractEndDate}</div>
                                     <button onClick={expandMore} id={"ExpandMore" + contract.contractId} ><MdOutlineExpandMore /></button>
@@ -395,7 +395,7 @@ const Renewals = () => {
                                                 <option value="2020">2020</option>
                                                 <option value="2021">2021</option>
                                                 <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
+                                                <option value="2023" selected>2023</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2025">2025</option>
                                                 <option value="2026">2026</option>

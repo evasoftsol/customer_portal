@@ -615,7 +615,7 @@ const ServiceSchedule = () => {
                         </div>) : (currentPosts !== null ? (currentPosts.map(service => (
                             <div className="flex flex-col gap-1 bg-white rounded-lg">
                                 <div className='flex gap-2 justify-between'>
-                                    <div className="flex gap-2 justify-start align-top text-left text-[#8181A5] text-sm  ">
+                                    <div className="flex gap-2 justify-start align-top text-left text-[#63636e] text-sm  font-semibold">
                                         <div className=" pl-2 align-top" id={service.serviceId}>{service.serviceDate}<br />
                                             <div className='flex'>
                                                 {service.status === "Completed" ? (<TiTick className='mr-3 text-green-400' />) : (service.status === "Cancelled" ? (<FcCancel className='mr-3 text-red-400' />) : (<MdSchedule className='mr-3 text-blue-400' />))}
@@ -859,7 +859,7 @@ const ServiceSchedule = () => {
                                                 <option value="2020">2020</option>
                                                 <option value="2021">2021</option>
                                                 <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
+                                                <option value="2023" selected>2023</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2025">2025</option>
                                                 <option value="2026">2026</option>
