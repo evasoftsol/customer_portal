@@ -288,13 +288,13 @@ const Payments = () => {
                 <div className='flex flex-col gap-2  ml-10'>
 
                     {/* =======For tablet or laptop view======== */}
-                    <table className="hidden sm:table table-auto border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12" >
+                    <table className="hidden sm:table table-fixed border-collapse border-spacing-2 rounded-lg bg-white w-11/12 sm:w-11/12" >
 
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm  ">
                                 <th className="py-8 px-2 align-top">Invoice ID</th>
                                 <th className="py-8 px-2 align-top">Date</th>
-                                <th className="py-8 px-2 align-top">Amount</th>
+                                <th className="py-8 px-2 align-top w-32">Amount</th>
                                 <th className="py-8 px-2 align-top">Status</th>
                                 <th className="py-8 px-2 align-top">Invoice</th>
                             </tr>
