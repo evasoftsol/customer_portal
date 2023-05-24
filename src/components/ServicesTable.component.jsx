@@ -74,10 +74,13 @@ const ServicesTable = ({ serviceList, loading }) => {
             alert("Select date")
             // } else if (rTime == "") {
             //     alert("Select time")
-        } else if (rReason == "") {
-            alert("Give reason")
         }
+        // else if (rReason == "") {
+        //     // alert("Give reason")
+        //     rReason="";
+        // }
         else {
+
             // http://my.evadev0006.appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=5659313586569216&apiCallFrom=CustomerPortal&serviceId=600001244&rescheduleDate=20-1-2021&rescheduleTime=20:05&rescheduleReason=reason
 
             let selectedDate = new Date(rDate);
@@ -91,78 +94,150 @@ const ServicesTable = ({ serviceList, loading }) => {
             let hours = parseInt(document.getElementById('hourSelector').value);
             let mins = parseInt(document.getElementById('minuteSelector').value);
             let ampm = document.getElementById('ampmSelector').value;
-            if (ampm === "AM" && hours === "12") {
-                hours = 0;
-            }
-            if (ampm === "PM") {
-                if (hours != 12) {
-                    hours = hours + 12;
+            let minstring = document.getElementById('minuteSelector').value;
+            if (hours !== 0 && minstring !== "0" && ampm !== "0") {
+                console.log("condition 1 hour=" + hours);
+                if (ampm === "AM" && hours === "12") {
+                    hours = 0;
+                }
+                if (ampm === "PM") {
+                    if (hours != 12) {
+                        hours = hours + 12;
+                    }
+                }
+                selectedDate.setHours(hours);
+                selectedDate.setMinutes(mins);
+                let rTime = "";
+                if (hours < 10) {
+                    rTime += "0" + hours;
+                } else {
+                    rTime += hours;
+                }
+                if (mins < 10) {
+                    rTime += ":0" + mins;
+                } else {
+                    rTime += ":" + mins;
+                }
+
+                console.log("selected time=" + selectedDate.getTime());
+                // const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                //     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                // let formatedDateString = selectedDate.getDate() + "-" + monthNames[selectedDate.getMonth()] + "-" + selectedDate.getFullYear();
+                let month = selectedDate.getMonth() + 1;
+                let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
+                if (selectedDate < currentDate)
+                    alert("You cannot schedule a service for past date");
+                else {
+                    let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopup.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
+                    console.log(url);
+
+                    Axios
+                        .get(url)
+                        .then((response) => response.data)
+                        .then((json) => {
+                            console.log('response.data', json);
+                            if ('message' in json) {//if (response.data == "Success\n") {
+                                console.log("message=" + json.message);
+                                if (json.message === "Success") {
+                                    alert("Service has been rescheduled successfully!")
+
+                                    const updatedServiceList = serviceList.filter(service => {
+                                        if (service.serviceId == showReschedulePopup.serviceId) {
+                                            service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                            service.status = "Rescheduled"
+                                            return service;
+                                        } else {
+                                            return service;
+                                        }
+                                    })
+                                    serviceList = updatedServiceList;
+                                    const element = document.getElementById(showReschedulePopup.serviceId);
+                                    element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                    element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                    setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                                } else {
+                                    alert(json.message)
+                                    setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                                }
+                            } else
+                                alert("Failed to reschedule service!")
+                            setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                        })
+                        .catch((error) => {
+                            alert(error);
+                            setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
+                        });
+
+
                 }
             }
-            selectedDate.setHours(hours);
-            selectedDate.setMinutes(mins);
-            let rTime = "";
-            if (hours < 10) {
-                rTime += "0" + hours;
-            } else {
-                rTime += hours;
-            }
-            if (mins < 10) {
-                rTime += ":0" + mins;
-            } else {
-                rTime += ":" + mins;
-            }
-
-            console.log("selected time=" + selectedDate.getTime());
-            // const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            //     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            // let formatedDateString = selectedDate.getDate() + "-" + monthNames[selectedDate.getMonth()] + "-" + selectedDate.getFullYear();
-            let month = selectedDate.getMonth() + 1;
-            let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
-            if (selectedDate < currentDate)
-                alert("You cannot schedule a service for past date");
             else {
-                let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopup.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
-                console.log(url);
+                if (hours === 0 && minstring === "0" && ampm === "0") {
+                    console.log("condition 2");
+                    selectedDate.setHours(23);
+                    selectedDate.setMinutes(59);
+                    let month = selectedDate.getMonth() + 1;
+                    let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
+                    if (selectedDate < currentDate)
+                        alert("You cannot schedule a service for past date");
+                    else {
+                        let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopup.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=Flexible&rescheduleReason=" + rReason;
+                        console.log(url);
 
-                Axios
-                    .get(url)
-                    .then((response) => response.data)
-                    .then((json) => {
-                        console.log('response.data', json);
-                        if ('message' in json) {//if (response.data == "Success\n") {
-                            console.log("message=" + json.message);
-                            if (json.message === "Success") {
-                                alert("Service has been rescheduled successfully!")
+                        Axios
+                            .get(url)
+                            .then((response) => response.data)
+                            .then((json) => {
+                                console.log('response.data', json);
+                                if ('message' in json) {//if (response.data == "Success\n") {
+                                    console.log("message=" + json.message);
+                                    if (json.message === "Success") {
+                                        alert("Service has been rescheduled successfully!")
 
-                                const updatedServiceList = serviceList.filter(service => {
-                                    if (service.serviceId == showReschedulePopup.serviceId) {
-                                        service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                                        service.status = "Rescheduled"
-                                        return service;
+                                        const updatedServiceList = serviceList.filter(service => {
+                                            if (service.serviceId == showReschedulePopup.serviceId) {
+                                                service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                                service.status = "Rescheduled"
+                                                return service;
+                                            } else {
+                                                return service;
+                                            }
+                                        })
+                                        serviceList = updatedServiceList;
+                                        const element = document.getElementById(showReschedulePopup.serviceId);
+                                        element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                        element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                        setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
                                     } else {
-                                        return service;
+                                        alert(json.message)
+                                        setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
                                     }
-                                })
-                                serviceList = updatedServiceList;
-                                const element = document.getElementById(showReschedulePopup.serviceId);
-                                element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                                element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                } else
+                                    alert("Failed to reschedule service!")
                                 setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
-                            } else {
-                                alert(json.message)
+                            })
+                            .catch((error) => {
+                                alert(error);
                                 setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
-                            }
-                        } else
-                            alert("Failed to reschedule service!")
-                        setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
-                    })
-                    .catch((error) => {
-                        alert(error);
-                        setShowReschedulePopup({ ...showReschedulePopup, serviceId: "", visibility: false });
-                    });
+                            });
 
-
+                    }
+                } else {
+                    console.log("condition 3");
+                    console.log("hours in else=" + hours);
+                    if (hours === 0) {
+                        alert("Select hour in time");
+                        return;
+                    }
+                    if (minstring === "0") {
+                        alert("Select minutes in time");
+                        return;
+                    }
+                    if (ampm === "0") {
+                        alert("Select ampm in time");
+                        return;
+                    }
+                }
             }
         }
 
@@ -338,6 +413,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                                             {/* <input type="time" id="rescheduleTime" className='m-4 p-2 border-2 w-3/4 rounded' /> */}
                                             <div className='flex gap-2 p-2'>
                                                 <select id='hourSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                    <option value="0">--</option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -352,6 +428,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                                                     <option value="12">12</option>
                                                 </select>
                                                 <select id="minuteSelector" className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                    <option value="0">--</option>
                                                     <option value="00">00</option>
                                                     <option value="05">05</option>
                                                     <option value="10">10</option>
@@ -366,6 +443,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                                                     <option value="55">55</option>
                                                 </select>
                                                 <select id="ampmSelector" className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                    <option value="0">--</option>
                                                     <option value="AM">AM</option>
                                                     <option value="PM">PM</option>
                                                 </select>
