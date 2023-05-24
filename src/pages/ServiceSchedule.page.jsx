@@ -104,18 +104,26 @@ const ServiceSchedule = () => {
 
         } else if (selectedDateFilter === "btnCustomDate") {
 
-            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
-            if (selectedMonth === 12) {
-                console.log("selectedMonth === 12")
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                selectedMonth += 1;
-                toDate = "1/" + selectedMonth + "/" + selectedYear;
-            }
+            // let selectedMonth = parseInt(document.getElementById('monthSelector').value);
+            // let selectedYear = document.getElementById('yearSelector').value;
+            // fromDate = "1/" + selectedMonth + "/" + selectedYear;
+            // console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
+            // if (selectedMonth === 12) {
+            //     console.log("selectedMonth === 12")
+            //     let year = parseInt(selectedYear) + 1;
+            //     toDate = "1/01/" + year;
+            // } else {
+            //     selectedMonth += 1;
+            //     toDate = "1/" + selectedMonth + "/" + selectedYear;
+            // }
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+
+            let fmonth = fDate.getMonth() + 1;
+            let tmonth = tDate.getMonth() + 1;
+            fromDate = fDate.getDate() + "/" + fmonth + "/" + fDate.getFullYear();
+            toDate = tDate.getDate() + "/" + tmonth + "/" + tDate.getFullYear();
+
         }
         else {
             console.log("in else part")
@@ -131,60 +139,73 @@ const ServiceSchedule = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
+        if (fromDate !== "" && toDate !== "") {
+            url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
 
 
-        console.log("url=" + url);
+            console.log("url=" + url);
 
-        setLoading(true);
-        Axios
-            .get(url)
-            .then((response) => response.data)
-            .then((json) => {
+            setLoading(true);
+            Axios
+                .get(url)
+                .then((response) => response.data)
+                .then((json) => {
 
 
-                if (json.length === 0) {
-                    console.log("in if");
-                    setServiceList(null);
-                    localStorage.setItem("localServiceList", null);
-                    console.log("empty response. service list set to null");
-                    setLoading(false);
-                }
-                else {
-                    localStorage.setItem("localServiceList", JSON.stringify(json));
-                    if (selectedBranch !== "" && selectedBranch !== "--select--") {
-                        let filteredServiceList = null;
-                        const serviceListCopy = json;
-                        filteredServiceList = serviceListCopy.filter(service => {
-                            return service.serviceBranch === selectedBranch;
-                        })
-                        console.log("filteredServiceList size=" + filteredServiceList.length);
-                        setServiceList(filteredServiceList);
-                        // setCurrentPage(1);
+                    if (json.length === 0) {
+                        console.log("in if");
+                        setServiceList(null);
+                        localStorage.setItem("localServiceList", null);
+                        console.log("empty response. service list set to null");
                         setLoading(false);
-                        console.log("filtered result is set to servicelist");
-                    } else {
-                        setServiceList(json)
-                        setLoading(false)
-                        console.log("result is set to servicelist");
                     }
-                }
-            })
-            .catch((error) => {
-                setServiceList(null);
-                console.log("service list set to null");
-            });
+                    else {
+                        localStorage.setItem("localServiceList", JSON.stringify(json));
+                        if (selectedBranch !== "" && selectedBranch !== "--select--") {
+                            let filteredServiceList = null;
+                            const serviceListCopy = json;
+                            filteredServiceList = serviceListCopy.filter(service => {
+                                return service.serviceBranch === selectedBranch;
+                            })
+                            console.log("filteredServiceList size=" + filteredServiceList.length);
+                            setServiceList(filteredServiceList);
+                            // setCurrentPage(1);
+                            setLoading(false);
+                            console.log("filtered result is set to servicelist");
+                        } else {
+                            setServiceList(json)
+                            setLoading(false)
+                            console.log("result is set to servicelist");
+                        }
+                    }
+                })
+                .catch((error) => {
+                    setServiceList(null);
+                    console.log("service list set to null");
+                });
+        }
     }
 
 
     const applyDateFilter = event => {
         event.preventDefault();
-
-        // alert("Date filter clicked" + event.currentTarget.id );
+        // alert("Date filter clicked" + event.currentTarget.id);
         if (event.currentTarget.id === "btnCustomDate") {
-            setDateFilterVisible(false);
-            setCustomDateFilterVisible(false);
-            getServiceList("btnCustomDate", document.getElementById("CustomerBranchDropDown").value);
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+            console.log("fdate=" + fDate + " tdate=" + tDate);
+            console.log("tDate - fDate=" + tDate - fDate);
+            let diff = Math.floor((tDate - fDate) / (1000 * 60 * 60 * 24));
+            console.log("diff=" + diff);
+            if (fDate > tDate) {
+                alert("From date should be earlier than todate");
+            } else if (diff > 30) {
+                alert("Please select from date and to date range within 30 days");
+            } else {
+                setDateFilterVisible(false);
+                setCustomDateFilterVisible(false);
+                getServiceList("btnCustomDate", document.getElementById("CustomerBranchDropDown").value);
+            }
         } else {
             setDateFilterVisible(false);
             getServiceList(event.currentTarget.id, document.getElementById("CustomerBranchDropDown").value);
@@ -312,9 +333,10 @@ const ServiceSchedule = () => {
             alert("Select date")
             // } else if (rTime == "") {
             //     alert("Select time")
-        } else if (rReason == "") {
-            alert("Give reason")
         }
+        // else if (rReason == "") {
+        //     alert("Give reason")
+        // }
         else {
             // http://my.evadev0006.appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=5659313586569216&apiCallFrom=CustomerPortal&serviceId=600001244&rescheduleDate=20-1-2021&rescheduleTime=20:05&rescheduleReason=reason
 
@@ -329,80 +351,150 @@ const ServiceSchedule = () => {
             let hours = parseInt(document.getElementById('hourSelector').value);
             let mins = parseInt(document.getElementById('minuteSelector').value);
             let ampm = document.getElementById('ampmSelector').value;
-            if (ampm === "AM" && hours === "12") {
-                hours = 0;
-            }
-            if (ampm === "PM") {
-                if (hours != 12) {
-                    hours = hours + 12;
+            let minstring = document.getElementById('minuteSelector').value;
+            if (hours !== 0 && minstring !== "0" && ampm !== "0") {
+                if (ampm === "AM" && hours === "12") {
+                    hours = 0;
                 }
-            }
-            selectedDate.setHours(hours);
-            selectedDate.setMinutes(mins);
-            let rTime = "";
-            if (hours < 10) {
-                rTime += "0" + hours;
+                if (ampm === "PM") {
+                    if (hours != 12) {
+                        hours = hours + 12;
+                    }
+                }
+                selectedDate.setHours(hours);
+                selectedDate.setMinutes(mins);
+                let rTime = "";
+                if (hours < 10) {
+                    rTime += "0" + hours;
+                } else {
+                    rTime += hours;
+                }
+                if (mins < 10) {
+                    rTime += ":0" + mins;
+                } else {
+                    rTime += ":" + mins;
+                }
+
+                console.log("selected time=" + selectedDate.getTime());
+                // const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                //     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                // let formatedDateString = selectedDate.getDate() + "-" + monthNames[selectedDate.getMonth()] + "-" + selectedDate.getFullYear();
+                let month = selectedDate.getMonth() + 1;
+                let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
+                if (selectedDate < currentDate)
+                    alert("You cannot schedule a service for past date");
+                else {
+                    let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
+                    console.log(url);
+
+                    Axios
+                        .get(url)
+                        .then((response) => response.data)
+                        .then((json) => {
+
+                            console.log('response.data', json);
+                            if ('message' in json) {
+                                if (json.message === "Success") {
+                                    alert("Service has been rescheduled successfully!")
+
+                                    const updatedServiceList = serviceList.filter(service => {
+                                        if (service.serviceId == showReschedulePopupMobileView.serviceId) {
+                                            service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                            service.status = "Rescheduled"
+                                            return service;
+                                        } else {
+                                            return service;
+                                        }
+                                    })
+                                    setServiceList(updatedServiceList);
+                                    // serviceList = updatedServiceList;
+                                    const element = document.getElementById(showReschedulePopupMobileView.serviceId);
+                                    element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                    element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                    setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+                                }
+                                else {
+                                    alert(json.message)
+                                    setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+                                }
+                            } else
+                                alert("Failed to reschedule service!")
+                            setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+                        })
+                        .catch((error) => {
+                            alert(error);
+                            setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+                        });
+                }
+
             } else {
-                rTime += hours;
-            }
-            if (mins < 10) {
-                rTime += ":0" + mins;
-            } else {
-                rTime += ":" + mins;
-            }
+                if (hours === 0 && minstring === "0" && ampm === "0") {
+                    selectedDate.setHours(23);
+                    selectedDate.setMinutes(59);
+                    let month = selectedDate.getMonth() + 1;
+                    let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
+                    if (selectedDate < currentDate)
+                        alert("You cannot schedule a service for past date");
+                    else {
+                        let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=Flexible&rescheduleReason=" + rReason;
+                        console.log(url);
 
-            console.log("selected time=" + selectedDate.getTime());
-            // const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            //     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            // let formatedDateString = selectedDate.getDate() + "-" + monthNames[selectedDate.getMonth()] + "-" + selectedDate.getFullYear();
-            let month = selectedDate.getMonth() + 1;
-            let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
-            if (selectedDate < currentDate)
-                alert("You cannot schedule a service for past date");
-            else {
-                let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
-                console.log(url);
+                        Axios
+                            .get(url)
+                            .then((response) => response.data)
+                            .then((json) => {
 
-                Axios
-                    .get(url)
-                    .then((response) => response.data)
-                    .then((json) => {
+                                console.log('response.data', json);
+                                if ('message' in json) {
+                                    if (json.message === "Success") {
+                                        alert("Service has been rescheduled successfully!")
 
-                        console.log('response.data', json);
-                        if ('message' in json) {
-                            if (json.message === "Success") {
-                                alert("Service has been rescheduled successfully!")
-
-                                const updatedServiceList = serviceList.filter(service => {
-                                    if (service.serviceId == showReschedulePopupMobileView.serviceId) {
-                                        service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                                        service.status = "Rescheduled"
-                                        return service;
-                                    } else {
-                                        return service;
+                                        const updatedServiceList = serviceList.filter(service => {
+                                            if (service.serviceId == showReschedulePopupMobileView.serviceId) {
+                                                service.serviceDate = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                                service.status = "Rescheduled"
+                                                return service;
+                                            } else {
+                                                return service;
+                                            }
+                                        })
+                                        setServiceList(updatedServiceList);
+                                        // serviceList = updatedServiceList;
+                                        const element = document.getElementById(showReschedulePopupMobileView.serviceId);
+                                        element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
+                                        element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                        setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                                     }
-                                })
-                                setServiceList(updatedServiceList);
-                                // serviceList = updatedServiceList;
-                                const element = document.getElementById(showReschedulePopupMobileView.serviceId);
-                                element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
-                                element.nextSibling.nextSibling.innerHTML = "Rescheduled";
+                                    else {
+                                        alert(json.message)
+                                        setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+                                    }
+                                } else
+                                    alert("Failed to reschedule service!")
                                 setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
-                            }
-                            else {
-                                alert(json.message)
+                            })
+                            .catch((error) => {
+                                alert(error);
                                 setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
-                            }
-                        } else
-                            alert("Failed to reschedule service!")
-                        setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
-                    })
-                    .catch((error) => {
-                        alert(error);
-                        setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
-                    });
+                            });
+                    }
 
-
+                } else {
+                    console.log("condition 3");
+                    console.log("hours in else=" + hours);
+                    if (hours === 0) {
+                        alert("Select hour in time");
+                        return;
+                    }
+                    if (minstring === "0") {
+                        alert("Select minutes in time");
+                        return;
+                    }
+                    if (ampm === "0") {
+                        alert("Select ampm in time");
+                        return;
+                    }
+                }
             }
         }
 
@@ -694,6 +786,7 @@ const ServiceSchedule = () => {
                                                 {/* <input type="time" id="rescheduleTime" className='m-4 p-2 border-2 w-3/4 rounded' /> */}
                                                 <div className='flex gap-2 p-2'>
                                                     <select id='hourSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                        <option value="0">--</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -708,6 +801,7 @@ const ServiceSchedule = () => {
                                                         <option value="12">12</option>
                                                     </select>
                                                     <select id="minuteSelector" className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                        <option value="0">--</option>
                                                         <option value="00">00</option>
                                                         <option value="05">05</option>
                                                         <option value="10">10</option>
@@ -722,6 +816,7 @@ const ServiceSchedule = () => {
                                                         <option value="55">55</option>
                                                     </select>
                                                     <select id="ampmSelector" className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>
+                                                        <option value="0">--</option>
                                                         <option value="AM">AM</option>
                                                         <option value="PM">PM</option>
                                                     </select>
@@ -826,49 +921,22 @@ const ServiceSchedule = () => {
                                 onClick={() => setCustomDateFilterVisible(false)}
                             ></div>
                             <div className="flex items-center min-h-screen px-4 py-8">
-                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                <div className="relative w-full max-w-sm  py-4 mx-auto bg-white rounded-md shadow-lg">
                                     {/* <div className="mt-3 sm:flex"> */}
                                     <div className="mt-2 flex flex-col justify-center align-center">
-                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
 
-                                        {/* <div>
-                                            <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
-                                            <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
-                                        </div> */}
-                                        <div className='flex my-2 justify-center'>
-                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                                <option value="1">Jan</option>
-                                                <option value="2">Feb</option>
-                                                <option value="3">Mar</option>
-                                                <option value="4">Apr</option>
-                                                <option value="5">May</option>
-                                                <option value="6">Jun</option>
-                                                <option value="7">Jul</option>
-                                                <option value="8">Aug</option>
-                                                <option value="9">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                                <option value="2017">2017</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023" selected>2023</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                                <option value="2026">2027</option>
-                                            </select>
-
+                                        <div className="flex items-center justify-center gap-1 mt-3  w-full">
+                                            <div>
+                                                <label htmlFor='customFromDate' className='m-2 p-2 font-semibold'>From date :</label><br />
+                                                <input type="date" id="customFromDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
+                                            <div>
+                                                <label htmlFor='customToDate' className='m-2 p-2 font-semibold'>To date :</label><br />
+                                                <input type="date" id="customToDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
                                         </div>
 
-                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                        <div className="flex items-center justify-center gap-5 mt-3  w-full">
                                             <button
                                                 className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
                                                 onClick={applyDateFilter}
