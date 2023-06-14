@@ -13,6 +13,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
     }
 
     let appid = localStorage.getItem("appId");
+    let isPaymentGatewayEnabled = localStorage.getItem("isPaymentGatewayEnabled");
     const downloadInvoice = event => {
         event.preventDefault();
         let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Invoice&documentId=" + event.currentTarget.name;
@@ -69,7 +70,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
                     <td className="px-2 py-2 text-right">{payment.paymentAmount}</td>
                     <td className="px-2 py-2">{
                         payment.status === "Created" ?
-                            (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) :
+                            (isPaymentGatewayEnabled === "yes" ? (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) : (<button name={payment.paymentId} className=" ">Due</button>)) :
                             (payment.status === "Closed" ?
                                 (<button name={payment.paymentId} onClick={downloadPaySlip} className=" underline underline-offset-1 text-sky-600">Paid</button>) :
                                 (payment.status))
