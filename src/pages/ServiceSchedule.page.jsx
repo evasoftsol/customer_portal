@@ -152,7 +152,7 @@ const ServiceSchedule = () => {
                 .then((json) => {
 
 
-                    if (json.length === 0) {
+                    if ('Message' in json[0]) {//if (json.length === 0) {
                         console.log("in if");
                         setServiceList(null);
                         localStorage.setItem("localServiceList", null);
@@ -164,6 +164,8 @@ const ServiceSchedule = () => {
                         if (selectedBranch !== "" && selectedBranch !== "--select--") {
                             let filteredServiceList = null;
                             const serviceListCopy = json;
+                            if (selectedBranch === "Main Branch")
+                                selectedBranch = "Service Address"
                             filteredServiceList = serviceListCopy.filter(service => {
                                 return service.serviceBranch === selectedBranch;
                             })

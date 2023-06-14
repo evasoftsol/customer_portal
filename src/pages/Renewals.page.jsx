@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import BaseHoc from '../hoc/BaseHoc'
 import Axios from 'axios';
 import { FiFilter } from 'react-icons/fi';
-import ContractsTable from '../components/ContractsTable.component';
+import RenewalsTable from '../components/RenewalsTable.component';
 import { FcDownload } from 'react-icons/fc';
 import { MdAutorenew } from 'react-icons/md'
 import { MdOutlineExpandMore } from 'react-icons/md';
@@ -23,6 +23,7 @@ const Renewals = () => {
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
     let companyId = localStorage.getItem("companyId");
+    let isPaymentGatewayEnabled = localStorage.getItem("isPaymentGatewayEnabled");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
@@ -33,6 +34,8 @@ const Renewals = () => {
     const getContractList = (param) => {
         console.log("in getContractList");
         // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=9004245917&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=1/10/2022&toDate=31/12/2023&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
+
+        // http://my.evadev0006.appspot.com/slick_erp/getcontractrenewaldetails?customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/12/2020&toDate=21/12/2023
         let url = "";
         console.log("selectedDateFilter " + param);
 
@@ -106,7 +109,11 @@ const Renewals = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
+        // url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal&actiontask=ContractRenewal";
+
+        // url = "http://my.evadev0006.appspot.com/slick_erp/getcontractrenewaldetails?customerCellNo=9923050823&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=19/12/2020&toDate=21/12/2023";
+
+        url = "https://" + appid + ".appspot.com/slick_erp/getcontractrenewaldetails?customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate;
 
 
         console.log("url=" + url);
@@ -116,6 +123,7 @@ const Renewals = () => {
             .get(url)
             .then((response) => response.data)
             .then((json) => {
+                console.log("result =" + json);
                 if ('Message' in json[0]) {  //response [{"Message":"No Data found"}] 
                     // alert("message" + json[0].Message)
                     setContractList(null);
@@ -196,24 +204,22 @@ const Renewals = () => {
     }
 
     const getProductList = (prodList) => {
+        console.log("in getproductlist prodlist=" + prodList);
+        // let productArr = JSON.parse(prodList);
 
-        let productArr = JSON.parse(prodList);
-
-        let productNameList = productArr.map(product => {
-            return product.serviceProduct.productName
+        // let productNameList = productArr.map(product => {
+        //     return product.serviceProduct.productName
+        // })
+        let productNameList = prodList.map(product => {
+            return product.productName
         })
-        console.log(productNameList);
 
-        // let htmltext = "";
-        // productNameList.forEach(element => {
-        //     htmltext += "<p>" + element + "</p>"
-        // });
         return productNameList;
     }
 
     const downloadContract = event => {
         event.preventDefault();
-        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=Contract&documentId=" + event.currentTarget.name;
+        let url = "https://" + appid + ".appspot.com/slick_erp/pdflinkurl?authCode=" + companyId + "&documentName=ContractRenewal&documentId=" + event.currentTarget.name;
 
         Axios
             .get(url)
@@ -292,9 +298,9 @@ const Renewals = () => {
                                 <th className="py-8 px-2 align-top">Product</th>
                                 <th className="py-8 px-2 align-top">Start Date</th>
                                 <th className="py-8 px-2 align-top">End Date</th>
-                                <th className="py-8 px-2 align-top">Amount</th>
+                                <th className="py-8 px-2 align-top w-32">Amount</th>
                                 <th className="py-8 px-2 align-top">Print</th>
-                                {/* <th className="py-8 px-2 align-top">Renew</th> */}
+                                {isPaymentGatewayEnabled === "yes" ? (<th className="py-8 px-2 align-top">Renew</th>) : null}
                             </tr>
                         </thead>
                         {(loading ? (<tbody><tr><div className="fixed inset-0 z-10 overflow-y-auto">
@@ -306,7 +312,7 @@ const Renewals = () => {
                                     <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
                                 </div>
                             </div>
-                        </div></tr></tbody>) : (contractList !== null ? (<ContractsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
+                        </div></tr></tbody>) : (contractList !== null ? (<RenewalsTable contractList={currentPosts} loading={loading} />) : (<tbody><tr><td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
                     </table>
 
                     {/* =======For mobile view======== */}
@@ -325,7 +331,7 @@ const Renewals = () => {
                             <div className="flex flex-col gap-1 bg-white rounded-lg py-1">
                                 <div className="flex gap-2 justify-between align-top text-left text-[#63636e] text-sm pr-1 font-semibold">
                                     <div className=" px-2 align-top">{contract.contractId} </div>
-                                    <div className=" px-2 align-top">{contract.contrctStartDate + " to " + contract.contractEndDate}</div>
+                                    <div className=" px-2 align-top">{contract.contractStartDate + " to " + contract.contractEndDate}</div>
                                     <button onClick={expandMore} id={"ExpandMore" + contract.contractId} ><MdOutlineExpandMore /></button>
                                     <button onClick={expandLess} id={"ExpandLess" + contract.contractId} className='hidden' ><MdOutlineExpandLess /></button>
                                 </div>
@@ -337,12 +343,14 @@ const Renewals = () => {
                                                 getProductList(contract.productList).map(p => {
                                                     return <p>{p}</p>;
                                                 })
+                                                // "Test Product"
 
                                             }
                                         </div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Amount : </span> {contract.netPayable}</div>
-                                        <div className=" px-2 align-top"><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
-                                        {/* <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div> */}
+                                        <div className=" px-2 align-top "><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
+
+                                        {isPaymentGatewayEnabled === "yes" ? (<div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div>) : null}
                                     </div>
                                 </div>
                             </div>

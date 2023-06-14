@@ -16,25 +16,27 @@ const Contracts = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
-    const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
+    // const [customDateFilterVisible, setCustomDateFilterVisible] = useState(false);
+    const [customDateFilterVisible, setCustomDateFilterVisible] = useState({ SelectedFilter: '', visibility: false });
     const [custInfoPopupVisible, setCustInfoPopupVisible] = useState(false);
     const datefilterRef = useRef();
     let appid = localStorage.getItem("appId");
     let customerCell = localStorage.getItem("customerCell");
     let customerEmail = localStorage.getItem("customerEmail");
+    let customerId = localStorage.getItem("customerId");
     let companyId = localStorage.getItem("companyId");
 
     console.log("currentPage=" + currentPage)
     useEffect(() => {
         console.log("in useEffect");
-        getContractList("btnThisMonth");
+        getContractList("Active");
     }, []);
 
     const getContractList = (param) => {
         console.log("in getContractList");
         // let url = "http://my.evadev0006.appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=5659313586569216&customerCellNo=9004245917&customerEmail=evasoftwaresolutionsdevelop@gmail.com&fromDate=1/12/2022&toDate=31/12/2022&apiCallFrom=CustomerPortal";
         let url = "";
-        console.log("selectedDateFilter " + param);
+        console.log("selectedFilter " + param);
 
         const current = new Date();
         let month = current.getMonth() + 1;
@@ -42,71 +44,82 @@ const Contracts = () => {
         let toDate = "";
 
 
-        if (param === "btnThisMonth") {
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear()
-            }
-        } else if (param === "btnLast") {
-            toDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 1) {
-                let year = current.getFullYear() - 1;
-                fromDate = "1/12/" + year;
-            } else {
-                month = month - 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-            }
-        } else if (param === "btnNext") {
-            if (month === 12) {
-                let year = current.getFullYear() + 1;
-                fromDate = "1/01/" + year;
-                toDate = "1/02/" + year;
-            } else {
-                month += 1;
-                fromDate = "1/" + month + "/" + current.getFullYear();
-                if (month === 12) {
-                    let year = current.getFullYear() + 1;
-                    toDate = "1/01/" + year;
-                } else {
-                    month += 1;
-                    toDate = "1/" + month + "/" + current.getFullYear();
-                }
-            }
+        // if (param === "btnThisMonth") {
+        //     fromDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         toDate = "1/01/" + year;
+        //     } else {
+        //         month += 1;
+        //         toDate = "1/" + month + "/" + current.getFullYear()
+        //     }
+        // } 
+        // else if (param === "btnLast") {
+        //     toDate = "1/" + month + "/" + current.getFullYear();
+        //     if (month === 1) {
+        //         let year = current.getFullYear() - 1;
+        //         fromDate = "1/12/" + year;
+        //     } else {
+        //         month = month - 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //     }
+        // } else if (param === "btnNext") {
+        //     if (month === 12) {
+        //         let year = current.getFullYear() + 1;
+        //         fromDate = "1/01/" + year;
+        //         toDate = "1/02/" + year;
+        //     } else {
+        //         month += 1;
+        //         fromDate = "1/" + month + "/" + current.getFullYear();
+        //         if (month === 12) {
+        //             let year = current.getFullYear() + 1;
+        //             toDate = "1/01/" + year;
+        //         } else {
+        //             month += 1;
+        //             toDate = "1/" + month + "/" + current.getFullYear();
+        //         }
+        //     }
 
-        } else if (param === "btnCustomDate") {
+        // } 
+        // else 
+        if (param === "Expired" || param === "Cancelled") {
 
-            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
-            if (selectedMonth === 12) {
-                console.log("selectedMonth === 12")
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                selectedMonth += 1;
-                toDate = "1/" + selectedMonth + "/" + selectedYear;
-            }
+            // let selectedMonth = parseInt(document.getElementById('monthSelector').value);
+            // let selectedYear = document.getElementById('yearSelector').value;
+            // fromDate = "1/" + selectedMonth + "/" + selectedYear;
+            // console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
+            // if (selectedMonth === 12) {
+            //     console.log("selectedMonth === 12")
+            //     let year = parseInt(selectedYear) + 1;
+            //     toDate = "1/01/" + year;
+            // } else {
+            //     selectedMonth += 1;
+            //     toDate = "1/" + selectedMonth + "/" + selectedYear;
+            // }
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+
+            let fmonth = fDate.getMonth() + 1;
+            let tmonth = tDate.getMonth() + 1;
+            fromDate = fDate.getDate() + "/" + fmonth + "/" + fDate.getFullYear();
+            toDate = tDate.getDate() + "/" + tmonth + "/" + tDate.getFullYear();
+
         }
         else {
-            console.log("in else part")
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                console.log("month === 12")
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear();
-            }
+            // console.log("in else part")
+            // fromDate = "1/" + month + "/" + current.getFullYear();
+            // if (month === 12) {
+            //     console.log("month === 12")
+            //     let year = current.getFullYear() + 1;
+            //     toDate = "1/01/" + year;
+            // } else {
+            //     month += 1;
+            //     toDate = "1/" + month + "/" + current.getFullYear();
+            // }
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
-        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal";
+        url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal&contractStatus=" + param + "&customerId=" + customerId;
 
 
         console.log("url=" + url);
@@ -138,15 +151,32 @@ const Contracts = () => {
 
 
 
-
     const applyDateFilter = event => {
         event.preventDefault();
 
         // alert("Date filter clicked" + event.currentTarget.id );
         if (event.currentTarget.id === "btnCustomDate") {
-            setDateFilterVisible(false);
-            setCustomDateFilterVisible(false);
-            getContractList(event.currentTarget.id);
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+            console.log("fdate=" + fDate + " tdate=" + tDate);
+            console.log("tDate - fDate=" + tDate - fDate);
+            let diff = Math.floor((tDate - fDate) / (1000 * 60 * 60 * 24));
+            console.log("diff=" + diff);
+            let selectedFilter = customDateFilterVisible.SelectedFilter;
+            console.log("selectedFilter2=" + selectedFilter);
+            if (fDate > tDate) {
+                alert("From date should be earlier than todate");
+            } else if (diff > 365) {
+                alert("Please select from date and to date range within 1 year");
+            } else {
+                setDateFilterVisible(false);
+                // setCustomDateFilterVisible(false);
+                setCustomDateFilterVisible({ ...customDateFilterVisible, SelectedFilter: '', visibility: false });
+                console.log("after setting custom filter false");
+                //getContractList(event.currentTarget.id);
+
+                getContractList(selectedFilter);
+            }
         } else {
             setDateFilterVisible(false);
             getContractList(event.currentTarget.id);
@@ -177,9 +207,11 @@ const Contracts = () => {
         document.getElementById(pageNumber).classList.add('border-sky-600');
     }
 
-    const showCustomDateFilter = () => {
+    const showCustomDateFilter = event => {
+        console.log("clicked filter " + event.currentTarget.id)
         setDateFilterVisible(false);
-        setCustomDateFilterVisible(true);
+        // setCustomDateFilterVisible(true);
+        setCustomDateFilterVisible({ ...customDateFilterVisible, SelectedFilter: event.currentTarget.id, visibility: true });
     }
 
     const expandMore = event => {
@@ -201,13 +233,13 @@ const Contracts = () => {
     }
 
     const getProductList = (prodList) => {
-
+        // console.log("Productlist=" + prodList);
         let productArr = JSON.parse(prodList);
 
         let productNameList = productArr.map(product => {
             return product.serviceProduct.productName
         })
-        console.log(productNameList);
+        // console.log(productNameList);
 
         // let htmltext = "";
         // productNameList.forEach(element => {
@@ -278,10 +310,10 @@ const Contracts = () => {
                                 onClick={() => setDateFilterVisible(false)}
                             ></div>
                             <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-14 right-1 z-20 shadow-lg border-slate-200 bg-white'>
-                                <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                                <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
-                                <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
-                                <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
+                                <button className="bg-white rounded text-left" id="Active" onClick={applyDateFilter}>Active</button>
+                                <button id="Expired" className="text-left" onClick={showCustomDateFilter}>Expired</button>
+                                <button id="Cancelled" onClick={showCustomDateFilter}>Cancelled / Discountinued</button>
+                                {/* <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button> */}
                             </div>
                         </div>
                     )}
@@ -299,6 +331,7 @@ const Contracts = () => {
                                 <th className="py-8 px-2 align-top">End Date</th>
                                 <th className="py-8 px-2 align-top">Amount</th>
                                 <th className="py-8 px-2 align-top">Print</th>
+                                <th className="py-8 px-2 align-top">Status</th>
                                 {/* <th className="py-8 px-2 align-top">Renew</th> */}
                             </tr>
                         </thead>
@@ -348,6 +381,7 @@ const Contracts = () => {
                                         </div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Amount : </span> {contract.netPayable}</div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Print : </span> <button name={contract.contractId} onClick={downloadContract}><FcDownload /></button> </div>
+                                        <div className=" px-2 align-top"><span className='font-semibold'>Status : </span> {contract.status}</div>
                                         {/* <div className=" px-2 align-bottom"><span className='font-semibold'>Renew : </span> <button name={contract.contractId} onClick={renewContract}><MdAutorenew className='text-blue-400' /></button></div> */}
                                     </div>
                                 </div>
@@ -367,57 +401,30 @@ const Contracts = () => {
                     />)
                 } */}
 
-                    {customDateFilterVisible ? (
+                    {customDateFilterVisible.visibility ? (
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">
                             <div
                                 className="fixed inset-0 w-full h-full bg-black opacity-40"
-                                onClick={() => setCustomDateFilterVisible(false)}
+                                onClick={() => setCustomDateFilterVisible({ ...customDateFilterVisible, SelectedFilter: '', visibility: false })}
                             ></div>
                             <div className="flex items-center min-h-screen px-4 py-8">
-                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                <div className="relative w-full max-w-sm  py-4 mx-auto bg-white rounded-md shadow-lg">
                                     {/* <div className="mt-3 sm:flex"> */}
                                     <div className="mt-2 flex flex-col justify-center align-center">
-                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
 
-                                        {/* <div>
-                                            <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
-                                            <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
-                                        </div> */}
-                                        <div className='flex my-2 justify-center'>
-                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                                <option value="1">Jan</option>
-                                                <option value="2">Feb</option>
-                                                <option value="3">Mar</option>
-                                                <option value="4">Apr</option>
-                                                <option value="5">May</option>
-                                                <option value="6">Jun</option>
-                                                <option value="7">Jul</option>
-                                                <option value="8">Aug</option>
-                                                <option value="9">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                                <option value="2017">2017</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023" selected>2023</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                                <option value="2026">2027</option>
-                                            </select>
-
+                                        <div className="flex items-center justify-center gap-1 mt-3  w-full">
+                                            <div>
+                                                <label htmlFor='customFromDate' className='m-2 p-2 font-semibold'>From date :</label><br />
+                                                <input type="date" id="customFromDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
+                                            <div>
+                                                <label htmlFor='customToDate' className='m-2 p-2 font-semibold'>To date :</label><br />
+                                                <input type="date" id="customToDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
                                         </div>
 
-                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                        <div className="flex items-center justify-center gap-5 mt-3  w-full">
                                             <button
                                                 className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
                                                 onClick={applyDateFilter}
@@ -427,7 +434,7 @@ const Contracts = () => {
                                             <button
                                                 className=" mt-2 p-1 w-20 text-white text-lg bg-sky-600  rounded-lg outline-none border "
                                                 onClick={() =>
-                                                    setCustomDateFilterVisible(false)
+                                                    setCustomDateFilterVisible({ ...customDateFilterVisible, SelectedFilter: '', visibility: false })
                                                 }
                                             >
                                                 Cancel

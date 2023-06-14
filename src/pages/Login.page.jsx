@@ -256,9 +256,8 @@ const Login = () => {
                         localStorage.setItem("customerCell", json.customerCellNo);
                         localStorage.setItem("appId", appid);
                         localStorage.setItem("companyBranch", json.branch);
+                        localStorage.setItem("isPaymentGatewayEnabled", json.isPaymentGatewayEnabled);
                         localStorage.setItem("companyId", json.companyId);
-
-
                         loadCustomerBranches();
                         // window.location.href = `/services`;
                     })
