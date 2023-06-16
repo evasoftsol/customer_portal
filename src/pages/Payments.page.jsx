@@ -351,10 +351,10 @@ const Payments = () => {
                                     <div className=" px-1 align-top">{payment.invoiceId}</div>
                                     <div className=" px-1 align-top" >{payment.paymentDate}</div>
                                     <div className=" px-1 align-top">{"Total: " + payment.paymentAmount}</div>
-                                    <button onClick={expandMore} id={"ExpandMore" + payment.invoiceId} ><MdOutlineExpandMore /></button>
-                                    <button onClick={expandLess} id={"ExpandLess" + payment.invoiceId} className='hidden' ><MdOutlineExpandLess /></button>
+                                    <button onClick={expandMore} id={"ExpandMore" + payment.paymentId} ><MdOutlineExpandMore /></button>
+                                    <button onClick={expandLess} id={"ExpandLess" + payment.paymentId} className='hidden' ><MdOutlineExpandLess /></button>
                                 </div>
-                                <div id={"section" + payment.invoiceId} className='hidden'>
+                                <div id={"section" + payment.paymentId} className='hidden'>
                                     <div className="flex flex-col gap-1 justify-start align-top text-left text-[#8181A5] text-sm " >
                                         <div className="mt-2 px-2 align-top"><span className='font-semibold'>Invoice ID : </span> {payment.invoiceId}</div>
                                         <div className=" px-2 align-top"><span className='font-semibold'>Date : </span>{payment.paymentDate}</div>
