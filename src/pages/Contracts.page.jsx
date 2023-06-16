@@ -139,7 +139,7 @@ const Contracts = () => {
                     setContractList(json)
                     console.log("result is set to ContractList");
                     setLoading(false);
-                    paginate(1);
+                    setCurrentPage(1);
                 }
 
 
