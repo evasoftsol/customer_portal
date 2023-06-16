@@ -134,10 +134,12 @@ const Contracts = () => {
                     // alert("message" + json[0].Message)
                     setContractList(null);
                     setLoading(false);
+
                 } else {
                     setContractList(json)
                     console.log("result is set to ContractList");
                     setLoading(false);
+                    paginate(1);
                 }
 
 
