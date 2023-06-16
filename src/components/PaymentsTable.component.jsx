@@ -64,7 +64,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
     return (
         <tbody className="text-sm mx-4">
             {paymentList.map(payment => (
-                <tr key={payment.invoiceId}>
+                <tr key={payment.paymentId}>
                     <td className="px-2 py-2">{payment.invoiceId}</td>
                     <td className="px-2 py-2">{payment.paymentDate}</td>
                     <td className="px-2 py-2 text-right">{payment.paymentAmount}</td>
