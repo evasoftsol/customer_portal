@@ -133,6 +133,7 @@ const Payments = () => {
                     setPaymentList(json)
                     console.log("result is set to PaymentList");
                     setLoading(false);
+                    setCurrentPage(1);
                 }
 
 

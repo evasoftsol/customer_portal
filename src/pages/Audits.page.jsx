@@ -165,6 +165,7 @@ const Audits = () => {
                         // setCurrentPage(1);
                         setLoading(false);
                         console.log("filtered result is set to auditlist");
+                        setCurrentPage(1);
                     } else {
                         setAuditList(json)
                         setLoading(false)

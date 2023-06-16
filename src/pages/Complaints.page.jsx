@@ -135,6 +135,7 @@ const Complaints = () => {
                     setComplainList(json)
                     console.log("result is set to complainlist");
                     setLoading(false);
+                    setCurrentPage(1);
                 }
 
 
