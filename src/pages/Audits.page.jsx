@@ -345,7 +345,7 @@ const Audits = () => {
                                 ></div>
                                 <div className='flex flex-col gap-2 border p-2 rounded-lg absolute top-24 sm:top-14 right-10 sm:right-5 z-20 shadow-lg border-slate-200 bg-white'>
                                     <button className="bg-white rounded" id="btnThisMonth" onClick={applyDateFilter}>This Month</button>
-                                    <button id="btnNext" onClick={applyDateFilter}>Next Month</button>
+                                    {/* <button id="btnNext" onClick={applyDateFilter}>Next Month</button> */}
                                     <button id="btnLast" onClick={applyDateFilter}>Last Month</button>
                                     <button id="btnCustom" onClick={showCustomDateFilter}>Custom</button>
                                 </div>
