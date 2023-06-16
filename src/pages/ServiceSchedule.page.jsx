@@ -122,7 +122,8 @@ const ServiceSchedule = () => {
             let fmonth = fDate.getMonth() + 1;
             let tmonth = tDate.getMonth() + 1;
             fromDate = fDate.getDate() + "/" + fmonth + "/" + fDate.getFullYear();
-            toDate = tDate.getDate() + "/" + tmonth + "/" + tDate.getFullYear();
+            let tday = tDate.getDate() + 1;
+            toDate = tday + "/" + tmonth + "/" + tDate.getFullYear();
 
         }
         else {
@@ -384,7 +385,7 @@ const ServiceSchedule = () => {
                 let month = selectedDate.getMonth() + 1;
                 let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
                 if (selectedDate < currentDate)
-                    alert("You cannot schedule a service for past date");
+                    alert("You cannot schedule a service for past date or time");
                 else {
                     let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
                     console.log(url);
@@ -436,7 +437,7 @@ const ServiceSchedule = () => {
                     let month = selectedDate.getMonth() + 1;
                     let formatedDateString = selectedDate.getDate() + "-" + month + "-" + selectedDate.getFullYear();
                     if (selectedDate < currentDate)
-                        alert("You cannot schedule a service for past date");
+                        alert("You cannot schedule a service for past date or time");
                     else {
                         let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=Flexible&rescheduleReason=" + rReason;
                         console.log(url);

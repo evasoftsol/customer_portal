@@ -82,18 +82,14 @@ const Renewals = () => {
 
         } else if (param === "btnCustomDate") {
 
-            let selectedMonth = parseInt(document.getElementById('monthSelector').value);
-            let selectedYear = document.getElementById('yearSelector').value;
-            fromDate = "1/" + selectedMonth + "/" + selectedYear;
-            console.log("selectedMonth=" + selectedMonth + "selectedYear=" + selectedYear);
-            if (selectedMonth === 12) {
-                console.log("selectedMonth === 12")
-                let year = parseInt(selectedYear) + 1;
-                toDate = "1/01/" + year;
-            } else {
-                selectedMonth += 1;
-                toDate = "1/" + selectedMonth + "/" + selectedYear;
-            }
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+
+            let fmonth = fDate.getMonth() + 1;
+            let tmonth = tDate.getMonth() + 1;
+            fromDate = fDate.getDate() + "/" + fmonth + "/" + fDate.getFullYear();
+            let tday = tDate.getDate() + 1;
+            toDate = tday + "/" + tmonth + "/" + tDate.getFullYear();
         }
         else {
             console.log("in else part")
@@ -149,9 +145,22 @@ const Renewals = () => {
 
         // alert("Date filter clicked" + event.currentTarget.id );
         if (event.currentTarget.id === "btnCustomDate") {
-            setDateFilterVisible(false);
-            setCustomDateFilterVisible(false);
-            getContractList(event.currentTarget.id);
+            let fDate = new Date(document.getElementById("customFromDate").value);
+            let tDate = new Date(document.getElementById("customToDate").value);
+            console.log("fdate=" + fDate + " tdate=" + tDate);
+            console.log("tDate - fDate=" + tDate - fDate);
+            let diff = Math.floor((tDate - fDate) / (1000 * 60 * 60 * 24));
+            console.log("diff=" + diff);
+            if (fDate > tDate) {
+                alert("From date should be earlier than todate");
+            } else if (diff > 30) {
+                alert("Please select from date and to date range within 30 days");
+            } else {
+
+                setDateFilterVisible(false);
+                setCustomDateFilterVisible(false);
+                getContractList(event.currentTarget.id);
+            }
         } else {
             setDateFilterVisible(false);
             getContractList(event.currentTarget.id);
@@ -370,49 +379,22 @@ const Renewals = () => {
                                 onClick={() => setCustomDateFilterVisible(false)}
                             ></div>
                             <div className="flex items-center min-h-screen px-4 py-8">
-                                <div className="relative w-full max-w-xs py-4 mx-auto bg-white rounded-md shadow-lg">
+                                <div className="relative w-full max-w-sm  py-4 mx-auto bg-white rounded-md shadow-lg">
                                     {/* <div className="mt-3 sm:flex"> */}
                                     <div className="mt-2 flex flex-col justify-center align-center">
-                                        <h2 className="text-md mb-4 font-semibold text-center">Select Month and Year </h2>
 
-                                        {/* <div>
-                                            <label htmlFor='customDate' className='my-2  text-md font-semibold'>Select Month :</label><br />
-                                            <input type="date" id="customDate" className='my-2 p-2 border-2 w-3/4 rounded' />
-                                        </div> */}
-                                        <div className='flex my-2 justify-center'>
-                                            {/* <label htmlFor='monthSelector' className='my-2  text-md font-semibold'>Month :</label> */}
-                                            <select id='monthSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Month
-                                                <option value="1">Jan</option>
-                                                <option value="2">Feb</option>
-                                                <option value="3">Mar</option>
-                                                <option value="4">Apr</option>
-                                                <option value="5">May</option>
-                                                <option value="6">Jun</option>
-                                                <option value="7">Jul</option>
-                                                <option value="8">Aug</option>
-                                                <option value="9">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                            {/* <label htmlFor='yearSelector' className='my-2  text-md font-semibold'>Year :</label> */}
-                                            <select id='yearSelector' className='bg-white border-gray-300 border-2 rounded-lg p-2 mx-2'>Year
-                                                <option value="2017">2017</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023" selected>2023</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                                <option value="2026">2027</option>
-                                            </select>
-
+                                        <div className="flex items-center justify-center gap-1 mt-3  w-full">
+                                            <div>
+                                                <label htmlFor='customFromDate' className='m-2 p-2 font-semibold'>From date :</label><br />
+                                                <input type="date" id="customFromDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
+                                            <div>
+                                                <label htmlFor='customToDate' className='m-2 p-2 font-semibold'>To date :</label><br />
+                                                <input type="date" id="customToDate" defaultValue={new Date().toISOString().slice(0, 10)} className='m-4 p-2 border-2 w-3/4 rounded-lg' />
+                                            </div>
                                         </div>
 
-                                        <div className="items-center justify-center gap-5 mt-3 flex w-full">
+                                        <div className="flex items-center justify-center gap-5 mt-3  w-full">
                                             <button
                                                 className=" mt-2 p-1 w-20 text-white bg-sky-600 text-lg rounded-lg outline-none " id="btnCustomDate"
                                                 onClick={applyDateFilter}

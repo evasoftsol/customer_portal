@@ -99,7 +99,8 @@ const Complaints = () => {
             let fmonth = fDate.getMonth() + 1;
             let tmonth = tDate.getMonth() + 1;
             fromDate = fDate.getDate() + "/" + fmonth + "/" + fDate.getFullYear();
-            toDate = tDate.getDate() + "/" + tmonth + "/" + tDate.getFullYear();
+            let tday = tDate.getDate() + 1;
+            toDate = tday + "/" + tmonth + "/" + tDate.getFullYear();
         }
         else {
             console.log("in else part")
