@@ -185,7 +185,9 @@ const BaseHoc = (Component) => ({ ...props }) => {
                         {/* {route === "/projects" ?
                         (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
                         (<Link to="/projects" className="shrink-0"> <img src={timechart} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)} */}
-
+                        {route === "/audits" ?
+                            (<Link to="/audits" className="shrink-0" ><img src={contract} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1 border-[#c3c3c3] border-2 w-12" /></Link>) :
+                            (<Link to="/audits" className="shrink-0" ><img src={contract} alt="company logo" className="w-10 h-auto my-2 shrink-0  p-1" /></Link>)}
 
 
                         {/* <Link to="/" onClick={clearData} className="shrink-0"> */}
