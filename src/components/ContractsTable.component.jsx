@@ -79,11 +79,11 @@ const ContractsTable = ({ contractList, loading }) => {
 
                             </>
                         </td>
-                        <td className="px-2 py-2 align-top">{contract.contrctStartDate}</td>
-                        <td className="px-2 py-2 align-top">{contract.contractEndDate}</td>
-                        <td className="px-2 py-2 align-top text-right">{contract.netPayable}</td>
-                        <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
-                        <td className="px-2 py-2 align-top">{contract.status}</td>
+                        <td className="px-2 py-2 align-top text-center">{contract.contrctStartDate}</td>
+                        <td className="px-2 py-2 align-top text-center">{contract.contractEndDate}</td>
+                        <td className="px-2 py-2 align-top text-right pr-6">{contract.netPayable}</td>
+                        <td className="px-2 py-2 align-top text-center"><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
+                        <td className="px-2 py-2 align-top text-center">{contract.status}</td>
                         {/* <td className="px-2 py-2 align-top"><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td> */}
                     </tr>
 

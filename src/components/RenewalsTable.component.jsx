@@ -79,10 +79,10 @@ const RenewalsTable = ({ contractList, loading }) => {
 
                             </>
                         </td>
-                        <td className="px-2 py-2 align-top">{contract.contractStartDate}</td>
-                        <td className="px-2 py-2 align-top">{contract.contractEndDate}</td>
-                        <td className="px-2 py-2 align-top text-right">{contract.netPayable}</td>
-                        <td className="px-4 py-2 align-top "><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
+                        <td className="px-2 py-2 align-top text-center">{contract.contractStartDate}</td>
+                        <td className="px-2 py-2 align-top text-center">{contract.contractEndDate}</td>
+                        <td className="px-2 py-2 pr-12 align-top text-right">{contract.netPayable}</td>
+                        <td className="px-4 py-2 align-top text-center "><button name={contract.contractId} onClick={downloadContract}><FcDownload /></button></td>
                         {isPaymentGatewayEnabled === "yes" ? (<td className="px-4 py-2 align-top "><button name={contract.contractId} onClick={renewContract}><MdAutorenew /></button></td>) : null}
                     </tr>
 

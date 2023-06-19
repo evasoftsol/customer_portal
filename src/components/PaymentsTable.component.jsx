@@ -67,8 +67,8 @@ const PaymentsTable = ({ paymentList, loading }) => {
                 <tr key={payment.paymentId}>
                     <td className="px-2 py-2">{payment.invoiceId}</td>
                     <td className="px-2 py-2">{payment.paymentDate}</td>
-                    <td className="px-2 py-2 text-right">{payment.paymentAmount}</td>
-                    <td className="px-2 py-2">{
+                    <td className="px-2 py-2 pr-8 w-32 text-right">{payment.paymentAmount}</td>
+                    <td className="px-2 py-2 text-center">{
                         payment.status === "Created" ?
                             (isPaymentGatewayEnabled === "yes" ? (<button name={payment.invoiceId} onClick={pay} className=" underline underline-offset-1 text-sky-600">Pay</button>) : (<button name={payment.paymentId} className=" ">Due</button>)) :
                             (payment.status === "Closed" ?
@@ -76,7 +76,7 @@ const PaymentsTable = ({ paymentList, loading }) => {
                                 (payment.status))
 
                     }</td>
-                    <td className="px-2 py-2"><button name={payment.invoiceId} onClick={downloadInvoice}><FcDownload /></button></td>
+                    <td className="px-2 py-2 text-center"><button name={payment.invoiceId} onClick={downloadInvoice}><FcDownload /></button></td>
                 </tr>
 
             ))}

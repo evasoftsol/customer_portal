@@ -14,8 +14,8 @@ const ServicesTable = ({ serviceList, loading }) => {
     const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
-
     let companyId = localStorage.getItem("companyId");
+
     if (loading) {
 
         return <tr><div className="fixed inset-0 z-10 overflow-y-auto">
@@ -273,6 +273,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                 return;
             }
         }
+
         let rating = currentValue * 2;
         const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark + "&apiCallFrom=CustomerPortal";
         let serviceObj = null;
@@ -322,12 +323,14 @@ const ServicesTable = ({ serviceList, loading }) => {
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                                 setCurrentValue(0);
+
                             })
                             .catch((error) => {
                                 console.log(error);
                                 alert(error);
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                                 setCurrentValue(0);
+
                             });
                     }
                     // let updatedStars = "";
@@ -341,6 +344,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                     alert("Feedback submitted successfully!");
                     setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                     setCurrentValue(0);
+
                 }
             }
         ).catch((exception) => {

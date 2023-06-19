@@ -70,10 +70,10 @@ const AuditTable = ({ auditList, loading }) => {
                         <td className="px-2 py-1 sm:py-2" id={audit.assessmentId}>{audit.assessmentDate}</td>
                         <td className="px-2 py-1 sm:py-2">{audit.assessedBy1}</td>
                         <td className="px-2 py-1 sm:py-2" >{audit.status}</td>
-                        <td className="px-2 py-1 sm:py-2 text-right pr-12" >{audit.totalObservations}</td>
-                        <td className="px-2 py-1 sm:py-2 text-right pr-12" >{audit.openObservations}</td>
-                        <td className="px-2 py-1 sm:py-2 text-right pr-12" >{audit.closedObservations}</td>
-                        <td className="px-2 py-1 sm:py-2 ">
+                        <td className="px-2 py-1 sm:py-2 text-center pr-12" >{audit.totalObservations}</td>
+                        <td className="px-2 py-1 sm:py-2 text-center pr-12" >{audit.openObservations}</td>
+                        <td className="px-2 py-1 sm:py-2 text-center pr-12" >{audit.closedObservations}</td>
+                        <td className="px-2 py-1 sm:py-2 text-center">
                             <button name={audit.assessmentId} onClick={downloadReport}><FcDownload /></button>
                         </td>
 
