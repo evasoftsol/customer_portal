@@ -525,6 +525,7 @@ const ServiceSchedule = () => {
     }
     const submitFeedback = event => {
         event.preventDefault();
+
         if (currentValue == 0) {
             alert("Give stars");
             return;
@@ -537,6 +538,7 @@ const ServiceSchedule = () => {
                 return;
             }
         }
+
         let rating = currentValue * 2;
         const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopupMobileView.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark + "&apiCallFrom=CustomerPortal";
         let serviceObj = null;
@@ -586,12 +588,14 @@ const ServiceSchedule = () => {
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                                 setCurrentValue(0);
+
                             })
                             .catch((error) => {
                                 console.log(error);
                                 alert(error);
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                                 setCurrentValue(0);
+
                             });
                     }
                     // let updatedStars = "";
@@ -605,6 +609,7 @@ const ServiceSchedule = () => {
                     alert("Feedback submitted successfully!");
                     setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                     setCurrentValue(0);
+
                 }
             }
         ).catch((exception) => {

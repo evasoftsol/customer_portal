@@ -305,10 +305,10 @@ const Renewals = () => {
                             <tr className="text-left text-[#8181A5] text-sm  ">
                                 <th className="py-8 px-2 align-top">Contract ID</th>
                                 <th className="py-8 px-2 align-top">Product</th>
-                                <th className="py-8 px-2 align-top">Start Date</th>
-                                <th className="py-8 px-2 align-top">End Date</th>
-                                <th className="py-8 px-2 align-top w-32">Amount</th>
-                                <th className="py-8 px-2 align-top">Print</th>
+                                <th className="py-8 px-2 align-top text-center">Start Date</th>
+                                <th className="py-8 px-2 align-top text-center">End Date</th>
+                                <th className="py-8 px-2 align-top  text-center">Amount</th>
+                                <th className="py-8 px-2 align-top text-center">Print</th>
                                 {isPaymentGatewayEnabled === "yes" ? (<th className="py-8 px-2 align-top">Renew</th>) : null}
                             </tr>
                         </thead>

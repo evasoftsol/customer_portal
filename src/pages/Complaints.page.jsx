@@ -340,9 +340,9 @@ const Complaints = () => {
 
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm ">
-                                <th className="py-2 sm:py-8 px-2 align-top ">ID</th>
-                                <th className="py-2 sm:py-8 px-2 align-top ">Date</th>
-                                <th className="py-2 sm:py-8 px-2 align-top ">Status</th>
+                                <th className="py-2 sm:py-8 px-2 align-top w-24">ID</th>
+                                <th className="py-2 sm:py-8 px-2 align-top w-24">Date</th>
+                                <th className="py-2 sm:py-8 px-2 align-top w-24">Status</th>
                                 <th className="py-2 sm:py-8 px-2 align-top ">Description</th>
                             </tr>
                         </thead>

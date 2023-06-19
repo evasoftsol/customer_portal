@@ -314,11 +314,11 @@ const Payments = () => {
 
                         <thead className="bg-red">
                             <tr className="text-left text-[#8181A5] text-sm  ">
-                                <th className="py-8 px-2 align-top">Invoice ID</th>
-                                <th className="py-8 px-2 align-top">Date</th>
-                                <th className="py-8 px-2 align-top w-32">Amount</th>
-                                <th className="py-8 px-2 align-top">Status</th>
-                                <th className="py-8 px-2 align-top">Invoice</th>
+                                <th className="py-8 px-2 align-top ">Invoice ID</th>
+                                <th className="py-8 px-2 align-top ">Date</th>
+                                <th className="py-8 px-2 align-top w-32 text-center">Amount</th>
+                                <th className="py-8 px-2 align-top  text-center ">Status</th>
+                                <th className="py-8 px-2 align-top  text-center ">Invoice</th>
                             </tr>
                         </thead>
                         {/* {paymentList ? (<PaymentsTable paymentList={currentPosts} loading={loading} />) : (loading ? (<tbody><tr><div>Loading......</div></tr></tbody>) : (null))} */}
