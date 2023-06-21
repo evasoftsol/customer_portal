@@ -30,6 +30,7 @@ const ServiceSchedule = () => {
 
     const [serviceList, setServiceList] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [processing, setProcessing] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10);
     const [dateFilterVisible, setDateFilterVisible] = useState(false);
@@ -327,6 +328,10 @@ const ServiceSchedule = () => {
 
     const reschedule = (event) => {
         event.preventDefault();
+        if (processing) {
+            alert("Wait");
+            return;
+        }
         let rDate = document.getElementById("rescheduleDate").value;
 
         // let rTime = document.getElementById("rescheduleTime").value;
@@ -387,6 +392,7 @@ const ServiceSchedule = () => {
                 if (selectedDate < currentDate)
                     alert("You cannot schedule a service for past date or time");
                 else {
+                    setProcessing(true);
                     let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=" + rTime + "&rescheduleReason=" + rReason;
                     console.log(url);
 
@@ -398,6 +404,7 @@ const ServiceSchedule = () => {
                             console.log('response.data', json);
                             if ('message' in json) {
                                 if (json.message === "Success") {
+                                    setProcessing(false);
                                     alert("Service has been rescheduled successfully!")
 
                                     const updatedServiceList = serviceList.filter(service => {
@@ -415,16 +422,21 @@ const ServiceSchedule = () => {
                                     element.innerHTML = selectedDate.getDate() + "/" + month + "/" + selectedDate.getFullYear();
                                     element.nextSibling.nextSibling.innerHTML = "Rescheduled";
                                     setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
+
                                 }
                                 else {
+                                    setProcessing(false);
                                     alert(json.message)
                                     setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                                 }
-                            } else
+                            } else {
+                                setProcessing(false);
                                 alert("Failed to reschedule service!")
+                            }
                             setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                         })
                         .catch((error) => {
+                            setProcessing(false);
                             alert(error);
                             setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                         });
@@ -439,6 +451,7 @@ const ServiceSchedule = () => {
                     if (selectedDate < currentDate)
                         alert("You cannot schedule a service for past date or time");
                     else {
+                        setProcessing(true);
                         let url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/rescheduleServiceDataUpload?authCode=" + companyId + "&apiCallFrom=CustomerPortal&serviceId=" + showReschedulePopupMobileView.serviceId + "&rescheduleDate=" + formatedDateString + "&rescheduleTime=Flexible&rescheduleReason=" + rReason;
                         console.log(url);
 
@@ -450,6 +463,7 @@ const ServiceSchedule = () => {
                                 console.log('response.data', json);
                                 if ('message' in json) {
                                     if (json.message === "Success") {
+                                        setProcessing(false);
                                         alert("Service has been rescheduled successfully!")
 
                                         const updatedServiceList = serviceList.filter(service => {
@@ -469,14 +483,18 @@ const ServiceSchedule = () => {
                                         setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                                     }
                                     else {
+                                        setProcessing(false);
                                         alert(json.message)
                                         setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                                     }
-                                } else
+                                } else {
+                                    setProcessing(false);
                                     alert("Failed to reschedule service!")
+                                }
                                 setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                             })
                             .catch((error) => {
+                                setProcessing(false);
                                 alert(error);
                                 setShowReschedulePopupMobileView({ ...showReschedulePopupMobileView, serviceId: "", visibility: false });
                             });
@@ -525,7 +543,10 @@ const ServiceSchedule = () => {
     }
     const submitFeedback = event => {
         event.preventDefault();
-
+        if (processing) {
+            alert("wait");
+            return;
+        }
         if (currentValue == 0) {
             alert("Give stars");
             return;
@@ -538,7 +559,8 @@ const ServiceSchedule = () => {
                 return;
             }
         }
-
+        setProcessing(true);
+        console.log("processing");
         let rating = currentValue * 2;
         const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopupMobileView.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark + "&apiCallFrom=CustomerPortal";
         let serviceObj = null;
@@ -585,6 +607,8 @@ const ServiceSchedule = () => {
                         Axios
                             .get(url)
                             .then((response) => {
+                                setProcessing(false);
+                                console.log("stopped processing");
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                                 setCurrentValue(0);
@@ -592,6 +616,8 @@ const ServiceSchedule = () => {
                             })
                             .catch((error) => {
                                 console.log(error);
+                                setProcessing(false);
+                                console.log("stopped processing");
                                 alert(error);
                                 setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                                 setCurrentValue(0);
@@ -603,9 +629,14 @@ const ServiceSchedule = () => {
                     //     updatedStars += "*";
                     // }
                     // document.getElementById(showRatingPopupMobileView.serviceId).nextSibling.nextSibling.nextSibling.innerHTML = updatedStars;
-                } else
+                } else {
+                    setProcessing(false);
+                    console.log("stopped processing");
                     alert("Try to submit again!");
+                }
                 if (currentValue > 2) {
+                    setProcessing(false);
+                    console.log("stopped processing");
                     alert("Feedback submitted successfully!");
                     setShowRatingPopupMobileView({ ...showRatingPopupMobileView, serviceId: "", visibility: false });
                     setCurrentValue(0);
@@ -699,6 +730,8 @@ const ServiceSchedule = () => {
                             </div>
                         </div></td></tr></tbody>) : (serviceList !== null ? (<ServicesTable serviceList={currentPosts} loading={loading} />) : (<tbody><tr>
                             <td className='text-sm mx-4 text-center text-[#8181A5] font-semibold' colSpan="7">No data found</td></tr></tbody>)))}
+
+
                     </table>
 
                     {/* =======For mobile view======== */}
@@ -772,6 +805,7 @@ const ServiceSchedule = () => {
 
                         ))}
                     </div>
+
                     {showReschedulePopupMobileView.visibility ? (
 
                         <div className="fixed inset-0 z-10 overflow-y-auto">
