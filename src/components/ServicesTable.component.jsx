@@ -14,6 +14,7 @@ const ServicesTable = ({ serviceList, loading }) => {
     const [showRatingPopup, setShowRatingPopup] = useState({ serviceId: '', visibility: false });
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
+    const [processing, setProcessing] = useState(false);
     let companyId = localStorage.getItem("companyId");
 
     if (loading) {
@@ -139,6 +140,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                             if ('message' in json) {//if (response.data == "Success\n") {
                                 console.log("message=" + json.message);
                                 if (json.message === "Success") {
+
                                     alert("Service has been rescheduled successfully!")
 
                                     const updatedServiceList = serviceList.filter(service => {
@@ -273,7 +275,8 @@ const ServicesTable = ({ serviceList, loading }) => {
                 return;
             }
         }
-
+        setProcessing(true);
+        console.log("processing");
         let rating = currentValue * 2;
         const url = "https://" + localStorage.getItem("appId") + ".appspot.com/slick_erp/serviceschedulingbycustomer?action=Customer%20Support&serviceId=" + showRatingPopup.serviceId + "&ratings=" + rating + "&range=5&remark=" + remark + "&apiCallFrom=CustomerPortal";
         let serviceObj = null;
@@ -320,6 +323,8 @@ const ServicesTable = ({ serviceList, loading }) => {
                         Axios
                             .get(url)
                             .then((response) => {
+                                setProcessing(false);
+                                console.log("stopped processing");
                                 alert("We have received your complaint " + response.data + ". We will get back to you shortly.");
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                                 setCurrentValue(0);
@@ -327,6 +332,7 @@ const ServicesTable = ({ serviceList, loading }) => {
                             })
                             .catch((error) => {
                                 console.log(error);
+                                setProcessing(false);
                                 alert(error);
                                 setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                                 setCurrentValue(0);
@@ -338,9 +344,12 @@ const ServicesTable = ({ serviceList, loading }) => {
                     //     updatedStars += "*";
                     // }
                     // document.getElementById(showRatingPopup.serviceId).nextSibling.nextSibling.nextSibling.innerHTML = updatedStars;
-                } else
+                } else {
+                    setProcessing(false);
                     alert("Try to submit again!");
+                }
                 if (currentValue > 2) {
+                    setProcessing(false);
                     alert("Feedback submitted successfully!");
                     setShowRatingPopup({ ...showRatingPopup, serviceId: "", visibility: false });
                     setCurrentValue(0);
@@ -547,6 +556,20 @@ const ServicesTable = ({ serviceList, loading }) => {
 
                 ) : null}
             </td></tr>
+            <tr>
+                <td>
+                    {(processing ? (<tbody><tr><td><div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div
+                            className="fixed inset-0 w-full h-full bg-black opacity-40"
+                        ></div>
+                        <div className="flex justify-center items-center min-h-screen">
+                            <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                                <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                            </div>
+                        </div>
+                    </div></td></tr></tbody>) : null)}
+                </td>
+            </tr>
         </tbody>
     )
 }
