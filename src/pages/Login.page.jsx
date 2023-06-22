@@ -25,7 +25,7 @@ const Login = () => {
     const [choice, setChoice] = useState("Mobile");
     const [appid, setAppId] = useState("");//my-dot-evadev0006
     const { search } = useLocation();
-
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         console.log("in useEffect");
@@ -167,6 +167,7 @@ const Login = () => {
         }
         let url = "";
         console.log("choice=" + choice);
+        setProcessing(true);
         if (choice === "Email") {
             url = "https://" + appid + ".appspot.com/slick_erp/getuserRegistrationOtp?mobileNo=" + "" + "&emailId=" + emailInfo + "&applicationName=CustomerPortal&OTP=" + otp;
         }
@@ -178,6 +179,7 @@ const Login = () => {
             Axios.get(url).then(
                 (response) => {
                     // console.log(response.data);
+                    setProcessing(false);
                     alert(response.data); //+otp
                 }
             ).catch((exception) => {
@@ -336,7 +338,7 @@ const Login = () => {
                             </div>
                             <div className="mt-3">
 
-                                <input className=" w-10/12" placeholder="Enter mobile no" type="text" name="mobile" id="mobile" maxLength={10} onChange={handleChangeMobile} />
+                                <input className="w-10/12" placeholder="Enter mobile no" type="text" name="mobile" id="mobile" maxLength={10} onChange={handleChangeMobile} />
                                 <input className="hidden w-10/12 !boder-5 !focus:border-transparent !focus:ring-0 h-8 " placeholder="Enter email" type="email" name="email" id="email" onChange={handleChangeEmail} />
                             </div>
                             <hr className="w-3/4 mt-1"></hr>
@@ -361,6 +363,18 @@ const Login = () => {
 
                     </div>
                 </div>
+            </div>
+            <div>
+                {(processing ? (<div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div
+                        className="fixed inset-0 w-full h-full bg-black opacity-40"
+                    ></div>
+                    <div className="flex justify-center items-center min-h-screen">
+                        <div className=" animate-spin inline-block w-14 h-14 border-4 border-white rounded-full" role="status">
+                            <span className="visually-hidden text-black-600 text-2xl font-bold"> O</span>
+                        </div>
+                    </div>
+                </div>) : null)}
             </div>
 
         </div >
