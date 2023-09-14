@@ -7,7 +7,8 @@ import { MdAutorenew } from 'react-icons/md'
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { MdOutlineExpandLess } from 'react-icons/md';
 import ContractsTable from '../components/ContractsTable.component';
-import { BsPersonCircle } from 'react-icons/bs'
+import { BsPersonCircle } from 'react-icons/bs';
+import { Buffer } from 'buffer';
 
 const Contracts = () => {
 
@@ -119,6 +120,12 @@ const Contracts = () => {
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
+
+        const encodedString = new Buffer(companyId).toString('base64');
+        const headerstr = 'Bearer ' + encodedString;
+        const headers = { 'Authorization': headerstr };
+
+        console.log("headerstr=" + headerstr);
         url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Contract&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=" + fromDate + "&toDate=" + toDate + "&apiCallFrom=CustomerPortal&contractStatus=" + param + "&customerId=" + customerId;
 
 
@@ -126,7 +133,7 @@ const Contracts = () => {
 
         setLoading(true);
         Axios
-            .get(url)
+            .get(url, { headers })
             .then((response) => response.data)
             .then((json) => {
                 console.log(json[0]);
