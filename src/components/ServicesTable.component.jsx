@@ -275,6 +275,14 @@ const ServicesTable = ({ serviceList, loading }) => {
                 return;
             }
         }
+        if (remark !== null && remark.includes("&")) {
+            alert("Remove & ");
+            return;
+        }
+        if (remark !== null && remark.includes("\"")) {
+            alert("Remove \" ");
+            return;
+        }
         setProcessing(true);
         console.log("processing");
         let rating = currentValue * 2;
