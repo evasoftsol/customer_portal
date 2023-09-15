@@ -154,6 +154,14 @@ const Complaints = () => {
             alert("Specify problem");
             return;
         }
+        if (description.includes("&")) {
+            alert("Remove &");
+            return;
+        }
+        if (description.includes("\"")) {
+            alert("Remove \"");
+            return;
+        }
         let dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 2);
         let month = dueDate.getMonth() + 1;
