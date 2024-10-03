@@ -129,15 +129,18 @@ const ServiceSchedule = () => {
         }
         else {
             console.log("in else part")
-            fromDate = "1/" + month + "/" + current.getFullYear();
-            if (month === 12) {
-                console.log("month === 12")
-                let year = current.getFullYear() + 1;
-                toDate = "1/01/" + year;
-            } else {
-                month += 1;
-                toDate = "1/" + month + "/" + current.getFullYear();
-            }
+            // fromDate = "1/" + month + "/" + current.getFullYear();
+            // if (month === 12) {
+            //     console.log("month === 12")
+            //     let year = current.getFullYear() + 1;
+            //     toDate = "1/01/" + year;
+            // } else {
+            //     month += 1;
+            //     toDate = "1/" + month + "/" + current.getFullYear();
+            // }
+           
+            fromDate=current.getDate()+"/"+month+"/"+current.getFullYear(); //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month
+            toDate =current.getDate()+"/"+month+"/"+current.getFullYear();     //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month   
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
