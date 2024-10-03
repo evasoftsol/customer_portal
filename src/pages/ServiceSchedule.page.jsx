@@ -171,7 +171,7 @@ const ServiceSchedule = () => {
                 }  
               }
         
-            toDate =current.getDate()+"/"+month+"/"+current.getFullYear();     //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month   
+            // toDate =current.getDate()+"/"+month+"/"+current.getFullYear();     //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month   
         }
         console.log("fromDate " + fromDate);
         console.log("toDate " + toDate);
