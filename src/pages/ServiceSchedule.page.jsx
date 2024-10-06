@@ -140,7 +140,7 @@ const ServiceSchedule = () => {
             // }
            
             fromDate=current.getDate()+"/"+month+"/"+current.getFullYear(); //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month
-            if(month===1 || month===3 ||month===5 ||month===7 ||month===8 ||month===11 ||month===12){
+            if(month===1 || month===3 || month===5 || month===7 || month===8 || month===11 || month===12){
                 if(current.getDate()<31)
                     let d=current.getDate()+1;
                     toDate =d+"/"+month+"/"+current.getFullYear();
