@@ -26,6 +26,7 @@ const Profile = () => {
                         <div className='pb-5 flex' ><span className='font-semibold px-5 w-2/12'>Email: </span> {localStorage.getItem("customerEmail")}</div>
                         <div className='pb-5 flex'><span className='font-semibold px-5 w-2/12'>Cell No: </span> {localStorage.getItem("customerCell")}</div>
                         <div className='pb-10 flex'><span className='font-semibold px-5 w-2/12'>Address: </span> {localStorage.getItem("customerAddress")}</div>
+                        {localStorage.getItem("documentLink") !== "null" ? (<div className='pb-10 flex'><span className='font-semibold px-5 w-2/12'>Documents: </span> <a href={localStorage.getItem("documentLink")} target="_blank" className='text-blue-600 text-lg'>Click here to view Licence copy/ Liability Insurance/ MSDS/ SOP/ SOW/ Disposal Procedures etc</a></div>) : (<div></div>)}
                     </div>
 
 

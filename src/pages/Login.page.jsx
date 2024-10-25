@@ -260,6 +260,59 @@ const Login = () => {
                         localStorage.setItem("companyBranch", json.branch);
                         localStorage.setItem("isPaymentGatewayEnabled", json.isPaymentGatewayEnabled);
                         localStorage.setItem("companyId", json.companyId);
+                        try {
+                            // console.log("in try");
+
+                            if (json.documentLink !== undefined && json.documentLink !== null && json.documentLink !== "")
+                                localStorage.setItem("documentLink", json.documentLink);
+                            else
+                                localStorage.setItem("documentLink", "null");
+
+                        }
+                        catch (e) {
+                            // console.log("in catch");
+                            console.error(e);
+                            localStorage.setItem("documentLink", "null");
+                        }
+
+                        // console.log("documentLink=" + localStorage.getItem("documentLink"));
+                        var isReportActive = "false";
+                        try {
+                            if (json.reportLink !== undefined && json.reportLink !== null && json.reportLink !== "") {
+                                const link = json.reportLink;
+                                console.log("json.reportLink=" + json.reportLink);
+                                const link2 = link.replace("allowfullscreen", "");
+                                console.log("reportLink=" + link2);
+                                localStorage.setItem("reportLink", link2.replace(/\\/g, ''));
+                                console.log("reportLink=" + localStorage.getItem("reportLink"));
+                                isReportActive = "true";
+                            } else
+                                localStorage.setItem("reportLink", "null");
+                        }
+                        catch (e) {
+                            console.error(e);
+                            localStorage.setItem("reportLink", "null");
+                        }
+
+                        try {
+                            if (json.report2Link !== undefined && json.report2Link !== null && json.report2Link !== "") {
+                                const link = json.report2Link;
+                                console.log("json.report2Link=" + json.report2Link);
+                                const link2 = link.replace("allowfullscreen", "");
+                                console.log("report2Link=" + link2);
+                                localStorage.setItem("report2Link", link2.replace(/\\/g, ''));
+                                console.log("report2Link=" + localStorage.getItem("report2Link"));
+                                isReportActive = "true";
+
+                            } else
+                                localStorage.setItem("report2Link", "null");
+                        }
+                        catch (e) {
+                            console.error(e);
+                            localStorage.setItem("report2Link", "null");
+                        }
+                        localStorage.setItem("isReportActive", isReportActive);
+                        console.log("report is " + localStorage.getItem("isReportActive"));
                         loadCustomerBranches();
                         // window.location.href = `/services`;
                     })

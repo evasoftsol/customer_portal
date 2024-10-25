@@ -58,6 +58,7 @@ const ServiceSchedule = () => {
 
     const getServiceList = (selectedDateFilter, selectedBranch) => {
         console.log("in getServiceList");
+        console.log("documentLink=" + localStorage.getItem("documentLink"));
         // let url = "https://" + appid + ".appspot.com/slick_erp/analyticsOperations?loadType=Customer Service&authCode=" + companyId + "&customerCellNo=" + customerCell + "&customerEmail=" + customerEmail + "&fromDate=1/12/2022&toDate=6/12/2022&apiCallFrom=CustomerPortal";
         let url = "";
         console.log("selectedDateFilter " + selectedDateFilter + "selectedBranch=" + selectedBranch);
@@ -138,39 +139,39 @@ const ServiceSchedule = () => {
             //     month += 1;
             //     toDate = "1/" + month + "/" + current.getFullYear();
             // }
-           
-            fromDate=current.getDate()+"/"+month+"/"+current.getFullYear(); //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month
-            if(month===1 || month===3 || month===5 || month===7 || month===8 || month===11 || month===12){
-                if(current.getDate()<31){
-                    let d=current.getDate()+1;
-                    toDate =d+"/"+month+"/"+current.getFullYear();
-                }else{
-                    let m=month+1;
-                    let y=current.getFullYear();
-                    if(month===13){
-                        m=1;
-                        y=current.getFullYear()+1;
+
+            fromDate = current.getDate() + "/" + month + "/" + current.getFullYear(); //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month
+            if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 11 || month === 12) {
+                if (current.getDate() < 31) {
+                    let d = current.getDate() + 1;
+                    toDate = d + "/" + month + "/" + current.getFullYear();
+                } else {
+                    let m = month + 1;
+                    let y = current.getFullYear();
+                    if (month === 13) {
+                        m = 1;
+                        y = current.getFullYear() + 1;
                     }
-                     toDate ="1/"+m+"/"+y;
-                }                    
-            }else if(month===4 || month===6 ||month===9 ||month===11){
-                if(current.getDate()<30){
-                    let d=current.getDate()+1;
-                    toDate =d+"/"+month+"/"+current.getFullYear();
-                }else{
-                    let m=month+1;       
-                    toDate ="1/"+m+"/"+current.getFullYear();  
-                }    
-            }else{
-                if(current.getDate()<28){
-                    let d=current.getDate()+1;
-                    toDate =d+"/"+month+"/"+current.getFullYear();
-                }else{
-                    let m=month+1;       
-                    toDate ="1/"+m+"/"+current.getFullYear();  
-                }  
-              }
-        
+                    toDate = "1/" + m + "/" + y;
+                }
+            } else if (month === 4 || month === 6 || month === 9 || month === 11) {
+                if (current.getDate() < 30) {
+                    let d = current.getDate() + 1;
+                    toDate = d + "/" + month + "/" + current.getFullYear();
+                } else {
+                    let m = month + 1;
+                    toDate = "1/" + m + "/" + current.getFullYear();
+                }
+            } else {
+                if (current.getDate() < 28) {
+                    let d = current.getDate() + 1;
+                    toDate = d + "/" + month + "/" + current.getFullYear();
+                } else {
+                    let m = month + 1;
+                    toDate = "1/" + m + "/" + current.getFullYear();
+                }
+            }
+
             // toDate =current.getDate()+"/"+month+"/"+current.getFullYear();     //changed on 3-10-2024 as out of memory error comes in erp if services are more in number for a month   
         }
         console.log("fromDate " + fromDate);

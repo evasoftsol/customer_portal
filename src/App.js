@@ -12,10 +12,13 @@ import Contracts from './pages/Contracts.page'
 import Renewals from './pages/Renewals.page';
 import Profile from './pages/Profile.page';
 import Audits from './pages/Audits.page';
+import Report from './pages/Report.page';
+import Report2 from './pages/Report2.page';
 // import BaseHoc from './hoc/BaseHoc';
 
 
 function App() {
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -28,9 +31,13 @@ function App() {
       <Route path="/contracts" element={<Contracts />} />
       <Route path="/renewals" element={<Renewals />} />
       <Route path="/audits" element={<Audits />} />
+      <Route path="/report" element={<Report />} />
+      <Route path="/report2" element={<Report2 />} />
     </Routes>
 
   );
+
+
 }
 
 export default App;
