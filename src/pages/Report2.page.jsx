@@ -27,6 +27,7 @@ const Report2 = () => {
                             <h2>Google Data Studio Report</h2>
 
                             <div dangerouslySetInnerHTML={{ __html: localStorage.getItem("report2Link") }} />
+                            <div className='pt-10 pb-5 pl-10 flex'>Note: The data displayed is as on yesterday. </div>
                         </div>
                     )
 
@@ -54,7 +55,9 @@ const Report2 = () => {
 
                 </div>
             </div>
-
+            <div className='flex ml-10 flex-row gap-20 justify-between mb-3 w-11/12 sm:w-11/12 relative my-5'>
+                <div className="font-semibold text-m">Note: The data displayed is as on yesterday. </div>
+            </div>
         </>
     )
 }

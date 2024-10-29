@@ -27,7 +27,9 @@ const Report = () => {
                             <h2>Google Data Studio Report</h2>
 
                             <div dangerouslySetInnerHTML={{ __html: localStorage.getItem("reportLink") }} />
+
                         </div>
+
                     )
 
                         :
@@ -42,7 +44,7 @@ const Report = () => {
                         <h2>Google Data Studio Report</h2>
                         <iframe
                             title="GDS Report"
-                            width="100%"
+                            width="100%
                             height="800"
                             src="https://lookerstudio.google.com/embed/reporting/4d1891a6-2ce6-409b-8261-c1613f4dddfb/page/SQWXB"
                             frameBorder="0"
@@ -53,8 +55,12 @@ const Report = () => {
 
 
                 </div>
-            </div>
 
+
+            </div>
+            <div className='flex ml-10 flex-row gap-20 justify-between mb-3 w-11/12 sm:w-11/12 relative my-5'>
+                <div className="font-semibold text-m">Note: The data displayed is as on yesterday. </div>
+            </div>
         </>
     )
 }
